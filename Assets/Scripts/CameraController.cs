@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //HandleMouseInput();
+        HandleMouseInput();
         HandleMovementInput();
     }
 
@@ -48,7 +48,7 @@ public class CameraController : MonoBehaviour
             newZoom += Input.mouseScrollDelta.y * 30 * zoomAmount;
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(2))
         {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
 
@@ -62,7 +62,7 @@ public class CameraController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(2))
         {
             Plane plane = new Plane(Vector3.up, Vector3.zero);
 
@@ -78,11 +78,11 @@ public class CameraController : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonDown(2))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonDown(1))
         {
             rotateStartPosition = Input.mousePosition;
         }
-        if (Input.GetMouseButton(2))
+        if (Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButton(1))
         {
             rotateCurrentPosition = Input.mousePosition;
 
