@@ -50,9 +50,8 @@ public class UnitClick : MonoBehaviour
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
-            {
+            {           
                 UnitSelections.Instance.RightClickMove(hit.point);
-                
             }
         }
         

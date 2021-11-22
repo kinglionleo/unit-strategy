@@ -61,10 +61,14 @@ public class UnitSelections : MonoBehaviour
 
     public void RightClickMove(Vector3 location)
     {
+        if(unitsSelected.Count > 0)
+        {
+            SelectUIScript.Instance.showAtLocation(location);
+        }
+
         foreach(var unit in unitsSelected)
         {
             unit.gameObject.GetComponent<Unit>().MoveToPlace(location);
-
         }
     }
 
