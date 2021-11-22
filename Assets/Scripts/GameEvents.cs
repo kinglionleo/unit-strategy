@@ -13,12 +13,12 @@ public class GameEvents : MonoBehaviour
         current = this;
     }
 
-    public event Action<int> testAction;
-    public void someTestAction(int id)
+    public event Action<Vector3> onMoveToPoint;
+    public void MoveToPoint(Vector3 location)
     {
-        if (testAction != null)
+        if (onMoveToPoint != null)
         {
-            //some action
+            onMoveToPoint(location);
         }
     }
 

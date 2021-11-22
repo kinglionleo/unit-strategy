@@ -44,6 +44,17 @@ public class UnitClick : MonoBehaviour
                 
             }
         }
+        if (Input.GetMouseButtonDown(1))
+        {
+            RaycastHit hit;
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
+            {
+                UnitSelections.Instance.RightClickMove(hit.point);
+                
+            }
+        }
         
     }
 }

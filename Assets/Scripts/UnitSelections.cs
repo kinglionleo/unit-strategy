@@ -58,6 +58,16 @@ public class UnitSelections : MonoBehaviour
             unitsSelected.Remove(unitToAdd);
         }
     }
+
+    public void RightClickMove(Vector3 location)
+    {
+        foreach(var unit in unitsSelected)
+        {
+            unit.gameObject.GetComponent<Unit>().MoveToPlace(location);
+
+        }
+    }
+
     public void DragSelect(GameObject unitToAdd)
     {
         if (!unitsSelected.Contains(unitToAdd))
