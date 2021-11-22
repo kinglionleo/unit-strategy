@@ -44,7 +44,7 @@ public class UnitClick : MonoBehaviour
                 
             }
         }
-        if (Input.GetMouseButtonDown(1))
+        if (!Input.GetKey(KeyCode.LeftControl) && Input.GetMouseButtonDown(1))
         {
             RaycastHit hit;
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
