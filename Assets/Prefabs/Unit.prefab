@@ -117,7 +117,7 @@ MonoBehaviour:
   attackSpeed: 0.5
   acquisitionSpeed: 0.8
   movementSpeed: 2
-  range: 3
+  range: 5
   damage: 20
   unitType: ground
   damageType: individual

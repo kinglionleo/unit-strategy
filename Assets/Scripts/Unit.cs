@@ -60,17 +60,27 @@ public class Unit : MonoBehaviour
             checkForMovement();
         }
 
+        float closestDistance = float.MaxValue;
+        GameObject closestEnemy = null;
+
         foreach(var unit in UnitManager.Instance.enemyList){
 
             float distance = Mathf.Sqrt((unit.transform.position.x - this.transform.position.x) * (unit.transform.position.x - this.transform.position.x) +
                              (unit.transform.position.z - this.transform.position.z) * (unit.transform.position.z - this.transform.position.z));
-            if(distance < range) // we need to raycast this instead eventually to allow walls
+
+            if (distance < closestDistance)
             {
-                if(canAttack() && stationary)
-                {
-                    unit.transform.GetComponent<Enemy>().TakeDamage(damage);
-                    cantAttack();
-                }
+                closestDistance = distance;
+                closestEnemy = unit;
+            }
+        }
+
+        if (closestDistance < range) // we need to raycast this instead eventually to allow walls
+        {
+            if (canAttack() && stationary)
+            {
+                closestEnemy.transform.GetComponent<Enemy>().TakeDamage(damage);
+                cantAttack();
             }
         }
 
@@ -119,7 +129,7 @@ public class Unit : MonoBehaviour
 
     private void checkForMovement()
     {
-        if (myAgent.velocity.magnitude <= 0.01)
+        if (myAgent.velocity.magnitude <= 0.1)
         {
             if (timeStationary <= Time.time) stationary = true;
             else stationary = false;
