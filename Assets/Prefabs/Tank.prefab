@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1463281583984975139}
   - component: {fileID: 3722904112960596457}
   m_Layer: 0
-  m_Name: tank 1
+  m_Name: Tank
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_GameObject: {fileID: 2930319300477896764}
   m_LocalRotation: {x: 0.00000008146034, y: 0, z: -0, w: 1}
   m_LocalPosition: {x: -8.9434595, y: -0.019754985, z: -9.980564}
-  m_LocalScale: {x: 10, y: 10, z: 10}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0

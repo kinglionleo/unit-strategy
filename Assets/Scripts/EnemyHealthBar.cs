@@ -3,23 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class HealthBarScript : MonoBehaviour
+public class EnemyHealthBar : MonoBehaviour
 {
 
     public Image healthBar;
     public Image healthBarBackground;
     public float lerpSpeed;
-    private Unit myUnit;
+    private Enemy myUnit;
 
     void Awake()
     {
-        myUnit = this.transform.parent.gameObject.GetComponent<Unit>();
+        myUnit = this.transform.parent.gameObject.GetComponent<Enemy>();
     }
 
     // Update is called once per frame
     void Update()
     {
         HealthBarFiller();
+        ChangeColor();
         this.transform.rotation = Camera.main.transform.rotation;
     }
 
@@ -27,8 +28,15 @@ public class HealthBarScript : MonoBehaviour
     {
         float current = myUnit.getCurrentHealth();
         float max = myUnit.getMaxHealth();
-        healthBar.fillAmount = current/max;
+        healthBar.fillAmount = current / max;
         healthBarBackground.fillAmount = Mathf.Lerp(healthBarBackground.fillAmount, current / max, lerpSpeed);
+        
+    }
+
+    void ChangeColor()
+    {
+        float current = myUnit.getCurrentHealth();
+        float max = myUnit.getMaxHealth();
         healthBar.color = Color.Lerp(Color.red, Color.green, current / max);
     }
 }

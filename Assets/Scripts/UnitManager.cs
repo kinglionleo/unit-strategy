@@ -3,33 +3,34 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // source: https://www.youtube.com/watch?v=vAVi04mzeKk
-public class UnitSelections : MonoBehaviour
+public class UnitManager : MonoBehaviour
 {
 
     public List<GameObject> unitList = new List<GameObject>();
+    public List<GameObject> enemyList = new List<GameObject>();
     public List<GameObject> unitsSelected = new List<GameObject>();
 
-    private static UnitSelections _instance;
+    private static UnitManager _instance;
 
-    public static UnitSelections Instance
+    public static UnitManager Instance
     {
-         get { return _instance; }
+        get { return _instance; }
     }
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
     void Awake()
     {
-        if(_instance != null && _instance != this)
+        if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
         }
@@ -61,12 +62,12 @@ public class UnitSelections : MonoBehaviour
 
     public void RightClickMove(Vector3 location)
     {
-        if(unitsSelected.Count > 0)
+        if (unitsSelected.Count > 0)
         {
             SelectUIScript.Instance.showAtLocation(location);
         }
 
-        foreach(var unit in unitsSelected)
+        foreach (var unit in unitsSelected)
         {
             unit.gameObject.GetComponent<Unit>().MoveToPlace(location);
         }
@@ -83,7 +84,7 @@ public class UnitSelections : MonoBehaviour
 
     public void DeselectAll()
     {
-        foreach(var unit in unitsSelected)
+        foreach (var unit in unitsSelected)
         {
             unit.transform.GetChild(0).gameObject.SetActive(false);
         }

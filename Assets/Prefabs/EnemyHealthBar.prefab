@@ -87,9 +87,9 @@ GameObject:
   - component: {fileID: 8685285814986685379}
   - component: {fileID: 3247031506630073510}
   - component: {fileID: 2105096410324739406}
-  - component: {fileID: 2453786909525689639}
+  - component: {fileID: -9095886835558650171}
   m_Layer: 5
-  m_Name: HealthBarCanvas
+  m_Name: EnemyHealthBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
   m_DynamicPixelsPerUnit: 1
-  m_PresetInfoIsWorld: 1
+  m_PresetInfoIsWorld: 0
 --- !u!114 &2105096410324739406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,7 +177,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &2453786909525689639
+--- !u!114 &-9095886835558650171
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -186,7 +186,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5282666297928692663}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 019ae529ef8625344816ba13d24939d4, type: 3}
+  m_Script: {fileID: 11500000, guid: 3c9dcda72b48c5d43b106538dfc20f37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   healthBar: {fileID: 569142994860376444}

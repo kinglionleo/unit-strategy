@@ -94,11 +94,11 @@ public class UnitDrag : MonoBehaviour
 
     void SelectUnits()
     {
-        foreach (var unit in UnitSelections.Instance.unitList)
+        foreach (var unit in UnitManager.Instance.unitList)
         {
             if (selectionBox.Contains(myCam.WorldToScreenPoint(unit.transform.position)))
             {
-                UnitSelections.Instance.DragSelect(unit);
+                UnitManager.Instance.DragSelect(unit);
             }
         }
     }

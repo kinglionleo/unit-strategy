@@ -27,11 +27,11 @@ public class UnitClick : MonoBehaviour
             {
                 if (Input.GetKey(KeyCode.LeftShift))
                 {
-                    UnitSelections.Instance.ShiftClickSelect(hit.collider.gameObject);
+                    UnitManager.Instance.ShiftClickSelect(hit.collider.gameObject);
                 }
                 else
                 {
-                    UnitSelections.Instance.ClickSelect(hit.collider.gameObject);
+                    UnitManager.Instance.ClickSelect(hit.collider.gameObject);
                 }
             }
             else
@@ -39,7 +39,7 @@ public class UnitClick : MonoBehaviour
                 if (!Input.GetKey(KeyCode.LeftShift))
                 {
                     // Deselect everything because we clicked the ground
-                    UnitSelections.Instance.DeselectAll();
+                    UnitManager.Instance.DeselectAll();
                 }
                 
             }
@@ -51,7 +51,7 @@ public class UnitClick : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {           
-                UnitSelections.Instance.RightClickMove(hit.point);
+                UnitManager.Instance.RightClickMove(hit.point);
             }
         }
         
