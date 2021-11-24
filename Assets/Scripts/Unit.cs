@@ -5,20 +5,42 @@ using UnityEngine.AI;
 
 public class Unit : MonoBehaviour
 {
-
+    // Used for pathfinding
     NavMeshAgent myAgent;
+
+    public float maxHealth;
     public float currentHealth;
-    private float maxHealth;
-    private bool hasAttacked;
+
+    // How fast this unit attacks measured in seconds
+    public float attackSpeed;
+    // How long this unit takes to start shooting after coming to a stop. 0 means this unit can attack while moving
+    public float acquisitionSpeed;
+    // How fast this unit moves
+    public float movementSpeed;
+    // The distance before this unit can start attacking
+    public float range;
+    // How much damage an attack does
+    public float damage;
+
+    // If this unit is flying or ground
+    public string unitType;
+    // If this unit deals splash or individual damage
+    public string damageType;
     
-    // Start is called before the first frame update
+    // The remaining two stats "unitCount" and "cost" will be stored in the UnitManager
+
+
+    private bool hasAttacked;
+
+    void Awake()
+    {
+        currentHealth = maxHealth;
+    }
     void Start()
     {
         UnitManager.Instance.unitList.Add(this.gameObject);
         myAgent = this.GetComponent<NavMeshAgent>();
 
-        maxHealth = 100;
-        currentHealth = maxHealth;
         this.transform.Find("HealthBarCanvas").gameObject.SetActive(true);
         hasAttacked = false;
     }
@@ -34,11 +56,11 @@ public class Unit : MonoBehaviour
 
             float distance = Mathf.Sqrt((unit.transform.position.x - this.transform.position.x) * (unit.transform.position.x - this.transform.position.x) +
                              (unit.transform.position.z - this.transform.position.z) * (unit.transform.position.z - this.transform.position.z));
-            if(distance < 2f)
+            if(distance < 2)
             {
                 if (!hasAttacked)
                 {
-                    unit.transform.GetComponent<Enemy>().TakeDamage(10);
+                    unit.transform.GetComponent<Enemy>().TakeDamage(damage);
                     hasAttacked = true;
                 }
                 
@@ -47,10 +69,11 @@ public class Unit : MonoBehaviour
     }
     public void MoveToPlace(Vector3 location)
     {
+        myAgent.speed = movementSpeed;
         myAgent.SetDestination(location);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         if (currentHealth <= 0) Destroy(this.gameObject);
@@ -65,5 +88,17 @@ public class Unit : MonoBehaviour
     {
         return currentHealth;
     }
+
+    public string getUnitType()
+    {
+        return unitType;
+    }
+
+    public string getDamageType()
+    {
+        return damageType;
+    }
+
+
 
 }

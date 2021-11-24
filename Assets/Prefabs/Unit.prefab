@@ -112,7 +112,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1df85fb25e094194a87faa3bfd13b829, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 0
+  maxHealth: 100
+  currentHealth: 100
+  attackSpeed: 0.5
+  acquisitionSpeed: 0.8
+  movementSpeed: 2
+  range: 3
+  damage: 20
+  unitType: ground
+  damageType: individual
 --- !u!195 &-8346763537606935791
 NavMeshAgent:
   m_ObjectHideFlags: 0

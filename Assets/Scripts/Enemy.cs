@@ -18,7 +18,7 @@ public class Enemy : MonoBehaviour
 
         maxHealth = 100;
         currentHealth = maxHealth;
-        this.transform.Find("HealthBarCanvas").gameObject.SetActive(true);
+        this.transform.Find("EnemyHealthBar").gameObject.SetActive(true);
     }
 
     void OnDestroy()
@@ -31,7 +31,7 @@ public class Enemy : MonoBehaviour
         myAgent.SetDestination(location);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(float damage)
     {
         currentHealth -= damage;
         if (currentHealth <= 0) Destroy(this.gameObject);

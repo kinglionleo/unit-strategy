@@ -20,7 +20,6 @@ public class EnemyHealthBar : MonoBehaviour
     void Update()
     {
         HealthBarFiller();
-        ChangeColor();
         this.transform.rotation = Camera.main.transform.rotation;
     }
 
@@ -30,13 +29,6 @@ public class EnemyHealthBar : MonoBehaviour
         float max = myUnit.getMaxHealth();
         healthBar.fillAmount = current / max;
         healthBarBackground.fillAmount = Mathf.Lerp(healthBarBackground.fillAmount, current / max, lerpSpeed);
-        
-    }
-
-    void ChangeColor()
-    {
-        float current = myUnit.getCurrentHealth();
-        float max = myUnit.getMaxHealth();
         healthBar.color = Color.Lerp(Color.red, Color.green, current / max);
     }
 }
