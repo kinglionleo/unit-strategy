@@ -55,7 +55,10 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
-        checkForMovement();
+        if (acquisitionSpeed != 0)
+        {
+            checkForMovement();
+        }
 
         foreach(var unit in UnitManager.Instance.enemyList){
 
