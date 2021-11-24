@@ -29,8 +29,9 @@ public class Unit : MonoBehaviour
     
     // The remaining two stats "unitCount" and "cost" will be stored in the UnitManager
 
-
-    private bool hasAttacked;
+    private float attackCooldown;
+    private float timeStationary;
+    private bool stationary;
 
     void Awake()
     {
@@ -42,7 +43,9 @@ public class Unit : MonoBehaviour
         myAgent = this.GetComponent<NavMeshAgent>();
 
         this.transform.Find("HealthBarCanvas").gameObject.SetActive(true);
-        hasAttacked = false;
+        attackCooldown = 0;
+        timeStationary = 0;
+        stationary = true;
     }
 
     void OnDestroy()
@@ -52,20 +55,22 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+        checkForMovement();
+
         foreach(var unit in UnitManager.Instance.enemyList){
 
             float distance = Mathf.Sqrt((unit.transform.position.x - this.transform.position.x) * (unit.transform.position.x - this.transform.position.x) +
                              (unit.transform.position.z - this.transform.position.z) * (unit.transform.position.z - this.transform.position.z));
-            if(distance < 2)
+            if(distance < range) // we need to raycast this instead eventually to allow walls
             {
-                if (!hasAttacked)
+                if(canAttack() && stationary)
                 {
                     unit.transform.GetComponent<Enemy>().TakeDamage(damage);
-                    hasAttacked = true;
+                    cantAttack();
                 }
-                
             }
         }
+
     }
     public void MoveToPlace(Vector3 location)
     {
@@ -98,6 +103,33 @@ public class Unit : MonoBehaviour
     {
         return damageType;
     }
+
+    private bool canAttack()
+    {
+        return attackCooldown <= Time.time;
+    }
+
+    private void cantAttack()
+    {
+        attackCooldown = Time.time + attackSpeed;
+    }
+
+    private void checkForMovement()
+    {
+        if (myAgent.velocity.magnitude <= 0.01)
+        {
+            if (timeStationary <= Time.time) stationary = true;
+            else stationary = false;
+        }
+        else
+        {
+            timeStationary = Time.time + acquisitionSpeed;
+            stationary = false;
+        }
+    }
+
+    
+
 
 
 

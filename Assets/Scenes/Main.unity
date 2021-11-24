@@ -883,6 +883,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2134266023}
     m_Modifications:
+    - target: {fileID: 360759918327062802, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3891055499504003863, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
       propertyPath: m_Name
       value: Unit (1)
@@ -948,6 +952,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit (3)
       objectReference: {fileID: 0}
+    - target: {fileID: 3891055499504003863, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5524071975866291432, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
       propertyPath: m_RootOrder
       value: 3
@@ -1005,6 +1013,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Unit (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 3891055499504003863, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5524071975866291432, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -1061,6 +1073,10 @@ PrefabInstance:
     - target: {fileID: 3891055499504003863, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
       propertyPath: m_Name
       value: Unit (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891055499504003863, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5524071975866291432, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
       propertyPath: m_RootOrder
@@ -1159,6 +1175,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitList: []
+  enemyList: []
   unitsSelected: []
 --- !u!1001 &1090387800
 PrefabInstance:
@@ -1276,6 +1293,10 @@ PrefabInstance:
     - target: {fileID: 3891055499504003863, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
       propertyPath: m_Name
       value: Unit (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 3891055499504003863, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5524071975866291432, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
       propertyPath: m_RootOrder
