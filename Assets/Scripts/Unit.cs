@@ -7,6 +7,8 @@ public class Unit : MonoBehaviour
 {
     // Used for pathfinding
     NavMeshAgent myAgent;
+    LineRenderer lineRenderer;
+    GameObject stationaryIndicator;
 
     public float maxHealth;
     public float currentHealth;
@@ -31,6 +33,7 @@ public class Unit : MonoBehaviour
 
     private float attackCooldown;
     private float timeStationary;
+    private float startStationary;
     private bool stationary;
     private bool selected;
 
@@ -42,13 +45,26 @@ public class Unit : MonoBehaviour
     void Start()
     {
         UnitManager.Instance.unitList.Add(this.gameObject);
+
         myAgent = this.GetComponent<NavMeshAgent>();
+
+        lineRenderer = this.GetComponent<LineRenderer>();
+        lineRenderer.startWidth = 0.04f;
+        lineRenderer.endWidth = 0.04f;
+        lineRenderer.positionCount = 2;
+        lineRenderer.useWorldSpace = true;
+        lineRenderer.startColor = Color.white;
+        lineRenderer.endColor = Color.white;
+
+        stationaryIndicator = this.transform.Find("StationaryIndicator").gameObject;
 
         this.transform.Find("HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
         attackCooldown = 0;
         timeStationary = 0;
+        startStationary = 0;
         stationary = true;
+
     }
 
     void OnDestroy()
@@ -101,15 +117,41 @@ public class Unit : MonoBehaviour
             }
         }
 
-        if (closestDistance < range) // we need to raycast this instead eventually to allow walls
+        if (closestDistance < range)
         {
-            
-            if (closestEnemy != null && canAttack() && stationary)
+                  
+            if (closestEnemy != null)
             {
-                this.transform.LookAt(closestEnemy.transform);
-                closestEnemy.transform.GetComponent<Enemy>().TakeDamage(damage);
-                cantAttack();
+                // This draws a line from the unit's current position to the closest enemy in range.
+                lineRenderer.SetPosition(0, this.transform.position);
+                lineRenderer.SetPosition(1, closestEnemy.transform.position);
+
+                if(Time.time > startStationary)
+                {
+                    stationaryIndicator.SetActive(true);
+                }
+                else
+                {
+                    stationaryIndicator.SetActive(false);
+                }
+
+                if (canAttack() && stationary)
+                {
+                    this.transform.LookAt(closestEnemy.transform);
+                    closestEnemy.transform.GetComponent<Enemy>().TakeDamage(damage);
+                    cantAttack();
+                }
+                
             }
+        }
+        else
+        {
+            // This makes it so no line is drawn since it is the same point.
+            lineRenderer.SetPosition(0, new Vector3(0,0,0));
+            lineRenderer.SetPosition(1, new Vector3(0,0,0));
+
+            stationaryIndicator.SetActive(false);
+
         }
 
     }
@@ -117,6 +159,7 @@ public class Unit : MonoBehaviour
     {
         myAgent.speed = movementSpeed;
         myAgent.SetDestination(location);
+        //this.transform.LookAt(location); Need to lerp this
     }
 
     public void TakeDamage(float damage)
@@ -155,6 +198,15 @@ public class Unit : MonoBehaviour
         this.selected = selected;
     }
 
+    public float getTimeStationary()
+    {
+        return timeStationary;
+    }
+
+    public float getStartStationary()
+    {
+        return startStationary;
+    }
     private bool canAttack()
     {
         return attackCooldown <= Time.time;
@@ -175,6 +227,7 @@ public class Unit : MonoBehaviour
         else
         {
             timeStationary = Time.time + acquisitionSpeed;
+            startStationary = Time.time;
             stationary = false;
         }
     }
