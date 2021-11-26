@@ -37,6 +37,7 @@ public class Unit : MonoBehaviour
     {
         currentHealth = maxHealth;
     }
+
     void Start()
     {
         UnitManager.Instance.unitList.Add(this.gameObject);
@@ -79,6 +80,7 @@ public class Unit : MonoBehaviour
         {
             if (canAttack() && stationary)
             {
+                this.transform.LookAt(closestEnemy.transform);
                 closestEnemy.transform.GetComponent<Enemy>().TakeDamage(damage);
                 cantAttack();
             }
@@ -129,7 +131,7 @@ public class Unit : MonoBehaviour
 
     private void checkForMovement()
     {
-        if (myAgent.velocity.magnitude <= 0.1)
+        if (myAgent.velocity.magnitude <= 0.01)
         {
             if (timeStationary <= Time.time) stationary = true;
             else stationary = false;
