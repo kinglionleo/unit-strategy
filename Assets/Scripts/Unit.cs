@@ -32,6 +32,7 @@ public class Unit : MonoBehaviour
     private float attackCooldown;
     private float timeStationary;
     private bool stationary;
+    private bool selected;
 
     void Awake()
     {
@@ -44,6 +45,7 @@ public class Unit : MonoBehaviour
         myAgent = this.GetComponent<NavMeshAgent>();
 
         this.transform.Find("HealthBarCanvas").gameObject.SetActive(true);
+        this.transform.Find("RangeIndicator").gameObject.SetActive(false);
         attackCooldown = 0;
         timeStationary = 0;
         stationary = true;
@@ -61,6 +63,18 @@ public class Unit : MonoBehaviour
             checkForMovement();
         }
 
+        if (selected)
+        {
+            this.transform.GetChild(0).gameObject.SetActive(true);
+            this.transform.Find("RangeIndicator").gameObject.SetActive(true);
+            this.transform.Find("RangeIndicator").transform.localScale = new Vector3(range*4, range*4, 1);
+        }
+        else
+        {
+            this.transform.GetChild(0).gameObject.SetActive(false);
+            this.transform.Find("RangeIndicator").gameObject.SetActive(false);
+        }
+
         float closestDistance = float.MaxValue;
         GameObject closestEnemy = null;
 
@@ -71,14 +85,26 @@ public class Unit : MonoBehaviour
 
             if (distance < closestDistance)
             {
-                closestDistance = distance;
-                closestEnemy = unit;
+
+                RaycastHit hit;
+                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range))
+                {
+                    if (hit.transform == unit.transform)
+                    {
+
+                        closestDistance = distance;
+                        closestEnemy = unit;
+
+                    }
+                }
+                
             }
         }
 
         if (closestDistance < range) // we need to raycast this instead eventually to allow walls
         {
-            if (canAttack() && stationary)
+            
+            if (closestEnemy != null && canAttack() && stationary)
             {
                 this.transform.LookAt(closestEnemy.transform);
                 closestEnemy.transform.GetComponent<Enemy>().TakeDamage(damage);
@@ -117,6 +143,16 @@ public class Unit : MonoBehaviour
     public string getDamageType()
     {
         return damageType;
+    }
+
+    public bool getSelected()
+    {
+        return selected;
+    }
+
+    public void setSelected(bool selected)
+    {
+        this.selected = selected;
     }
 
     private bool canAttack()
