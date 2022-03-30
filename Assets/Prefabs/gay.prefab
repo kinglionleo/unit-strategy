@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 7473859621737395381}
   - component: {fileID: -8346763537606935791}
   - component: {fileID: 3650492352784492840}
-  - component: {fileID: 8016189068940959580}
   m_Layer: 7
   m_Name: gay
   m_TagString: Player
@@ -246,18 +245,6 @@ LineRenderer:
     generateLightingData: 0
   m_UseWorldSpace: 1
   m_Loop: 0
---- !u!114 &8016189068940959580
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3891055499504003863}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 85883ebe30f59ad4eb6c2fc5394c6516, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8938795362695547254
 GameObject:
   m_ObjectHideFlags: 0
