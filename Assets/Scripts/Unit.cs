@@ -9,6 +9,7 @@ public class Unit : MonoBehaviour
     NavMeshAgent myAgent;
     LineRenderer lineRenderer;
     GameObject stationaryIndicator;
+    Animator animator;
 
     public float maxHealth;
     public float currentHealth;
@@ -47,6 +48,9 @@ public class Unit : MonoBehaviour
         UnitManager.Instance.unitList.Add(this.gameObject);
 
         myAgent = this.GetComponent<NavMeshAgent>();
+        animator = this.GetComponent<Animator>();
+
+        stationaryIndicator = this.transform.Find("StationaryIndicator").gameObject;
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -56,15 +60,12 @@ public class Unit : MonoBehaviour
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
 
-        stationaryIndicator = this.transform.Find("StationaryIndicator").gameObject;
-
         this.transform.Find("HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
         attackCooldown = 0;
         timeStationary = 0;
         startStationary = 0;
         stationary = true;
-
     }
 
     void OnDestroy()
@@ -231,10 +232,4 @@ public class Unit : MonoBehaviour
             stationary = false;
         }
     }
-
-    
-
-
-
-
 }
