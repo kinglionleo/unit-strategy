@@ -7,7 +7,13 @@ public class SpawnerScript : MonoBehaviour
 {
 
     private static SpawnerScript _instance;
+    private Camera cam;
+    public LayerMask ground;
+
     private GameObject spawn;
+    private GameObject hold;
+
+    public GameObject enemy;
     public static SpawnerScript Instance
     {
         get { return _instance; }
@@ -21,6 +27,7 @@ public class SpawnerScript : MonoBehaviour
         else
         {
             _instance = this;
+            cam = Camera.main;
         }
     }
     
@@ -29,6 +36,44 @@ public class SpawnerScript : MonoBehaviour
      */
     void Update()
     {
+        if (spawn == null) return;
+
+        if (hold == null)
+        {
+            hold = Instantiate(spawn);
+            hold.gameObject.tag = "Blueprint";
+            hold.gameObject.SetActive(false);
+        }
+
+        RaycastHit hit;
+        Ray ray = cam.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
+        {
+            hold.SetActive(true);
+            hold.transform.position = hit.point + new Vector3(0,0.5f,0);
+        }
+        else
+        {
+            hold.SetActive(false);
+        }
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            ray = cam.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
+            {
+                Instantiate(spawn, hit.point, transform.rotation);
+                Destroy(hold);
+                hold = null;
+            }
+
+            setActive(false);
+        }
+
+        
+
         // Go to a raycast on the ground
     }
 
@@ -37,8 +82,8 @@ public class SpawnerScript : MonoBehaviour
         this.gameObject.SetActive(state);
     }
 
-    public void setSpawnObject(GameObject go)
+    public void spawnEnemy()
     {
-        spawn = go;
+        spawn = enemy;
     }
 }

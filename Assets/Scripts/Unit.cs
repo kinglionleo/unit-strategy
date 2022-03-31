@@ -97,6 +97,11 @@ public class Unit : MonoBehaviour
 
         foreach(var unit in UnitManager.Instance.enemyList){
 
+            if (!unit.gameObject.tag.Equals("Enemy"))
+            {
+                continue;
+            }
+
             float distance = Mathf.Sqrt((unit.transform.position.x - this.transform.position.x) * (unit.transform.position.x - this.transform.position.x) +
                              (unit.transform.position.z - this.transform.position.z) * (unit.transform.position.z - this.transform.position.z));
 
@@ -126,6 +131,8 @@ public class Unit : MonoBehaviour
                 // This draws a line from the unit's current position to the closest enemy in range.
                 lineRenderer.SetPosition(0, this.transform.position);
                 lineRenderer.SetPosition(1, closestEnemy.transform.position);
+
+                // TODO: enemies who enter range trigger an aiming phase
 
                 if(Time.time > startStationary)
                 {
