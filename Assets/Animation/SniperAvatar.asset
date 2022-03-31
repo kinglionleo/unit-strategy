@@ -19,7 +19,7 @@ Avatar:
           m_AxesId: -1
         - m_ParentId: 0
           m_AxesId: -1
-        m_ID: 00000000861ecc9082fd9953
+        m_ID: 00000000861ecc904c01fee4
         m_AxesArray: []
     m_AvatarSkeletonPose:
       data:
@@ -45,7 +45,7 @@ Avatar:
         - t: {x: -0.000000032295567, y: 7.2999997, z: 0.19457155}
           q: {x: -0.7071068, y: 0, z: -0, w: 0.7071067}
           s: {x: 100, y: 100, z: 100}
-    m_SkeletonNameIDArray: 00000000861ecc9082fd9953
+    m_SkeletonNameIDArray: 00000000861ecc904c01fee4
     m_Human:
       data:
         serializedVersion: 2
@@ -124,7 +124,7 @@ Avatar:
   m_TOS:
     2429296262: Cube
     0: 
-    1402600834: Icosphere
+    3841851724: Tetrahedron
   m_HumanDescription:
     serializedVersion: 3
     m_Human: []
