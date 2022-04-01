@@ -13,7 +13,9 @@ public class SpawnerScript : MonoBehaviour
     private GameObject spawn;
     private GameObject hold;
 
+    public Material blueprint;
     public GameObject enemy;
+    public GameObject basic;
     public static SpawnerScript Instance
     {
         get { return _instance; }
@@ -38,10 +40,12 @@ public class SpawnerScript : MonoBehaviour
     {
         if (spawn == null) return;
 
+        // This allows for only one creation of an object "sticking" to where your mouse is.
         if (hold == null)
         {
             hold = Instantiate(spawn);
             hold.gameObject.tag = "Blueprint";
+            setBlueprintMaterial(hold.gameObject);
             hold.gameObject.SetActive(false);
         }
 
@@ -85,5 +89,19 @@ public class SpawnerScript : MonoBehaviour
     public void spawnEnemy()
     {
         spawn = enemy;
+    }
+
+    /*
+     * This will iterate through all of a gameobject's material and set each to the blueprint material
+     */
+    private void setBlueprintMaterial(GameObject g)
+    {
+        Material[] materials = new Material[g.GetComponent<Renderer>().materials.Length];
+        for(int i=0; i<materials.Length; i++)
+        {
+            materials[i] = blueprint;
+        }
+
+        g.GetComponent<Renderer>().materials = materials;
     }
 }
