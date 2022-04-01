@@ -8,6 +8,7 @@ public class Unit : MonoBehaviour
     // Used for pathfinding
     NavMeshAgent myAgent;
     LineRenderer lineRenderer;
+    // The black acquisition circle that appears when a unit becomes stationary
     GameObject stationaryIndicator;
     Animator animator;
 
@@ -16,8 +17,10 @@ public class Unit : MonoBehaviour
 
     // How fast this unit attacks measured in seconds
     public float attackSpeed;
-    // How long this unit takes to start shooting after coming to a stop. 0 means this unit can attack while moving
+    // How long this unit takes to start aiming after coming to a stop. 0 means this unit can attack while moving
     public float acquisitionSpeed;
+    // A base delay for the unit to start shooting after acquiring the target. All units should have this > 0, buildings can have 0.
+    public float aimSpeed;
     // How fast this unit moves
     public float movementSpeed;
     // The distance before this unit can start attacking
@@ -35,8 +38,13 @@ public class Unit : MonoBehaviour
     private float attackCooldown;
     private float timeStationary;
     private float startStationary;
+    private float startAimTime;
+    private bool startedAim;
+    private bool aimedAtEnemy;
     private bool stationary;
     private bool selected;
+
+    GameObject prevClosestEnemy;
 
     void Awake()
     {
@@ -65,7 +73,11 @@ public class Unit : MonoBehaviour
         attackCooldown = 0;
         timeStationary = 0;
         startStationary = 0;
+        startAimTime = 0;
+        aimedAtEnemy = false;
+        startedAim = false;
         stationary = true;
+        prevClosestEnemy = null;
     }
 
     void OnDestroy()
@@ -105,9 +117,10 @@ public class Unit : MonoBehaviour
             float distance = Mathf.Sqrt((unit.transform.position.x - this.transform.position.x) * (unit.transform.position.x - this.transform.position.x) +
                              (unit.transform.position.z - this.transform.position.z) * (unit.transform.position.z - this.transform.position.z));
 
+            // closestDistance is the distance to the closest enemy
             if (distance < closestDistance)
             {
-
+                // This chunk checks to see if the unit is trying to shoot through a physical barrier such as a house by using a raycast
                 RaycastHit hit;
                 if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range))
                 {
@@ -127,29 +140,47 @@ public class Unit : MonoBehaviour
         {
                   
             if (closestEnemy != null)
-            {
+            { 
+                if (closestEnemy != prevClosestEnemy) {
+                    startedAim = false;
+                    aimedAtEnemy = false;
+                    prevClosestEnemy = closestEnemy;
+                }
+                
+                if (!startedAim && !aimedAtEnemy) {
+                    startAimTime = Time.time;
+                    startedAim = true;
+                }
                 // This draws a line from the unit's current position to the closest enemy in range.
                 lineRenderer.SetPosition(0, this.transform.position);
                 lineRenderer.SetPosition(1, closestEnemy.transform.position);
 
-                // TODO: enemies who enter range trigger an aiming phase
+                if (startAimTime + aimSpeed <= Time.time) 
+                {
+                    aimedAtEnemy = true;
+                    startedAim = false;
 
-                if(Time.time > startStationary)
-                {
-                    stationaryIndicator.SetActive(true);
-                }
-                else
-                {
-                    stationaryIndicator.SetActive(false);
-                }
+                    if(Time.time > startStationary)
+                    {
+                        stationaryIndicator.SetActive(true);
+                    }
+                    else
+                    {
+                        stationaryIndicator.SetActive(false);
+                    }
 
-                if (canAttack() && stationary)
-                {
-                    this.transform.LookAt(closestEnemy.transform);
-                    closestEnemy.transform.GetComponent<Enemy>().TakeDamage(damage);
-                    cantAttack();
+                    if (isCanAttack() && stationary)
+                    {
+                        this.transform.LookAt(closestEnemy.transform);
+                        closestEnemy.transform.GetComponent<Enemy>().TakeDamage(damage);
+                        cantAttack();
+                    }
                 }
-                
+            }
+            else
+            {
+                startedAim = false;
+                aimedAtEnemy = false;
             }
         }
         else
@@ -215,8 +246,13 @@ public class Unit : MonoBehaviour
     {
         return startStationary;
     }
-    private bool canAttack()
+    private bool isCanAttack()
     {
+        if (!aimedAtEnemy)
+        {
+            aimedAtEnemy = true;
+            return false;
+        }
         return attackCooldown <= Time.time;
     }
 
