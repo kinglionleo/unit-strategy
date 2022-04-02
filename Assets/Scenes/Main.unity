@@ -2621,7 +2621,9 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 64
+  blueprint: {fileID: 2100000, guid: 9997babd0c0e05f4ca689c2ece6a27b1, type: 2}
   enemy: {fileID: 995455505744288269, guid: 43a2f2d042ef7304bb70beadcd854850, type: 3}
+  basic: {fileID: 3891055499504003863, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
 --- !u!4 &1966627277
 Transform:
   m_ObjectHideFlags: 0
