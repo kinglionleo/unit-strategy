@@ -36,12 +36,11 @@ public class Unit : MonoBehaviour
     // The remaining two stats "unitCount" and "cost" will be stored in the UnitManager
 
     private float attackCooldown;
-    private float timeStationary;
-    private float startStationary;
     private float startAimTime;
+    private float startShootTime;
     private bool startedAim;
     private bool aimedAtEnemy;
-    private bool stationary;
+    private bool canMove;
     private bool selected;
 
     GameObject prevClosestEnemy;
@@ -59,6 +58,7 @@ public class Unit : MonoBehaviour
         animator = this.GetComponent<Animator>();
 
         stationaryIndicator = this.transform.Find("StationaryIndicator").gameObject;
+        stationaryIndicator.SetActive(false);
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -71,12 +71,11 @@ public class Unit : MonoBehaviour
         this.transform.Find("HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
         attackCooldown = 0;
-        timeStationary = 0;
-        startStationary = 0;
         startAimTime = 0;
+        startShootTime = 0;
         aimedAtEnemy = false;
         startedAim = false;
-        stationary = true;
+        canMove = true;
         prevClosestEnemy = null;
     }
 
@@ -87,9 +86,14 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
-        if (acquisitionSpeed != 0)
+
+        if (!canMove)
         {
-            checkForMovement();
+            if (Time.time >= startShootTime + acquisitionSpeed)
+            {
+                canMove = true;
+                stationaryIndicator.SetActive(false);
+            }
         }
 
         if (selected)
@@ -160,19 +164,10 @@ public class Unit : MonoBehaviour
                     aimedAtEnemy = true;
                     startedAim = false;
 
-                    if(Time.time > startStationary)
-                    {
-                        stationaryIndicator.SetActive(true);
-                    }
-                    else
-                    {
-                        stationaryIndicator.SetActive(false);
-                    }
-
-                    if (isCanAttack() && stationary)
+                    if (isCanAttack())
                     {
                         this.transform.LookAt(closestEnemy.transform);
-                        closestEnemy.transform.GetComponent<Enemy>().TakeDamage(damage);
+                        attackEnemy(closestEnemy.transform.GetComponent<Enemy>());
                         cantAttack();
                     }
                 }
@@ -188,14 +183,17 @@ public class Unit : MonoBehaviour
             // This makes it so no line is drawn since it is the same point.
             lineRenderer.SetPosition(0, new Vector3(0,0,0));
             lineRenderer.SetPosition(1, new Vector3(0,0,0));
-
-            stationaryIndicator.SetActive(false);
-
         }
 
     }
     public void MoveToPlace(Vector3 location)
     {
+        if(!canMove)
+        {
+            myAgent.speed = 0;
+            return;
+        }
+
         myAgent.speed = movementSpeed;
         myAgent.SetDestination(location);
         //this.transform.LookAt(location); Need to lerp this
@@ -237,14 +235,14 @@ public class Unit : MonoBehaviour
         this.selected = selected;
     }
 
-    public float getTimeStationary()
+    public float getAcquisitionSpeed()
     {
-        return timeStationary;
+        return acquisitionSpeed;
     }
 
-    public float getStartStationary()
+    public float getStartShootTime()
     {
-        return startStationary;
+        return startShootTime;
     }
     private bool isCanAttack()
     {
@@ -256,23 +254,16 @@ public class Unit : MonoBehaviour
         return attackCooldown <= Time.time;
     }
 
+    private void attackEnemy(Enemy enemy)
+    {
+        enemy.TakeDamage(damage);
+        stationaryIndicator.SetActive(true);
+        canMove = false;
+        startShootTime = Time.time;
+    }
+
     private void cantAttack()
     {
         attackCooldown = Time.time + attackSpeed;
-    }
-
-    private void checkForMovement()
-    {
-        if (myAgent.velocity.magnitude <= 0.01)
-        {
-            if (timeStationary <= Time.time) stationary = true;
-            else stationary = false;
-        }
-        else
-        {
-            timeStationary = Time.time + acquisitionSpeed;
-            startStationary = Time.time;
-            stationary = false;
-        }
     }
 }

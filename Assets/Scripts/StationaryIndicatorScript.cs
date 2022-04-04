@@ -15,6 +15,6 @@ public class StationaryIndicatorScript : MonoBehaviour
     }
     void Update()
     {
-        stationaryIndicator.fillAmount = (Time.time - myUnit.getStartStationary()) / (myUnit.getTimeStationary() - myUnit.getStartStationary());
+        stationaryIndicator.fillAmount = Mathf.Min((Time.time - myUnit.getStartShootTime()) / myUnit.getAcquisitionSpeed(), 1);
     }
 }
