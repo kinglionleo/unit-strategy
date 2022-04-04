@@ -60,8 +60,24 @@ public class UnitManager : MonoBehaviour
         }
     }
 
-    public void RightClickMove(Vector3 location)
+    public void RightClickAttackMove(Vector3 location)
     {
+        Debug.Log("Attack");
+        if (unitsSelected.Count > 0)
+        {
+            SelectUIScript.Instance.showAtLocation(location);
+        }
+
+        foreach (var unit in unitsSelected)
+        {
+            unit.gameObject.GetComponent<Unit>().MoveToPlace(location);
+        }
+    }
+
+    public void RightClickIgnoreMove(Vector3 location)
+    {
+
+        Debug.Log("Ignore");
         if (unitsSelected.Count > 0)
         {
             SelectUIScript.Instance.showAtLocation(location);

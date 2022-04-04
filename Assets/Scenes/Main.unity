@@ -854,6 +854,7 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 64
+  doubleClickSpeed: 0.2
 --- !u!1 &428535044
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,15 +9,22 @@ public class UnitClick : MonoBehaviour
 
     public LayerMask clickable;
     public LayerMask ground;
+    public float doubleClickSpeed;
+
+    // This stores the period in time when the last click was
+    private float lastClickTime;
+
     // Start is called before the first frame update
     void Start()
     {
-        cam = Camera.main;   
+        cam = Camera.main;
+        lastClickTime = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
+
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
@@ -50,8 +57,16 @@ public class UnitClick : MonoBehaviour
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
-            {           
-                UnitManager.Instance.RightClickMove(hit.point);
+            {
+    
+                UnitManager.Instance.RightClickIgnoreMove(hit.point);
+
+                // This checks for double clicking logic;
+                if(Time.time < lastClickTime + doubleClickSpeed)
+                {
+                    UnitManager.Instance.RightClickAttackMove(hit.point);
+                }
+                lastClickTime = Time.time;
             }
         }
         
