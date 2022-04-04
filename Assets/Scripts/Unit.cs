@@ -35,12 +35,19 @@ public class Unit : MonoBehaviour
     
     // The remaining two stats "unitCount" and "cost" will be stored in the UnitManager
 
+    // Denotes the point in time when the unit can start attacking
     private float attackCooldown;
+    // Denotes the point in time when the unit just started aiming
     private float startAimTime;
+    // Denotes the point in time when the unit just shot a bullet
     private float startShootTime;
+    // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
     private bool startedAim;
+    // Denotes if the unit is currently aimed at an enemy, so it no longer has to wait for its aiming speed
     private bool aimedAtEnemy;
+    // Denotes if the unit can move, which it cannot if it just shot
     private bool canMove;
+    // Denotes if the unit is selected by the user
     private bool selected;
 
     GameObject prevClosestEnemy;
@@ -52,6 +59,9 @@ public class Unit : MonoBehaviour
 
     void Start()
     {
+        /*
+         * This code is just instantiation related
+         */
         UnitManager.Instance.unitList.Add(this.gameObject);
 
         myAgent = this.GetComponent<NavMeshAgent>();
@@ -86,9 +96,10 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
-
+        // If the unit cannot move, it checks for if it has stayed still for long enough, then allows it to move
         if (!canMove)
         {
+            // Checks if the current point in time is greater than the time it shot a bullet and the time it must stay still
             if (Time.time >= startShootTime + acquisitionSpeed)
             {
                 canMove = true;
@@ -96,6 +107,7 @@ public class Unit : MonoBehaviour
             }
         }
 
+        // This handles if the unit is selected or not. Pretty inefficient, can be a on/off function instead.
         if (selected)
         {
             this.transform.GetChild(0).gameObject.SetActive(true);
@@ -108,11 +120,16 @@ public class Unit : MonoBehaviour
             this.transform.Find("RangeIndicator").gameObject.SetActive(false);
         }
 
+        // The following section handles attacking logic
+
+        // Two variables to store the current closest distance and current closest enemy (not necessarily within range)
         float closestDistance = float.MaxValue;
         GameObject closestEnemy = null;
 
+        // Loop through all enemies
         foreach(var unit in UnitManager.Instance.enemyList){
 
+            // Basically handles when an enemy is in blueprint mode (spawning) - this should be removed eventually
             if (!unit.gameObject.tag.Equals("Enemy"))
             {
                 continue;
@@ -130,7 +147,7 @@ public class Unit : MonoBehaviour
                 {
                     if (hit.transform == unit.transform)
                     {
-
+                        // If the enemy is going to be the current closest enemy and is also in line-of-sight, we save it to be checked further
                         closestDistance = distance;
                         closestEnemy = unit;
 
@@ -140,6 +157,7 @@ public class Unit : MonoBehaviour
             }
         }
 
+        // Now we check if the closest enemy is in range or not
         if (closestDistance < range)
         {
                   
@@ -155,10 +173,12 @@ public class Unit : MonoBehaviour
                     startAimTime = Time.time;
                     startedAim = true;
                 }
+
                 // This draws a line from the unit's current position to the closest enemy in range.
                 lineRenderer.SetPosition(0, this.transform.position);
                 lineRenderer.SetPosition(1, closestEnemy.transform.position);
 
+                // This checks if the unit has met the aiming time requirement
                 if (startAimTime + aimSpeed <= Time.time) 
                 {
                     aimedAtEnemy = true;
