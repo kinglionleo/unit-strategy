@@ -70,7 +70,7 @@ public class UnitManager : MonoBehaviour
 
         foreach (var unit in unitsSelected)
         {
-            unit.gameObject.GetComponent<Unit>().MoveToPlace(location);
+            unit.gameObject.GetComponent<Unit>().MoveToPlace(location, 1);
         }
     }
 
@@ -85,7 +85,7 @@ public class UnitManager : MonoBehaviour
 
         foreach (var unit in unitsSelected)
         {
-            unit.gameObject.GetComponent<Unit>().MoveToPlace(location);
+            unit.gameObject.GetComponent<Unit>().MoveToPlace(location, 0);
         }
     }
 

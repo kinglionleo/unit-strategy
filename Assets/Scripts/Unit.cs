@@ -41,6 +41,8 @@ public class Unit : MonoBehaviour
     private float startAimTime;
     // Denotes the point in time when the unit just shot a bullet
     private float startShootTime;
+    // Denotes the position the unit is going to
+    private Vector3 targetPosition;
     // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
     private bool startedAim;
     // Denotes if the unit is currently aimed at an enemy, so it no longer has to wait for its aiming speed
@@ -49,6 +51,8 @@ public class Unit : MonoBehaviour
     private bool canMove;
     // Denotes if the unit is selected by the user
     private bool selected;
+    // Denotes if the unit can auto attack
+    private bool ignoreEnemy;
 
     GameObject prevClosestEnemy;
 
@@ -87,6 +91,8 @@ public class Unit : MonoBehaviour
         startedAim = false;
         canMove = true;
         prevClosestEnemy = null;
+        targetPosition = this.transform.position;
+        ignoreEnemy = false;
     }
 
     void OnDestroy()
@@ -99,6 +105,8 @@ public class Unit : MonoBehaviour
         // If the unit cannot move, it checks for if it has stayed still for long enough, then allows it to move
         if (!canMove)
         {
+            myAgent.SetDestination(this.transform.position);
+            
             // Checks if the current point in time is greater than the time it shot a bullet and the time it must stay still
             if (Time.time >= startShootTime + acquisitionSpeed)
             {
@@ -118,9 +126,27 @@ public class Unit : MonoBehaviour
         {
             this.transform.GetChild(0).gameObject.SetActive(false);
             this.transform.Find("RangeIndicator").gameObject.SetActive(false);
+            ignoreEnemy = false;
         }
 
         // The following section handles attacking logic
+
+        // This checks for if we can interrupt movement to attack an enemy
+        if(ignoreEnemy)
+        {
+            // TODO: make the margin of error dynamic based on the group size as bigger clumps make it impossible to reach the target destination
+            if(Mathf.Abs(this.transform.position.x - targetPosition.x) <= 0.6 &&
+               Mathf.Abs(this.transform.position.z - targetPosition.z) <= 0.6 )
+            {
+                ignoreEnemy = false;
+            }
+        }
+
+        // If we have to ignore the enemy still, there's no need to check for enemies
+        if(ignoreEnemy)
+        {
+            return;
+        }
 
         // Two variables to store the current closest distance and current closest enemy (not necessarily within range)
         float closestDistance = float.MaxValue;
@@ -206,16 +232,24 @@ public class Unit : MonoBehaviour
         }
 
     }
-    public void MoveToPlace(Vector3 location)
-    {
-        if(!canMove)
-        {
-            myAgent.speed = 0;
-            return;
-        }
 
+    // type = 0: ignore move
+    // type = 1: attack move
+    public void MoveToPlace(Vector3 location, int type)
+    {
+        if(type == 0)
+        {
+            ignoreEnemy = true;
+            targetPosition = location;
+        }
+        if(type == 1)
+        {
+            ignoreEnemy = false;
+            targetPosition = location;
+        }
+        
         myAgent.speed = movementSpeed;
-        myAgent.SetDestination(location);
+        myAgent.SetDestination(targetPosition);
         //this.transform.LookAt(location); Need to lerp this
     }
 
