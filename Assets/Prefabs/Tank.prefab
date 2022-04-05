@@ -119,8 +119,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 200
   currentHealth: 200
-  attackSpeed: 1.2
-  acquisitionSpeed: 0.7
+  attackSpeed: 3
+  acquisitionSpeed: 1.5
   aimSpeed: 3
   movementSpeed: 1.2
   range: 6
