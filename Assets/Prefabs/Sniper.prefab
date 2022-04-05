@@ -121,7 +121,7 @@ MonoBehaviour:
   currentHealth: 80
   attackSpeed: 1.5
   acquisitionSpeed: 0.8
-  aimSpeed: 0.5
+  aimSpeed: 2
   movementSpeed: 1.6
   range: 8
   damage: 25

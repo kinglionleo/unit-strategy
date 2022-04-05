@@ -191,6 +191,7 @@ public class Unit : MonoBehaviour
         // Now we check if the closest enemy is in range or not
         if (closestEnemyDistance < range)
         {
+            // really just defensive coding
             // make sure that the enemy is still "alive" aka not set to null
             if (closestEnemy != null)
             {
@@ -199,11 +200,11 @@ public class Unit : MonoBehaviour
                 // will reset fields startedAim and aimedAtEnemy to start aiming process again.
                 // The purpose of this is to make sure the unit goes through the "aiming phase" before
                 // starting to attack a new target.
-                if (closestEnemy != prevClosestEnemy) {
-                    startedAimingPhase = false;
-                    aimedAtEnemy = false;
-                    prevClosestEnemy = closestEnemy;
-                }
+                // if (closestEnemy != prevClosestEnemy) {
+                //     startedAimingPhase = false;
+                //     aimedAtEnemy = false;
+                //     prevClosestEnemy = closestEnemy;
+                // }
                 
                 // If the unit is neither already aimed at an enemy or currently in
                 // the aimingPhase (startedAimingPhase = true), start the aiming phase
@@ -242,6 +243,9 @@ public class Unit : MonoBehaviour
             // if target left the range, the previousClosestEnemy is disregarded, as unit will need to reaim
             // if rengaging witht the same target.
             prevClosestEnemy = null;
+            // if there is no enemy in range, the unit must aim again.
+            startedAimingPhase = false;
+            aimedAtEnemy = false;
             // This makes it so no line is drawn since it is the same point
             lineRenderer.SetPosition(0, new Vector3(0,0,0));
             lineRenderer.SetPosition(1, new Vector3(0,0,0));
