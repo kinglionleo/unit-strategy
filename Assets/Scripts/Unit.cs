@@ -44,8 +44,6 @@ public class Unit : MonoBehaviour
     // Denotes the position the unit is going to
     private Vector3 targetPosition;
 
-    private Vector3 finalDestination;
-
     // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
     private bool startedAimingPhase;
     // Denotes if the unit is currently aimed at an enemy, so it no longer has to wait for its aiming speed
@@ -124,7 +122,7 @@ public class Unit : MonoBehaviour
                 canMove = true;
                 stationaryIndicator.SetActive(false);
                 // continues moving towards the last clicked place for this unit.
-                myAgent.SetDestination(finalDestination);
+                myAgent.SetDestination(targetPosition);
             }
         }
 
@@ -258,7 +256,6 @@ public class Unit : MonoBehaviour
         if(type == 0)
         {
             ignoreEnemy = true;
-            
         }
         if(type == 1)
         {
@@ -270,7 +267,6 @@ public class Unit : MonoBehaviour
         myAgent.speed = movementSpeed;
         myAgent.SetDestination(targetPosition);
         // sets the final destination to the location clicked.
-        finalDestination = location;
         //this.transform.LookAt(location); Need to lerp this
     }
 
