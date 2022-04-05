@@ -119,12 +119,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxHealth: 100
   currentHealth: 100
-  attackSpeed: 0.5
-  acquisitionSpeed: 0.8
+  attackSpeed: 0.25
+  acquisitionSpeed: 0.3
   aimSpeed: 0.1
   movementSpeed: 2
   range: 5
-  damage: 20
+  damage: 10
   unitType: ground
   damageType: individual
 --- !u!195 &-8346763537606935791

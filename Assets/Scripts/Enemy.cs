@@ -21,6 +21,11 @@ public class Enemy : MonoBehaviour
         this.transform.Find("EnemyHealthBar").gameObject.SetActive(true);
     }
 
+    void Update()
+    {
+        if (currentHealth <= 0) Destroy(this.gameObject);
+    }
+
     void OnDestroy()
     {
         UnitManager.Instance.enemyList.Remove(this.gameObject);

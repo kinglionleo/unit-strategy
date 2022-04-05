@@ -14,6 +14,7 @@ public class EnemyHealthBar : MonoBehaviour
     void Awake()
     {
         myUnit = this.transform.parent.gameObject.GetComponent<Enemy>();
+        this.transform.rotation = Camera.main.transform.rotation;
     }
 
     // Update is called once per frame

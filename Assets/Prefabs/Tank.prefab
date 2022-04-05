@@ -120,10 +120,11 @@ MonoBehaviour:
   maxHealth: 200
   currentHealth: 200
   attackSpeed: 1.2
-  acquisitionSpeed: 1
+  acquisitionSpeed: 0.7
+  aimSpeed: 0.2
   movementSpeed: 1.2
   range: 6
-  damage: 40
+  damage: 20
   unitType: ground
   damageType: individual
 --- !u!195 &-8346763537606935791
@@ -140,7 +141,7 @@ NavMeshAgent:
   m_Acceleration: 15
   avoidancePriority: 50
   m_AngularSpeed: 120
-  m_StoppingDistance: 1.1
+  m_StoppingDistance: 0.6
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 0
@@ -548,7 +549,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1248761008207996482, guid: b8a347db18e8cde45a4ac7fc2249926a, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.03
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 1248761008207996482, guid: b8a347db18e8cde45a4ac7fc2249926a, type: 3}
       propertyPath: m_LocalScale.y

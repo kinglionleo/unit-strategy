@@ -102,6 +102,14 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
+
+        if (currentHealth <= 0) Destroy(this.gameObject);
+        // If the unit is in blueprint mode, it shouldn't do anything. TODO: Remove this part later
+        if (this.gameObject.tag.Equals("Blueprint"))
+        {
+            return;
+        }
+
         // If the unit cannot move, it checks for if it has stayed still for long enough, then allows it to move
         if (!canMove)
         {
@@ -140,12 +148,6 @@ public class Unit : MonoBehaviour
             {
                 ignoreEnemy = false;
             }
-        }
-
-        // If we have to ignore the enemy still, there's no need to check for enemies
-        if(ignoreEnemy)
-        {
-            return;
         }
 
         // Two variables to store the current closest distance and current closest enemy (not necessarily within range)
@@ -210,7 +212,7 @@ public class Unit : MonoBehaviour
                     aimedAtEnemy = true;
                     startedAim = false;
 
-                    if (isCanAttack())
+                    if (isCanAttack() && !ignoreEnemy)
                     {
                         this.transform.LookAt(closestEnemy.transform);
                         attackEnemy(closestEnemy.transform.GetComponent<Enemy>());

@@ -16,6 +16,8 @@ public class SpawnerScript : MonoBehaviour
     public Material blueprint;
     public GameObject enemy;
     public GameObject basic;
+    public GameObject sniper;
+    public GameObject tank;
     public static SpawnerScript Instance
     {
         get { return _instance; }
@@ -45,8 +47,18 @@ public class SpawnerScript : MonoBehaviour
         {
             hold = Instantiate(spawn);
             hold.gameObject.tag = "Blueprint";
-            setBlueprintMaterial(hold.gameObject);
-            hold.gameObject.SetActive(false);
+
+            // This is to prevent the bug where the blueprint will be added to unitsSelected (as the game detects the click on it) which will then
+            // become null after destroying the blueprint.
+            hold.gameObject.layer = 2;
+
+            // The 1 refers to the fact that models will always be the second child
+            for(int i=0; i<hold.transform.GetChild(1).childCount; i++)
+            {
+                setBlueprintMaterial(hold.transform.GetChild(1).GetChild(i).gameObject);
+            }
+    
+            hold.gameObject.SetActive(true);
         }
 
         RaycastHit hit;
@@ -54,12 +66,7 @@ public class SpawnerScript : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
         {
-            hold.SetActive(true);
             hold.transform.position = hit.point + new Vector3(0,0.5f,0);
-        }
-        else
-        {
-            hold.SetActive(false);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -69,6 +76,7 @@ public class SpawnerScript : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
                 Instantiate(spawn, hit.point, transform.rotation);
+                spawn = null;
                 Destroy(hold);
                 hold = null;
             }
@@ -89,6 +97,21 @@ public class SpawnerScript : MonoBehaviour
     public void spawnEnemy()
     {
         spawn = enemy;
+    }
+
+    public void spawnBasic()
+    {
+        spawn = basic;
+    }
+
+    public void spawnSniper()
+    {
+        spawn = sniper;
+    }
+
+    public void spawnTank()
+    {
+        spawn = tank;
     }
 
     /*
