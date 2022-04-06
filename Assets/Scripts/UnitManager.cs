@@ -70,6 +70,11 @@ public class UnitManager : MonoBehaviour
 
         foreach (var unit in unitsSelected)
         {
+            // if unit dies when player still has it selected
+            if (unit == null) {
+                unitList.Remove(unit);
+                continue;
+            }
             unit.gameObject.GetComponent<Unit>().MoveToPlace(location, 1);
         }
     }
@@ -85,6 +90,11 @@ public class UnitManager : MonoBehaviour
 
         foreach (var unit in unitsSelected)
         {
+            // if unit dies when player still has it selected
+            if (unit == null) {
+                unitList.Remove(unit);
+                continue;
+            }
             unit.gameObject.GetComponent<Unit>().MoveToPlace(location, 0);
         }
     }
@@ -102,6 +112,10 @@ public class UnitManager : MonoBehaviour
     {
         foreach (var unit in unitsSelected)
         {
+            if (unit == null) {
+                unitList.Remove(unit);
+                continue;
+            }
             unit.GetComponent<Unit>().setSelected(false);
         }
         unitsSelected.Clear();

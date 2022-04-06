@@ -96,15 +96,13 @@ public class Unit : MonoBehaviour
         ignoreEnemy = false;
     }
 
-    void OnDestroy()
-    {
-        UnitManager.Instance.unitList.Remove(this.gameObject);
-    }
-
     void Update()
     {
 
-        if (currentHealth <= 0) Destroy(this.gameObject);
+        // if (currentHealth <= 0) {
+        //     Destroy(this.gameObject);
+        //     return;
+        // }
         // If the unit is in blueprint mode, it shouldn't do anything. TODO: Remove this part later
         if (this.gameObject.tag.Equals("Blueprint"))
         {
@@ -253,6 +251,11 @@ public class Unit : MonoBehaviour
 
     }
 
+    void OnDestroy()
+    {
+        UnitManager.Instance.unitList.Remove(this.gameObject);
+    }
+
     // type = 0: ignore move
     // type = 1: attack move
     public void MoveToPlace(Vector3 location, int type)
@@ -277,7 +280,9 @@ public class Unit : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= 0) Destroy(this.gameObject);
+        if (currentHealth <= 0) {
+            Destroy(this.gameObject);
+        }
     }
 
     public float getMaxHealth()

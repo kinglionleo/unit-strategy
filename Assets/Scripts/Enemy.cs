@@ -163,7 +163,9 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= 0) Destroy(this.gameObject);
+        if (currentHealth <= 0) {
+            Destroy(this.gameObject);
+        }
     }
 
     public float getMaxHealth()
