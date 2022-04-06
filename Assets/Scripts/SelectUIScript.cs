@@ -93,6 +93,7 @@ public class SelectUIScript : MonoBehaviour
         // Setting the timer to zero handles the case where the user rightclicks again while the cursor is already displayed.
         timer = 0;
         timerStart = true;
+        this.gameObject.GetComponent<Animator>().Play("Cursor@Animation", -1, 0f);
         
     }
 
