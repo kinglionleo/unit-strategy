@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 
 public class SpawnerScript : MonoBehaviour
@@ -47,6 +48,11 @@ public class SpawnerScript : MonoBehaviour
         {
             hold = Instantiate(spawn);
             hold.gameObject.tag = "Blueprint";
+            // NavMeshAgent[] navMeshAgents;
+            // navMeshAgents = hold.GetComponents<NavMeshAgent>();
+            // navMeshAgents[0].enabled = false;
+            hold.gameObject.GetComponent<NavMeshAgent>().enabled = false;
+            //((GameObject)hold).GetComponent<Collider>().enabled = false;
 
             // This is to prevent the bug where the blueprint will be added to unitsSelected (as the game detects the click on it) which will then
             // become null after destroying the blueprint.
@@ -66,7 +72,7 @@ public class SpawnerScript : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
         {
-            hold.transform.position = hit.point + new Vector3(0,0.5f,0);
+            hold.transform.position = hit.point + new Vector3(0,0.6f,0);
         }
 
         if (Input.GetMouseButtonDown(0))

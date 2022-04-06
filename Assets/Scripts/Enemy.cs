@@ -57,6 +57,11 @@ public class Enemy : MonoBehaviour
 
     void Update()
     {
+         // If the unit is in blueprint mode, it shouldn't do anything. TODO: Remove this part later
+        if (this.gameObject.tag.Equals("Blueprint"))
+        {
+            return;
+        }
         if (currentHealth <= 0) Destroy(this.gameObject);
         // Loop through all enemies
 
