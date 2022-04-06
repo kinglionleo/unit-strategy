@@ -16,8 +16,7 @@ public class HealthBarScript : MonoBehaviour
         myUnit = this.transform.parent.gameObject.GetComponent<Unit>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         HealthBarFiller();
         this.transform.rotation = Camera.main.transform.rotation;

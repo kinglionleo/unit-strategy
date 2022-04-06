@@ -17,8 +17,7 @@ public class EnemyHealthBar : MonoBehaviour
         this.transform.rotation = Camera.main.transform.rotation;
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         HealthBarFiller();
         this.transform.rotation = Camera.main.transform.rotation;
