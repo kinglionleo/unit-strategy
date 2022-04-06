@@ -65,6 +65,7 @@ public class UnitManager : MonoBehaviour
         Debug.Log("Attack");
         if (unitsSelected.Count > 0)
         {
+            SelectUIScript.Instance.setAttackMoveMaterials();
             SelectUIScript.Instance.showAtLocation(location);
         }
 
@@ -85,6 +86,7 @@ public class UnitManager : MonoBehaviour
         Debug.Log("Ignore");
         if (unitsSelected.Count > 0)
         {
+            SelectUIScript.Instance.setIgnoreMoveMaterials();
             SelectUIScript.Instance.showAtLocation(location);
         }
 

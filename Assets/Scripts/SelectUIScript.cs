@@ -7,6 +7,9 @@ public class SelectUIScript : MonoBehaviour
     // Inspector-given value which determines how long the selection cursor will be shown for.
     public float showTime;
 
+    public Material red;
+    public Material yellow;
+
     // Timer to keep track of passed time
     private float timer;
     private bool timerStart;
@@ -45,6 +48,18 @@ public class SelectUIScript : MonoBehaviour
     void Start()
     {
         this.gameObject.SetActive(false);
+    }
+
+    public void setAttackMoveMaterials()
+    {
+        this.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = red;
+        this.transform.GetChild(1).gameObject.GetComponent<Renderer>().material = red;
+    }
+
+    public void setIgnoreMoveMaterials()
+    {
+        this.transform.GetChild(0).gameObject.GetComponent<Renderer>().material = yellow;
+        this.transform.GetChild(1).gameObject.GetComponent<Renderer>().material = yellow;
     }
 
     /**
