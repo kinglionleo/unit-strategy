@@ -4409,6 +4409,7 @@
             "$type": "Photon.Bolt.Compiler.PropertyTypeTransform, bolt.compiler",
             "PositionSelection": 14,
             "RotationSelection": 14,
+            "Space": 1,
             "PositionCompression": [
               {
                 "MinValue": -1024,

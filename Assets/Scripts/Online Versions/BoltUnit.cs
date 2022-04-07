@@ -58,6 +58,7 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     GameObject prevClosestEnemy;
 
+    // Start Equivalent
     public override void Attached()
     {
         state.Health = maxHealth;
@@ -74,6 +75,21 @@ public class BoltUnit : EntityEventListener<IUnit>
             this.gameObject.layer = 0;
             BoltUnitManager.Instance.enemyList.Add(this.gameObject);
         }
+    }
+
+    // Destroy Equivalent
+    public override void Detached()
+    {
+        Debug.Log("Detached");
+        if (entity.IsOwner)
+        {
+            BoltUnitManager.Instance.unitList.Remove(this.gameObject);
+        }
+        else
+        {
+            BoltUnitManager.Instance.enemyList.Remove(this.gameObject);
+        }
+
     }
     void Awake()
     {
@@ -267,6 +283,8 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     void OnDestroy()
     {
+        /*
+        Debug.Log("Destroy Called");
         if(entity.IsOwner)
         {
             BoltUnitManager.Instance.unitList.Remove(this.gameObject);
@@ -275,6 +293,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         {
             BoltUnitManager.Instance.enemyList.Remove(this.gameObject);
         }
+        */
     }
 
     // type = 0: ignore move
@@ -371,7 +390,7 @@ public class BoltUnit : EntityEventListener<IUnit>
     {
         enemy.TakeDamage(damage);
 
-        ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.Everyone);
+        ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
         e.DamageTaken = damage;
         e.Send();
 
