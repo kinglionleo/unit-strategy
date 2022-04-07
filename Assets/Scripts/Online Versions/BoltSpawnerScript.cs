@@ -1,13 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using Photon.Bolt;
 
 
-public class SpawnerScript : MonoBehaviour
+public class BoltSpawnerScript : GlobalEventListener
 {
 
-    private static SpawnerScript _instance;
+    private static BoltSpawnerScript _instance;
     private Camera cam;
     public LayerMask ground;
 
@@ -19,7 +19,7 @@ public class SpawnerScript : MonoBehaviour
     public GameObject basic;
     public GameObject sniper;
     public GameObject tank;
-    public static SpawnerScript Instance
+    public static BoltSpawnerScript Instance
     {
         get { return _instance; }
     }
@@ -35,7 +35,7 @@ public class SpawnerScript : MonoBehaviour
             cam = Camera.main;
         }
     }
-    
+
     /*
      * Basically, this method will only be called when something is selected as it will alternate between the active and inactive states
      */
@@ -59,11 +59,11 @@ public class SpawnerScript : MonoBehaviour
             hold.gameObject.layer = 2;
 
             // The 1 refers to the fact that models will always be the second child
-            for(int i=0; i<hold.transform.GetChild(1).childCount; i++)
+            for (int i = 0; i < hold.transform.GetChild(1).childCount; i++)
             {
                 setBlueprintMaterial(hold.transform.GetChild(1).GetChild(i).gameObject);
             }
-    
+
             hold.gameObject.SetActive(true);
         }
 
@@ -72,7 +72,7 @@ public class SpawnerScript : MonoBehaviour
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
         {
-            hold.transform.position = hit.point + new Vector3(0,0.6f,0);
+            hold.transform.position = hit.point + new Vector3(0, 0.6f, 0);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -81,7 +81,7 @@ public class SpawnerScript : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
-                Instantiate(spawn, hit.point, transform.rotation);
+                BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
                 spawn = null;
                 Destroy(hold);
                 hold = null;
@@ -90,7 +90,7 @@ public class SpawnerScript : MonoBehaviour
             setActive(false);
         }
 
-        
+
 
         // Go to a raycast on the ground
     }
@@ -130,7 +130,7 @@ public class SpawnerScript : MonoBehaviour
     private void setBlueprintMaterial(GameObject g)
     {
         Material[] materials = new Material[g.GetComponent<Renderer>().materials.Length];
-        for(int i=0; i<materials.Length; i++)
+        for (int i = 0; i < materials.Length; i++)
         {
             materials[i] = blueprint;
         }

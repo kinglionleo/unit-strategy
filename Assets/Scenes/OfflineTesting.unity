@@ -818,18 +818,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1966627276}
-        m_TargetAssemblyTypeName: SpawnerScript, Assembly-CSharp
-        m_MethodName: setActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &298053028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1480,18 +1468,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 1966627276}
-        m_TargetAssemblyTypeName: SpawnerScript, Assembly-CSharp
-        m_MethodName: setActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
 --- !u!114 &741682148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1713,18 +1689,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1966627276}
-        m_TargetAssemblyTypeName: SpawnerScript, Assembly-CSharp
-        m_MethodName: setActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &928246872
 MonoBehaviour:
@@ -2123,6 +2087,10 @@ PrefabInstance:
     - target: {fileID: 9028456683621333887, guid: 748a56cf6c205f647b39e419e2b6a2ac, type: 3}
       propertyPath: m_Name
       value: Cursor
+      objectReference: {fileID: 0}
+    - target: {fileID: 9028456683621333887, guid: 748a56cf6c205f647b39e419e2b6a2ac, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 748a56cf6c205f647b39e419e2b6a2ac, type: 3}
@@ -3637,18 +3605,6 @@ MonoBehaviour:
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1966627276}
-        m_TargetAssemblyTypeName: SpawnerScript, Assembly-CSharp
-        m_MethodName: setActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
         m_CallState: 2
 --- !u!114 &2094560733
 MonoBehaviour:

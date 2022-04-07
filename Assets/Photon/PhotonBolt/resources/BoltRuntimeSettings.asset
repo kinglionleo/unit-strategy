@@ -51,11 +51,11 @@ MonoBehaviour:
   debugBuildMode: 1
   debugStartMapName: 
   debugPlayAsServer: 0
-  showDebugInfo: 1
+  showDebugInfo: 0
   overrideTimeScale: 1
   debugEditorMode: 1
   consoleToggleKey: 9
-  consoleVisibleByDefault: 1
+  consoleVisibleByDefault: 0
   compilationWarnLevel: 4
   editorSkin: 4
   scopeModeHideWarningInGui: 0
