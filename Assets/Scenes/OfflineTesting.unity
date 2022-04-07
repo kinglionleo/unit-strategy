@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.18028305, g: 0.22571313, b: 0.3069213, a: 1}
+  m_IndirectSpecularColor: {r: 0.24647538, g: 0.28234535, b: 0.3457032, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -106,15 +106,15 @@ NavMeshSettings:
   m_BuildSettings:
     serializedVersion: 2
     agentTypeID: 0
-    agentRadius: 0.5
+    agentRadius: 0.3
     agentHeight: 2
-    agentSlope: 45
-    agentClimb: 0.4
+    agentSlope: 10
+    agentClimb: 0.01
     ledgeDropHeight: 0
     maxJumpAcrossDistance: 0
     minRegionArea: 2
     manualCellSize: 0
-    cellSize: 0.16666667
+    cellSize: 0.1
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
@@ -2190,7 +2190,7 @@ BoxCollider:
   m_GameObject: {fileID: 1532872380}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 10.968379, y: 11.274069, z: 10.737833}
   m_Center: {x: -0.86471957, y: 5.632434, z: -0.9697067}
@@ -2221,22 +2221,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1532872380}
   m_Mesh: {fileID: 3909233067320746374, guid: 8381778cd9d1a4585aabcbc7c666ad27, type: 3}
---- !u!208 &1532872385
-NavMeshObstacle:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1532872380}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Shape: 1
-  m_Extents: {x: 5.48419, y: 5.637035, z: 5.368915}
-  m_MoveThreshold: 0.1
-  m_Carve: 0
-  m_CarveOnlyStationary: 1
-  m_Center: {x: -0.8647196, y: 5.632434, z: -0.9697067}
-  m_TimeToStationary: 0.5
 --- !u!1001 &1558240362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2413,7 +2397,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8381778cd9d1a4585aabcbc7c666ad27, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.234
+      value: 5.23
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8381778cd9d1a4585aabcbc7c666ad27, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2421,7 +2405,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8381778cd9d1a4585aabcbc7c666ad27, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.21
+      value: -5.23
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 8381778cd9d1a4585aabcbc7c666ad27, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2481,7 +2465,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8381778cd9d1a4585aabcbc7c666ad27, type: 3}
       propertyPath: m_Layer
-      value: 9
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 8381778cd9d1a4585aabcbc7c666ad27, type: 3}
       propertyPath: m_StaticEditorFlags
