@@ -1,6 +1,7 @@
 using UnityEngine;
+using Photon.Bolt;
 
-public class SyncTransform : Photon.Bolt.EntityBehaviour<Photon.Bolt.IUnit>
+public class SyncTransform : EntityBehaviour<IUnit>
 {
     // Basically Start()
     public override void Attached()

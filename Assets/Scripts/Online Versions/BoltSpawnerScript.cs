@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using Photon.Bolt;
 
 
-public class BoltSpawnerScript : GlobalEventListener
+public class BoltSpawnerScript : MonoBehaviour
 {
 
     private static BoltSpawnerScript _instance;
