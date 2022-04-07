@@ -4,24 +4,24 @@ ModelImporter:
   serializedVersion: 20200
   internalIDToNameTable:
   - first:
-      74: 1171004070945080363
-    second: Crystal|Cone.001Action
+      74: -623603649343465320
+    second: Scene
+  externalObjects:
   - first:
-      74: 2091791353294874907
-    second: Crystal|ConeAction.002
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: DarkBlue
+    second: {fileID: 2100000, guid: 6917e746d1431494bbd01ef98c6b01e7, type: 2}
   - first:
-      74: -8512954243448499671
-    second: Crystal|CrystalAction
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: LightBlue
+    second: {fileID: 2100000, guid: 3742d36dce1fac242a085795de06c6e8, type: 2}
   - first:
-      74: -6292234575005117578
-    second: Cone.001|Cone.001Action
-  - first:
-      74: 8631343245027268188
-    second: Cone.001|ConeAction.002
-  - first:
-      74: 2850424501202343543
-    second: Cone.001|CrystalAction
-  externalObjects: {}
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material
+    second: {fileID: 2100000, guid: 113180ae03bb0004a8dbecf654a1fb44, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -31,7 +31,7 @@ ModelImporter:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
-    optimizeGameObjects: 0
+    optimizeGameObjects: 1
     motionNodeName: 
     rigImportErrors: 
     rigImportWarnings: 
@@ -41,7 +41,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -69,7 +69,7 @@ ModelImporter:
     weldVertices: 1
     bakeAxisConversion: 0
     preserveHierarchy: 0
-    skinWeightsMode: 0
+    skinWeightsMode: 1
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     meshOptimizationFlags: -1
@@ -106,7 +106,7 @@ ModelImporter:
     globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
-    hasExtraRoot: 0
+    hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   autoGenerateAvatarMappingIfUnspecified: 1
