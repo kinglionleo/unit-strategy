@@ -8,6 +8,8 @@ public class Unit : MonoBehaviour
     // Used for pathfinding
     NavMeshAgent myAgent;
     LineRenderer lineRenderer;
+    // Shows a shot/bullet moving towards towards the target
+    GameObject shotLineRenderer;
     // The black acquisition circle that appears when a unit becomes stationary
     GameObject stationaryIndicator;
     Animator animator;
@@ -55,6 +57,8 @@ public class Unit : MonoBehaviour
     // Denotes if the unit can auto attack
     private bool ignoreEnemy;
 
+    GameObject closestEnemy;
+
     GameObject prevClosestEnemy;
 
     void Awake()
@@ -75,6 +79,11 @@ public class Unit : MonoBehaviour
         stationaryIndicator = this.transform.Find("StationaryIndicator").gameObject;
         stationaryIndicator.SetActive(false);
 
+        shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
+        if (shotLineRenderer != null) {
+            shotLineRenderer.SetActive(false);
+        }
+
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
         lineRenderer.endWidth = 0.04f;
@@ -85,6 +94,7 @@ public class Unit : MonoBehaviour
 
         this.transform.Find("HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
+
         attackCooldown = 0;
         startAimTime = 0;
         startShootTime = 0;
@@ -153,7 +163,7 @@ public class Unit : MonoBehaviour
 
         // Two variables to store the current closest distance and current closest enemy (not necessarily within range)
         float closestEnemyDistance = float.MaxValue;
-        GameObject closestEnemy = null;
+        closestEnemy = null;
 
         // Loop through all enemies
         foreach(var unit in UnitManager.Instance.enemyList){
@@ -285,6 +295,10 @@ public class Unit : MonoBehaviour
         }
     }
 
+    // private void displayTakeDamage() {
+    //     Instantiate(spawn, hit.point, transform.rotation);
+    // }
+
     public float getMaxHealth()
     {
         return maxHealth;
@@ -324,6 +338,11 @@ public class Unit : MonoBehaviour
     {
         return startShootTime;
     }
+
+    public GameObject getClosestEnemy() {
+        return closestEnemy;
+    }
+
     private bool isCanAttack()
     {
         if (!aimedAtEnemy)
@@ -337,6 +356,8 @@ public class Unit : MonoBehaviour
     private void attackEnemy(Enemy enemy)
     {
         enemy.TakeDamage(damage);
+        shotLineRenderer.SetActive(true);
+        shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.transform.position);
         stationaryIndicator.SetActive(true);
         canMove = false;
         startShootTime = Time.time;
