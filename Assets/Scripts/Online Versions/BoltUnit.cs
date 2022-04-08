@@ -75,6 +75,7 @@ public class BoltUnit : EntityEventListener<IUnit>
             this.gameObject.layer = 0;
             BoltUnitManager.Instance.enemyList.Add(this.gameObject);
         }
+        Debug.Log(entity.IsOwner);
     }
 
     // Destroy Equivalent
@@ -129,7 +130,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         ignoreEnemy = false;
     }
 
-    void SimulateOwner()
+    public override void SimulateOwner()
     {
         // If the unit is in blueprint mode, it shouldn't do anything. TODO: Remove this part later
         if (this.gameObject.tag.Equals("Blueprint"))
