@@ -46,6 +46,7 @@ public class BoltUnitManager : MonoBehaviour
         unitsSelected.Add(unitToAdd);
         unitToAdd.GetComponent<BoltUnit>().setSelected(true);
     }
+
     public void ShiftClickSelect(GameObject unitToAdd)
     {
         if (!unitsSelected.Contains(unitToAdd))
@@ -122,6 +123,7 @@ public class BoltUnitManager : MonoBehaviour
         }
         unitsSelected.Clear();
     }
+    
     public void Deselect(GameObject unitToAdd)
     {
 
