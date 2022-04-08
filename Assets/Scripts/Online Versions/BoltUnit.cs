@@ -283,7 +283,6 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     void OnDestroy()
     {
-        /*
         Debug.Log("Destroy Called");
         if(entity.IsOwner)
         {
@@ -293,7 +292,6 @@ public class BoltUnit : EntityEventListener<IUnit>
         {
             BoltUnitManager.Instance.enemyList.Remove(this.gameObject);
         }
-        */
     }
 
     // type = 0: ignore move
