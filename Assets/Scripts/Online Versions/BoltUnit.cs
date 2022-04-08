@@ -75,7 +75,6 @@ public class BoltUnit : EntityEventListener<IUnit>
             this.gameObject.layer = 0;
             BoltUnitManager.Instance.enemyList.Add(this.gameObject);
         }
-        Debug.Log(entity.IsOwner);
     }
 
     // Destroy Equivalent
