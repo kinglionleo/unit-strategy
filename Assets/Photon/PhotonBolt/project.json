@@ -4608,6 +4608,7 @@
           }
         }
       ],
+      "EntitySenders": 1,
       "GlobalSenders": 3,
       "Name": "ReceiveDamage",
       "Guid": "9b2730e4-5f95-49a9-8c0e-2672ea0e7fc0",

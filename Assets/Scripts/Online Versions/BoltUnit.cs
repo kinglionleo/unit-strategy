@@ -283,15 +283,7 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     void OnDestroy()
     {
-        Debug.Log("Destroy Called");
-        if(entity.IsOwner)
-        {
-            BoltUnitManager.Instance.unitList.Remove(this.gameObject);
-        }
-        else
-        {
-            BoltUnitManager.Instance.enemyList.Remove(this.gameObject);
-        }
+        
     }
 
     // type = 0: ignore move
@@ -387,8 +379,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     private void attackEnemy(BoltUnit enemy)
     {
         enemy.TakeDamage(damage);
-
-        ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
+        Debug.Log(enemy.gameObject.tag);
+        ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>()., EntityTargets.OnlyOwner);
         e.DamageTaken = damage;
         e.Send();
 
