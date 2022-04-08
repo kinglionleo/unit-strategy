@@ -19,6 +19,7 @@ public class BoltUnitClick : MonoBehaviour
     {
         cam = Camera.main;
         lastClickTime = 0;
+        ground = LayerMask.NameToLayer("Ground");
     }
 
     // Update is called once per frame
@@ -58,15 +59,19 @@ public class BoltUnitClick : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
-    
-                BoltUnitManager.Instance.RightClickIgnoreMove(hit.point);
+                if (hit.transform.gameObject.layer == ground) {
+                    BoltUnitManager.Instance.RightClickIgnoreMove(hit.point);
 
-                // This checks for double clicking logic;
-                if(Time.time < lastClickTime + doubleClickSpeed)
-                {
-                    BoltUnitManager.Instance.RightClickAttackMove(hit.point);
+                    // This checks for double clicking logic;
+                    if(Time.time < lastClickTime + doubleClickSpeed)
+                    {
+                        BoltUnitManager.Instance.RightClickAttackMove(hit.point);
+                    }
+                    lastClickTime = Time.time;
                 }
-                lastClickTime = Time.time;
+                else {
+                    // do nothing, did not hit ground
+                }
             }
         }
         
