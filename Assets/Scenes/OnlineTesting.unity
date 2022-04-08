@@ -2098,6 +2098,7 @@ MonoBehaviour:
   basic: {fileID: 3891055499504003863, guid: f3c8dce6a8d1db54191572085821ca9f, type: 3}
   sniper: {fileID: 3891055499504003863, guid: f3c8dce6a8d1db54191572085821ca9f, type: 3}
   tank: {fileID: 3891055499504003863, guid: f3c8dce6a8d1db54191572085821ca9f, type: 3}
+  hq: {fileID: 8201373249474976151, guid: e42d3d1bbe1800b47b649f4885f7ab84, type: 3}
 --- !u!4 &2010807884
 Transform:
   m_ObjectHideFlags: 0

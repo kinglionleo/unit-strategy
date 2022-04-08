@@ -4,7 +4,7 @@ using UnityEngine.AI;
 using Photon.Bolt;
 
 
-public class BoltSpawnerScript : MonoBehaviour
+public class BoltSpawnerScript : GlobalEventListener
 {
 
     private static BoltSpawnerScript _instance;
@@ -19,10 +19,31 @@ public class BoltSpawnerScript : MonoBehaviour
     public GameObject basic;
     public GameObject sniper;
     public GameObject tank;
+    public GameObject hq;
     public static BoltSpawnerScript Instance
     {
         get { return _instance; }
     }
+
+    /*
+     * Once the scene has finished loading locally, we create our base.
+     */
+    public override void SceneLoadLocalDone(string scene, IProtocolToken token)
+    {
+        if (!scene.Equals("OnlineTesting"))
+        {
+            return;
+        }
+        if(BoltNetwork.IsClient)
+        {
+            spawnBase(new Vector3(12.78f, 2.5f, 12.78f), Quaternion.Euler(0f, 0f, 0f));
+        }
+        else
+        {
+            spawnBase(new Vector3(-12.78f, 2.5f, -12.78f), Quaternion.Euler(0f, 180f, 0f));
+        }
+    }
+
     void Awake()
     {
         if (_instance != null && _instance != this)
@@ -122,6 +143,11 @@ public class BoltSpawnerScript : MonoBehaviour
     {
         spawn = tank;
         this.gameObject.SetActive(true);
+    }
+
+    private void spawnBase(Vector3 position, Quaternion rotation)
+    {
+        BoltNetwork.Instantiate(hq, position, rotation);
     }
 
     /*
