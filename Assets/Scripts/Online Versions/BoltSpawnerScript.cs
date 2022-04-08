@@ -28,8 +28,11 @@ public class BoltSpawnerScript : GlobalEventListener
     /*
      * Once the scene has finished loading locally, we create our base.
      */
+
+    
     public override void SceneLoadLocalDone(string scene, IProtocolToken token)
     {
+        Debug.Log("Loaded!");
         if (!scene.Equals("OnlineTesting"))
         {
             return;
@@ -43,6 +46,7 @@ public class BoltSpawnerScript : GlobalEventListener
             spawnBase(new Vector3(-12.78f, 2.5f, -12.78f), Quaternion.Euler(0f, 180f, 0f));
         }
     }
+    
 
     void Awake()
     {

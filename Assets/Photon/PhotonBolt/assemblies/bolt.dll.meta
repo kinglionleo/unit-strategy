@@ -11,8 +11,11 @@ PluginImporter:
     Photon.Bolt.BoltEntity: -2500
     Photon.Bolt.Internal.BoltPoll: -10000
     Photon.Bolt.Internal.BoltSend: 10000
+  defineConstraints: []
   isPreloaded: 0
   isOverridable: 0
+  isExplicitlyReferenced: 0
+  validateReferences: 1
   platformData:
   - first:
       Any: 
@@ -50,7 +53,7 @@ PluginImporter:
     second:
       enabled: 1
       settings:
-        CPU: x86_64
+        CPU: AnyCPU
   - first:
       Standalone: LinuxUniversal
     second:
