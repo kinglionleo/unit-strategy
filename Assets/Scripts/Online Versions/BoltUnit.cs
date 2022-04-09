@@ -92,6 +92,8 @@ public class BoltUnit : EntityEventListener<IUnit>
         if (entity.IsOwner)
         {
             BoltUnitManager.Instance.unitList.Remove(this.gameObject);
+            // To make sure that units that die get deselected
+            BoltUnitManager.Instance.unitsSelected.Remove(this.gameObject);
         }
         else
         {
