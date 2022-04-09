@@ -173,7 +173,6 @@ public class BoltBase : BoltUnit
 
                     if (isCanAttack() && !ignoreEnemy)
                     {
-                        this.transform.LookAt(closestEnemy.transform);
                         attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>());
                         cantAttack();
                     }
