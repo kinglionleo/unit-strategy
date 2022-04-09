@@ -7,10 +7,10 @@ using Photon.Bolt;
 public class BoltUnit : EntityEventListener<IUnit>
 {
     // Used for pathfinding
-    NavMeshAgent myAgent;
-    LineRenderer lineRenderer;
+    protected NavMeshAgent myAgent;
+    protected LineRenderer lineRenderer;
     // The black acquisition circle that appears when a unit becomes stationary
-    GameObject stationaryIndicator;
+    protected GameObject stationaryIndicator;
     Animator animator;
 
     public float maxHealth;
@@ -37,26 +37,26 @@ public class BoltUnit : EntityEventListener<IUnit>
     // The remaining two stats "unitCount" and "cost" will be stored in the UnitManager
 
     // Denotes the point in time when the unit can start attacking
-    private float attackCooldown;
+    protected float attackCooldown;
     // Denotes the point in time when the unit just started aiming
-    private float startAimTime;
+    protected float startAimTime;
     // Denotes the point in time when the unit just shot a bullet
-    private float startShootTime;
+    protected float startShootTime;
     // Denotes the position the unit is going to
-    private Vector3 targetPosition;
+    protected Vector3 targetPosition;
 
     // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
-    private bool startedAimingPhase;
+    protected bool startedAimingPhase;
     // Denotes if the unit is currently aimed at an enemy, so it no longer has to wait for its aiming speed
-    private bool aimedAtEnemy;
+    protected bool aimedAtEnemy;
     // Denotes if the unit can move, which it cannot if it just shot
-    private bool canMove;
+    protected bool canMove;
     // Denotes if the unit is selected by the user
-    private bool selected;
+    protected bool selected;
     // Denotes if the unit can auto attack
-    private bool ignoreEnemy;
+    protected bool ignoreEnemy;
 
-    GameObject prevClosestEnemy;
+    protected GameObject prevClosestEnemy;
 
     // Start Equivalent
     public override void Attached()
@@ -317,7 +317,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         state.Health -= e.DamageTaken;
     }
 
-    private void HealthCallback()
+    protected void HealthCallback()
     {
         currentHealth = state.Health;
         Debug.Log(currentHealth);
@@ -366,7 +366,7 @@ public class BoltUnit : EntityEventListener<IUnit>
     {
         return startShootTime;
     }
-    private bool isCanAttack()
+    protected bool isCanAttack()
     {
         if (!aimedAtEnemy)
         {
@@ -376,7 +376,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         return attackCooldown <= Time.time;
     }
 
-    private void attackEnemy(BoltUnit enemy)
+    protected void attackEnemy(BoltUnit enemy)
     {
         enemy.TakeDamage(damage);
         Debug.Log(enemy.gameObject.tag);
@@ -389,7 +389,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         startShootTime = Time.time;
     }
 
-    private void cantAttack()
+    protected void cantAttack()
     {
         attackCooldown = Time.time + attackSpeed;
     }

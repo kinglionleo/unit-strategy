@@ -7,30 +7,6 @@ using Photon.Bolt;
 public class BoltBase : BoltUnit
 {
 
-    LineRenderer lineRenderer;
-
-    // Denotes the point in time when the unit can start attacking
-    private float attackCooldown;
-    // Denotes the point in time when the unit just started aiming
-    private float startAimTime;
-    // Denotes the point in time when the unit just shot a bullet
-    private float startShootTime;
-    // Denotes the position the unit is going to
-    private Vector3 targetPosition;
-
-    // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
-    private bool startedAimingPhase;
-    // Denotes if the unit is currently aimed at an enemy, so it no longer has to wait for its aiming speed
-    private bool aimedAtEnemy;
-    // Denotes if the unit can move, which it cannot if it just shot
-    private bool canMove;
-    // Denotes if the unit is selected by the user
-    private bool selected;
-    // Denotes if the unit can auto attack
-    private bool ignoreEnemy;
-
-    GameObject prevClosestEnemy;
-
     // Start Equivalent
     public override void Attached()
     {
@@ -217,11 +193,6 @@ public class BoltBase : BoltUnit
 
     }
 
-    void OnDestroy()
-    {
-
-    }
-
     public new void MoveToPlace(Vector3 location, int type)
     {
         
@@ -233,27 +204,7 @@ public class BoltBase : BoltUnit
         state.Health -= e.DamageTaken;
     }
 
-    private void HealthCallback()
-    {
-        currentHealth = state.Health;
-        Debug.Log(currentHealth);
-        if (currentHealth <= 0)
-        {
-            BoltNetwork.Destroy(this.gameObject);
-        }
-    }
-
-    private bool isCanAttack()
-    {
-        if (!aimedAtEnemy)
-        {
-            aimedAtEnemy = true;
-            return false;
-        }
-        return attackCooldown <= Time.time;
-    }
-
-    private void attackEnemy(BoltUnit enemy)
+    protected new void attackEnemy(BoltUnit enemy)
     {
         enemy.TakeDamage(damage);
         Debug.Log(enemy.gameObject.tag);
@@ -261,10 +212,5 @@ public class BoltBase : BoltUnit
         e.DamageTaken = damage;
         e.Send();
         startShootTime = Time.time;
-    }
-
-    private void cantAttack()
-    {
-        attackCooldown = Time.time + attackSpeed;
     }
 }
