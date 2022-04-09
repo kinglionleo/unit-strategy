@@ -40,6 +40,7 @@ public class ShotRendererScript : MonoBehaviour
         shotLineRenderer.startWidth = 0.1f;
         shotLineRenderer.endWidth = 0.1f;
         shotLineRenderer.positionCount = 2;
+        shotLineRenderer.numCapVertices = 2;
         shotLineRenderer.useWorldSpace = true;
         // Color shotColor = new Color(80, 190, 200, 50);
         // shotLineRenderer.startColor = shotColor;

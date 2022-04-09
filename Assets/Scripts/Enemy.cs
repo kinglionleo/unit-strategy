@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
 
     NavMeshAgent myAgent;
     LineRenderer lineRenderer;
+    // Shows a shot/bullet moving towards towards the target
+    GameObject shotLineRenderer;
 
     public float currentHealth;
     public float maxHealth;
@@ -38,6 +40,11 @@ public class Enemy : MonoBehaviour
 
         maxHealth = 100;
         currentHealth = maxHealth;
+
+        shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
+        if (shotLineRenderer != null) {
+            shotLineRenderer.SetActive(false);
+        }
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -201,6 +208,8 @@ public class Enemy : MonoBehaviour
     private void attackUnit(Unit unit)
     {
         unit.TakeDamage(damage);
+        shotLineRenderer.SetActive(true);
+        shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.transform.position);
         startShootTime = Time.time;
     }
     private void cantAttack()
