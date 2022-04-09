@@ -2094,6 +2094,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   blueprint: {fileID: 2100000, guid: 9997babd0c0e05f4ca689c2ece6a27b1, type: 2}
+  spawnRadius: 7
   enemy: {fileID: 3891055499504003863, guid: f3c8dce6a8d1db54191572085821ca9f, type: 3}
   basic: {fileID: 3891055499504003863, guid: f3c8dce6a8d1db54191572085821ca9f, type: 3}
   sniper: {fileID: 3891055499504003863, guid: f3c8dce6a8d1db54191572085821ca9f, type: 3}

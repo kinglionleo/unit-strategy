@@ -8,6 +8,7 @@ public class BoltSpawnerScript : GlobalEventListener
 {
 
     private static BoltSpawnerScript _instance;
+    private Vector3 myBaseLocation;
     private Camera cam;
     public LayerMask ground;
 
@@ -15,6 +16,7 @@ public class BoltSpawnerScript : GlobalEventListener
     private GameObject hold;
 
     public Material blueprint;
+    public float spawnRadius;
     public GameObject enemy;
     public GameObject basic;
     public GameObject sniper;
@@ -106,12 +108,24 @@ public class BoltSpawnerScript : GlobalEventListener
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
-                BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
-                spawn = null;
-                Destroy(hold);
-                hold = null;
+                if(myBaseLocation != null && Vector3.Distance(myBaseLocation, hit.point) <= spawnRadius )
+                {
+                    BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
+                    spawn = null;
+                    Destroy(hold);
+                    hold = null;
+                    setActive(false);
+                }
+                
             }
+            
+        }
 
+        if(Input.GetMouseButtonDown(1))
+        {
+            spawn = null;
+            Destroy(hold);
+            hold = null;
             setActive(false);
         }
 
@@ -147,6 +161,11 @@ public class BoltSpawnerScript : GlobalEventListener
     {
         spawn = tank;
         this.gameObject.SetActive(true);
+    }
+
+    public void setBaseLocation(Vector3 position)
+    {
+        myBaseLocation = position;
     }
 
     private void spawnBase(Vector3 position, Quaternion rotation)
