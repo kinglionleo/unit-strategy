@@ -5,8 +5,7 @@ using UnityEngine;
 // source: https://www.youtube.com/watch?v=rnqF6S7PfFA
 public class CameraController : MonoBehaviour
 {
-    // Implement camera following an object later on
-
+    private static CameraController _instance;
     public Transform cameraTransform;
 
     public float movementSpeed;
@@ -23,11 +22,26 @@ public class CameraController : MonoBehaviour
     public Vector3 rotateStartPosition;
     public Vector3 rotateCurrentPosition;
 
+    public static CameraController Instance
+    {
+        get { return _instance; }
+    }
+    void Awake()
+    {
+        if (_instance != null && _instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            _instance = this;
+        }
+    }
+
 
     // Start is called before the first frame update
     void Start()
     {
-
         newPosition = transform.position;
         newRotation = transform.rotation;
         newZoom = cameraTransform.localPosition;
@@ -135,5 +149,12 @@ public class CameraController : MonoBehaviour
         transform.position = Vector3.Lerp(transform.position, newPosition, Time.deltaTime * movementTime);
         transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, Time.deltaTime * movementTime);
         cameraTransform.localPosition = Vector3.Lerp(cameraTransform.localPosition, newZoom, Time.deltaTime * movementTime);
+    }
+
+    public void SetPositionAndRotation(Vector3 position, Quaternion rotation)
+    {
+        newPosition.x = position.x;
+        newPosition.z = position.z;
+        newRotation = Quaternion.Euler(rotation.eulerAngles.x, rotation.eulerAngles.y + 180, rotation.eulerAngles.z);
     }
 }

@@ -41,6 +41,8 @@ public class BoltBase : BoltUnit
             this.gameObject.tag = "Player";
             this.gameObject.layer = 9;
             BoltUnitManager.Instance.unitList.Add(this.gameObject);
+            // Make ourselves the lower left corner
+            CameraController.Instance.SetPositionAndRotation(transform.position, transform.rotation);
         }
         else
         {
