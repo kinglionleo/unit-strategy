@@ -42,6 +42,8 @@ public class ShotRendererScript : MonoBehaviour
         shotLineRenderer.positionCount = 2;
         shotLineRenderer.numCapVertices = 2;
         shotLineRenderer.useWorldSpace = true;
+        this.shotSize = 0.075f;
+        this.shotTimeLength = 0.15f;
         // Color shotColor = new Color(80, 190, 200, 50);
         // shotLineRenderer.startColor = shotColor;
         // shotLineRenderer.endColor = Color.yellow;
@@ -59,18 +61,18 @@ public class ShotRendererScript : MonoBehaviour
     {
         Vector3 shotStartLocation = this.transform.position + shotStartOffset;
         // if shot is "fired" (by startShot method call), run the animation
-        Debug.Log("Shot started? " + shotAnimationStarted);
+        //Debug.Log("Shot started? " + shotAnimationStarted);
         if (shotFired) {
             shotFired = false;    
             shotStartTime = Time.time;
             //shotLineRenderer.SetPosition(1, shotEndLocation);
-            Debug.Log("Shot started! " + shotEndLocation);
+            //Debug.Log("Shot started! " + shotEndLocation);
             shotAnimationStarted = true;
         }
         else {
             // if the shot has been shooting for length shotTimeLength, stop the shot animation.
             if (shotStartTime + shotTimeLength <= Time.time) {
-                Debug.Log(shotStartTime + shotTimeLength + " " + Time.time);
+                //Debug.Log(shotStartTime + shotTimeLength + " " + Time.time);
 
                 //shotLineRenderer.SetPosition(1, this.transform.position + shotStartOffset);
                 shotAnimationStarted = false;
@@ -92,7 +94,7 @@ public class ShotRendererScript : MonoBehaviour
 
     public void startShot(Vector3 shotEndLocation) {
         this.shotEndLocation = shotEndLocation;
-        Debug.Log("Shot started! " + shotEndLocation);
+        //Debug.Log("Shot started! " + shotEndLocation);
         shotFired = true;
     }
 }

@@ -3,48 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class Enemy : MonoBehaviour
+public class Base : Enemy
 {
+    GameObject prevClosestEnemy;
 
-    protected NavMeshAgent myAgent;
-    protected LineRenderer lineRenderer;
-    // Shows a shot/bullet moving towards towards the target
-    protected GameObject shotLineRenderer;
+    public void OnDestroy()
+    {
+        UnitManager.Instance.enemyList.Remove(this.gameObject);
+    }
+    void Awake()
+    {
+        currentHealth = maxHealth;
+    }
 
-    public float currentHealth;
-    public float maxHealth;
-    // How fast this unit attacks measured in seconds
-    public float attackSpeed;
-    // The distance before this unit can start attacking
-    public float range;
-    // How much damage an attack does
-    public float damage;
-    
-    // Denotes the point in time when the unit just shot a bullet
-    protected float startShootTime;
-    // A base delay for the unit to start shooting after acquiring the target. All units should have this > 0, buildings can have 0.
-    protected float aimSpeed;
-    // Denotes the point in time when the unit can start attacking
-    protected float attackCooldown;
-    // Denotes the point in time when the unit just started aiming
-    protected float startAimTime;
-    // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
-    protected bool startedAimingPhase;
-    // Denotes if the unit is currently aimed at an enemy, so it no longer has to wait for its aiming speed
-    protected bool aimedAtUnit;
-
-    // Start is called before the first frame update
     void Start()
     {
+        /*
+         * This code is just instantiation related
+         */
+
         UnitManager.Instance.enemyList.Add(this.gameObject);
         myAgent = this.GetComponent<NavMeshAgent>();
 
-        maxHealth = 100;
+        maxHealth = 5000;
         currentHealth = maxHealth;
-
+        
         shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
         if (shotLineRenderer != null) {
             shotLineRenderer.SetActive(false);
+            shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotStartOffset = new Vector3(0, 6, 0);
         }
 
         lineRenderer = this.GetComponent<LineRenderer>();
@@ -63,7 +50,7 @@ public class Enemy : MonoBehaviour
         startedAimingPhase = false;
     }
 
-    void Update()
+    public void Update()
     {
         // If the unit is in blueprint mode, it shouldn't do anything. TODO: Remove this part later
         if (this.gameObject.tag.Equals("Blueprint"))
@@ -87,17 +74,22 @@ public class Enemy : MonoBehaviour
             {
                 // This chunk checks to see if the unit is trying to shoot through a physical barrier such as a house by using a raycast
                 RaycastHit hit;
-                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range))
+                Debug.Log("Trying to raycast");
+                bool didRaycastHit = Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range);
+                if (didRaycastHit)
                 {
+                    Debug.Log("raycast hit " + hit);
                     if (hit.transform == unit.transform)
                     {
+                        Debug.Log("Raycasted to a target in range " + unit.gameObject);
                         // If the enemy is going to be the current closest enemy and is also in line-of-sight, we save it to be checked further
                         closestUnitDistance = distance;
                         closestUnit = unit;
-
+                    }
+                    else {
+                        Debug.Log("raycast hit itself" + hit);
                     }
                 }
-
             }
         }
 
@@ -141,7 +133,6 @@ public class Enemy : MonoBehaviour
                     if (isCanAttack())
                     {
                         Debug.Log("enemy attacked!");
-                        this.transform.LookAt(closestUnit.transform);
                         attackUnit(closestUnit.transform.GetComponent<Unit>());
                         cantAttack();
                     }
@@ -163,37 +154,9 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    void OnDestroy()
+    public new void MoveToPlace(Vector3 location, int type)
     {
-        UnitManager.Instance.enemyList.Remove(this.gameObject);
-    }
-
-    public void MoveToPlace(Vector3 location)
-    {
-        myAgent.SetDestination(location);
-    }
-
-    public void TakeDamage(float damage)
-    {
-        currentHealth -= damage;
-        if (currentHealth <= 0) {
-            Destroy(this.gameObject);
-        }
-    }
-
-    public float getMaxHealth()
-    {
-        return maxHealth;
-    }
-
-    public float getCurrentHealth()
-    {
-        return currentHealth;
-    }
-
-    public float getStartShootTime()
-    {
-        return startShootTime;
+        
     }
 
     private bool isCanAttack()
@@ -208,9 +171,11 @@ public class Enemy : MonoBehaviour
 
     private void attackUnit(Unit unit)
     {
+        Debug.Log("Base attacked " + unit);
         unit.TakeDamage(damage);
         shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.transform.position);
+        //canMove = false;
         startShootTime = Time.time;
     }
 
@@ -218,5 +183,4 @@ public class Enemy : MonoBehaviour
     {
         attackCooldown = Time.time + attackSpeed;
     }
-
 }
