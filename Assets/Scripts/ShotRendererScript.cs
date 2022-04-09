@@ -60,8 +60,7 @@ public class ShotRendererScript : MonoBehaviour
         // if shot is "fired" (by startShot method call), run the animation
         Debug.Log("Shot started? " + shotAnimationStarted);
         if (shotFired) {
-            shotFired = false;
-            this.gameObject.SetActive(true);    
+            shotFired = false;    
             shotStartTime = Time.time;
             //shotLineRenderer.SetPosition(1, shotEndLocation);
             Debug.Log("Shot started! " + shotEndLocation);

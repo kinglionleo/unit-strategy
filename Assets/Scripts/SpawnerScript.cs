@@ -81,7 +81,7 @@ public class SpawnerScript : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
-                this.gameObject.GetComponent<Animator>().Play("Cursor@Animation", -1, 0f);
+                Instantiate(spawn, hit.point, transform.rotation);
                 spawn = null;
                 Destroy(hold);
                 hold = null;
