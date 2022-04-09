@@ -10,8 +10,13 @@ public class BoltBase : BoltUnit
     // Start Equivalent
     public override void Attached()
     {
-        state.Health = maxHealth;
+        // This ensures that we are only modifying the health variable if we are the owner when the Network instantiates.
+        if (entity.IsOwner)
+        {
+            state.Health = maxHealth;
+        }
         state.AddCallback("Health", HealthCallback);
+
         if (entity.IsOwner)
         {
             this.gameObject.tag = "Player";
@@ -69,6 +74,7 @@ public class BoltBase : BoltUnit
         prevClosestEnemy = null;
         targetPosition = this.transform.position;
         ignoreEnemy = false;
+        hitboxRadius = this.gameObject.GetComponent<BoxCollider>().size.x * this.transform.localScale.x;
     }
 
     public override void SimulateOwner()
@@ -106,7 +112,7 @@ public class BoltBase : BoltUnit
             }
 
             float distance = Mathf.Sqrt((unit.transform.position.x - this.transform.position.x) * (unit.transform.position.x - this.transform.position.x) +
-                             (unit.transform.position.z - this.transform.position.z) * (unit.transform.position.z - this.transform.position.z));
+                             (unit.transform.position.z - this.transform.position.z) * (unit.transform.position.z - this.transform.position.z)) - unit.gameObject.GetComponent<BoltUnit>().getHitboxSize();
 
             // closestDistance is the distance to the closest enemy
             if (distance < closestEnemyDistance)

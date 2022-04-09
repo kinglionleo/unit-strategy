@@ -44,6 +44,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     protected float startShootTime;
     // Denotes the position the unit is going to
     protected Vector3 targetPosition;
+    // Denotes the radius of the hitbox so that it is accounted for in distance comparison
+    protected float hitboxRadius;
 
     // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
     protected bool startedAimingPhase;
@@ -61,8 +63,14 @@ public class BoltUnit : EntityEventListener<IUnit>
     // Start Equivalent
     public override void Attached()
     {
-        state.Health = maxHealth;
+
+        // This ensures that we are only modifying the health variable if we are the owner when the Network instantiates.
+        if(entity.IsOwner)
+        {
+            state.Health = maxHealth;
+        }
         state.AddCallback("Health", HealthCallback);
+
         if (entity.IsOwner)
         {
             this.gameObject.tag = "Player";
@@ -127,6 +135,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         prevClosestEnemy = null;
         targetPosition = this.transform.position;
         ignoreEnemy = false;
+        hitboxRadius = this.gameObject.GetComponent<CapsuleCollider>().radius * this.transform.localScale.x;
     }
 
     public override void SimulateOwner()
@@ -194,7 +203,7 @@ public class BoltUnit : EntityEventListener<IUnit>
             }
 
             float distance = Mathf.Sqrt((unit.transform.position.x - this.transform.position.x) * (unit.transform.position.x - this.transform.position.x) +
-                             (unit.transform.position.z - this.transform.position.z) * (unit.transform.position.z - this.transform.position.z));
+                             (unit.transform.position.z - this.transform.position.z) * (unit.transform.position.z - this.transform.position.z)) - unit.gameObject.GetComponent<BoltUnit>().getHitboxSize();
 
             // closestDistance is the distance to the closest enemy
             if (distance < closestEnemyDistance)
@@ -218,10 +227,12 @@ public class BoltUnit : EntityEventListener<IUnit>
         // Now we check if the closest enemy is in range or not
         if (closestEnemyDistance < range)
         {
+            Debug.Log("In Here 0");
             // really just defensive coding
             // make sure that the enemy is still "alive" aka not set to null
             if (closestEnemy != null)
             {
+                Debug.Log("In Here 1");
                 // This if statement checks if the unit is locking onto a new enemy or not
                 // If the previous enemy that it was aiming at is different from the new closest enemy,
                 // will reset fields startedAim and aimedAtEnemy to start aiming process again.
@@ -238,6 +249,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                 // by logging the current time and setting startedAimingPhase to true.
                 if (!startedAimingPhase && !aimedAtEnemy)
                 {
+                    Debug.Log("In Here 2");
                     startAimTime = Time.time;
                     startedAimingPhase = true;
                 }
@@ -249,11 +261,13 @@ public class BoltUnit : EntityEventListener<IUnit>
                 // This checks if the unit has met the aiming time requirement
                 if (startAimTime + aimSpeed <= Time.time)
                 {
+                    Debug.Log("In Here 3");
                     aimedAtEnemy = true;
                     startedAimingPhase = false;
 
                     if (isCanAttack() && !ignoreEnemy)
                     {
+                        Debug.Log("In Here 4");
                         this.transform.LookAt(closestEnemy.transform);
                         attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>());
                         cantAttack();
@@ -307,6 +321,8 @@ public class BoltUnit : EntityEventListener<IUnit>
         //this.transform.LookAt(location); Need to lerp this
     }
 
+    // It's important to note that this is for a LOCAL ENEMY to have their health updated without needing to access server health.
+    // This is for pure, instantaneous feedback and has nothing to do with an enemy's actual health.
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
@@ -365,6 +381,11 @@ public class BoltUnit : EntityEventListener<IUnit>
     public float getStartShootTime()
     {
         return startShootTime;
+    }
+
+    public float getHitboxSize()
+    {
+        return hitboxRadius;
     }
     protected bool isCanAttack()
     {
