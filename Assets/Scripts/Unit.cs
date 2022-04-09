@@ -264,6 +264,8 @@ public class Unit : MonoBehaviour
     void OnDestroy()
     {
         UnitManager.Instance.unitList.Remove(this.gameObject);
+        // To make sure that units that die get deselected
+        UnitManager.Instance.unitsSelected.Remove(this.gameObject);
     }
 
     // type = 0: ignore move
