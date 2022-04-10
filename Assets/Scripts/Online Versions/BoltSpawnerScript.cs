@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
 using Photon.Bolt;
 
 
@@ -14,8 +15,15 @@ public class BoltSpawnerScript : GlobalEventListener
 
     private GameObject spawn;
     private GameObject hold;
+    // Denotes if we want to spawn something
+    private bool spawning;
+
+    private int resources;
+    private float timer;
+    private bool canIncrease;
 
     public Material blueprint;
+    public Text resourceText;
     public float spawnRadius;
     public GameObject enemy;
     public GameObject basic;
@@ -30,8 +38,6 @@ public class BoltSpawnerScript : GlobalEventListener
     /*
      * Once the scene has finished loading locally, we create our base.
      */
-
-    
     public override void SceneLoadLocalDone(string scene, IProtocolToken token)
     {
         Debug.Log("Loaded!");
@@ -47,11 +53,19 @@ public class BoltSpawnerScript : GlobalEventListener
         {
             spawnBase(new Vector3(-12.78f, 2.5f, -12.78f), Quaternion.Euler(0f, 180f, 0f));
         }
+        resources = 0;
+        timer = 0;
     }
-    
+
+    public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token)
+    {
+        canIncrease = true;
+    }
+
 
     void Awake()
     {
+        canIncrease = false;
         if (_instance != null && _instance != this)
         {
             Destroy(this.gameObject);
@@ -68,6 +82,19 @@ public class BoltSpawnerScript : GlobalEventListener
      */
     void Update()
     {
+        timer += Time.deltaTime;
+        
+        if (canIncrease && timer >= 1.5)
+        {
+            addResource(5);
+            timer = 0;
+        }
+
+        if(!spawning)
+        {
+            return;
+        }
+
         if (spawn == null) return;
 
         // This allows for only one creation of an object "sticking" to where your mouse is.
@@ -108,13 +135,16 @@ public class BoltSpawnerScript : GlobalEventListener
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
-                if(myBaseLocation != null && Vector3.Distance(myBaseLocation, hit.point) <= spawnRadius )
+                if(resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
+                   myBaseLocation != null &&
+                   Vector3.Distance(myBaseLocation, hit.point) <= spawnRadius )
                 {
                     BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
+                    addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
                     spawn = null;
                     Destroy(hold);
                     hold = null;
-                    setActive(false);
+                    spawning = false;
                 }
                 
             }
@@ -126,41 +156,39 @@ public class BoltSpawnerScript : GlobalEventListener
             spawn = null;
             Destroy(hold);
             hold = null;
-            setActive(false);
+            spawning = false;
         }
 
-
-
-        // Go to a raycast on the ground
     }
 
-    public void setActive(bool state)
+    public void addResource(int amount)
     {
-        this.gameObject.SetActive(state);
+        resources += amount;
+        resourceText.text = resources.ToString();
     }
 
     public void spawnEnemy()
     {
         spawn = enemy;
-        this.gameObject.SetActive(true);
+        spawning = true;
     }
 
     public void spawnBasic()
     {
         spawn = basic;
-        this.gameObject.SetActive(true);
+        spawning = true;
     }
 
     public void spawnSniper()
     {
         spawn = sniper;
-        this.gameObject.SetActive(true);
+        spawning = true;
     }
 
     public void spawnTank()
     {
         spawn = tank;
-        this.gameObject.SetActive(true);
+        spawning = true;
     }
 
     public void setBaseLocation(Vector3 position)

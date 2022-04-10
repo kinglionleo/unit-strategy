@@ -28,6 +28,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     public float range;
     // How much damage an attack does
     public float damage;
+    // How much it costs to spawn this unit
+    public int cost;
 
     // If this unit is flying or ground
     public string unitType;
@@ -388,6 +390,11 @@ public class BoltUnit : EntityEventListener<IUnit>
     public float getHitboxSize()
     {
         return hitboxRadius;
+    }
+
+    public int getCost()
+    {
+        return cost;
     }
     protected bool isCanAttack()
     {
