@@ -237,6 +237,9 @@ public class Unit : MonoBehaviour
                         this.transform.LookAt(closestEnemy.transform);
                         attackEnemy(closestEnemy.transform.GetComponent<Enemy>());
                         cantAttack();
+                        if (!selected) {
+                            targetPosition = this.transform.postion;
+                        }
                     }
                 }
             }
