@@ -25,10 +25,10 @@ public class BoltSpawnerScript : GlobalEventListener
     public Material blueprint;
     public Text resourceText;
     public float spawnRadius;
-    public GameObject enemy;
     public GameObject basic;
     public GameObject sniper;
     public GameObject tank;
+    public GameObject juggernaut;
     public GameObject hq;
     public static BoltSpawnerScript Instance
     {
@@ -167,12 +167,6 @@ public class BoltSpawnerScript : GlobalEventListener
         resourceText.text = resources.ToString();
     }
 
-    public void spawnEnemy()
-    {
-        spawn = enemy;
-        spawning = true;
-    }
-
     public void spawnBasic()
     {
         spawn = basic;
@@ -188,6 +182,12 @@ public class BoltSpawnerScript : GlobalEventListener
     public void spawnTank()
     {
         spawn = tank;
+        spawning = true;
+    }
+
+    public void spawnJuggernaut()
+    {
+        spawn = juggernaut;
         spawning = true;
     }
 
