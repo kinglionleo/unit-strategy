@@ -60,12 +60,22 @@ public class UnitClick : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity))
             {
                 if (hit.transform.gameObject.layer == ground) {
-                    UnitManager.Instance.RightClickIgnoreMove(hit.point);
 
+                    if(Input.GetKey(KeyCode.LeftShift)){
+                        //UnitManager.Instance.GroupIgnoreMove(hit.point);
+                    }
+                    else{
+                        UnitManager.Instance.RightClickIgnoreMove(hit.point);
+                    }
                     // This checks for double clicking logic;
                     if(Time.time < lastClickTime + doubleClickSpeed)
                     {
-                        UnitManager.Instance.RightClickAttackMove(hit.point);
+                        if(Input.GetKey(KeyCode.LeftShift)){
+                            UnitManager.Instance.GroupAttackMove(hit.point);
+                        }
+                        else {
+                            UnitManager.Instance.RightClickAttackMove(hit.point);
+                        }
                     }
                     lastClickTime = Time.time;
                     }

@@ -108,7 +108,6 @@ public class Unit : MonoBehaviour
 
     void Update()
     {
-
         // if (currentHealth <= 0) {
         //     Destroy(this.gameObject);
         //     return;
@@ -236,6 +235,9 @@ public class Unit : MonoBehaviour
                     {
                         this.transform.LookAt(closestEnemy.transform);
                         attackEnemy(closestEnemy.transform.GetComponent<Enemy>());
+                        if(this.transform.parent != null) {
+                            this.transform.parent = null;
+                        }
                         cantAttack();
                         if (!selected) {
                             targetPosition = this.transform.position;
@@ -275,6 +277,8 @@ public class Unit : MonoBehaviour
     // type = 1: attack move
     public void MoveToPlace(Vector3 location, int type)
     {
+        this.transform.parent = null;
+
         if(type == 0)
         {
             ignoreEnemy = true;
@@ -290,6 +294,10 @@ public class Unit : MonoBehaviour
         myAgent.SetDestination(targetPosition);
         // sets the final destination to the location clicked.
         //this.transform.LookAt(location); Need to lerp this
+    }
+
+    public void SetParent(GameObject parent) {
+        this.transform.parent = parent.transform;
     }
 
     public void TakeDamage(float damage)
@@ -346,6 +354,10 @@ public class Unit : MonoBehaviour
 
     public GameObject getClosestEnemy() {
         return closestEnemy;
+    }
+
+    public void setIgnoreEnemy(bool ignore) {
+        ignoreEnemy = ignore;
     }
 
     private bool isCanAttack()
