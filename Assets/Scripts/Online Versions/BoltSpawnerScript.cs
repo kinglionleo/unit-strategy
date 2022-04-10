@@ -73,22 +73,22 @@ public class BoltSpawnerScript : GlobalEventListener
         // This allows for only one creation of an object "sticking" to where your mouse is.
         if (hold == null)
         {
-            hold = Instantiate(spawn);
-            hold.gameObject.tag = "Blueprint";
+            hold = Instantiate(spawn.transform.GetChild(1).gameObject);
+            hold.transform.localScale = new Vector3(hold.transform.localScale.x * spawn.transform.localScale.x,
+                                                    hold.transform.localScale.y * spawn.transform.localScale.y,
+                                                    hold.transform.localScale.z * spawn.transform.localScale.z);
             // NavMeshAgent[] navMeshAgents;
             // navMeshAgents = hold.GetComponents<NavMeshAgent>();
             // navMeshAgents[0].enabled = false;
-            hold.gameObject.GetComponent<NavMeshAgent>().enabled = false;
             //((GameObject)hold).GetComponent<Collider>().enabled = false;
 
             // This is to prevent the bug where the blueprint will be added to unitsSelected (as the game detects the click on it) which will then
             // become null after destroying the blueprint.
-            hold.gameObject.layer = 2;
 
             // The 1 refers to the fact that models will always be the second child
-            for (int i = 0; i < hold.transform.GetChild(1).childCount; i++)
+            for (int i = 0; i < hold.transform.childCount; i++)
             {
-                setBlueprintMaterial(hold.transform.GetChild(1).GetChild(i).gameObject);
+                setBlueprintMaterial(hold.transform.GetChild(i).gameObject);
             }
 
             hold.gameObject.SetActive(true);
@@ -99,7 +99,7 @@ public class BoltSpawnerScript : GlobalEventListener
 
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
         {
-            hold.transform.position = hit.point + new Vector3(0, 0.6f, 0);
+            hold.transform.position = hit.point;
         }
 
         if (Input.GetMouseButtonDown(0))

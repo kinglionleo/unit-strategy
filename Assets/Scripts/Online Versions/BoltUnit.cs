@@ -168,7 +168,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         {
             this.transform.GetChild(0).gameObject.SetActive(true);
             this.transform.Find("RangeIndicator").gameObject.SetActive(true);
-            this.transform.Find("RangeIndicator").transform.localScale = new Vector3(range * 4, range * 4, 1);
+            this.transform.Find("RangeIndicator").transform.localScale = new Vector3(range * 2 / this.transform.localScale.x, range * 2 / this.transform.localScale.y, 1);
         }
         else
         {

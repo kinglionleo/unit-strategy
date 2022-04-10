@@ -90,7 +90,7 @@ public class BoltBase : BoltUnit
         if (selected)
         {
             this.transform.Find("RangeIndicator").gameObject.SetActive(true);
-            this.transform.Find("RangeIndicator").transform.localScale = new Vector3(range * 4, range * 4, 1);
+            this.transform.Find("RangeIndicator").transform.localScale = new Vector3(range * 2 / this.transform.localScale.x, range * 2 / this.transform.localScale.x, 1);
         }
         else
         {
