@@ -122,7 +122,7 @@ public class Unit : MonoBehaviour
         if (!canMove)
         {
             myAgent.SetDestination(this.transform.position);
-            
+
             // Checks if the current point in time is greater than the time it shot a bullet and the time it must stay still
             if (Time.time >= startShootTime + acquisitionSpeed)
             {
@@ -235,9 +235,6 @@ public class Unit : MonoBehaviour
                     {
                         this.transform.LookAt(closestEnemy.transform);
                         attackEnemy(closestEnemy.transform.GetComponent<Enemy>());
-                        if(this.transform.parent != null) {
-                            this.transform.parent = null;
-                        }
                         cantAttack();
                         if (!selected) {
                             targetPosition = this.transform.position;
@@ -275,29 +272,34 @@ public class Unit : MonoBehaviour
 
     // type = 0: ignore move
     // type = 1: attack move
-    public void MoveToPlace(Vector3 location, int type)
-    {
-        this.transform.parent = null;
 
-        if(type == 0)
+    // type = 2: ignore group move
+    // type = 3: ignore attack move
+    public void MoveToPlace(Vector3 location, int type, float speed)
+    {
+        if (type == 0 || type == 2)
         {
             ignoreEnemy = true;
         }
-        if(type == 1)
+        if(type == 1 || type == 3)
         {
             ignoreEnemy = false;
         }
         // refactored this line to outside the ifs
         targetPosition = location;
-        
-        myAgent.speed = movementSpeed;
+
+        if(type == 2 || type == 3)
+        {
+            myAgent.speed = speed;
+        }
+        else
+        {
+            myAgent.speed = movementSpeed;
+        }
         myAgent.SetDestination(targetPosition);
+        
         // sets the final destination to the location clicked.
         //this.transform.LookAt(location); Need to lerp this
-    }
-
-    public void SetParent(GameObject parent) {
-        this.transform.parent = parent.transform;
     }
 
     public void TakeDamage(float damage)
@@ -358,6 +360,11 @@ public class Unit : MonoBehaviour
 
     public void setIgnoreEnemy(bool ignore) {
         ignoreEnemy = ignore;
+    }
+
+    public void setTargetPosition(Vector3 position)
+    {
+        targetPosition = position;
     }
 
     private bool isCanAttack()

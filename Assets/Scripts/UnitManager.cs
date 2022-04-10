@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 // source: https://www.youtube.com/watch?v=vAVi04mzeKk
 public class UnitManager : MonoBehaviour
@@ -9,7 +10,6 @@ public class UnitManager : MonoBehaviour
     public List<GameObject> unitList = new List<GameObject>();
     public List<GameObject> enemyList = new List<GameObject>();
     public List<GameObject> unitsSelected = new List<GameObject>();
-    public GameObject groupMover;
 
     private static UnitManager _instance;
 
@@ -77,7 +77,7 @@ public class UnitManager : MonoBehaviour
                 unitList.Remove(unit);
                 continue;
             }
-            unit.gameObject.GetComponent<Unit>().MoveToPlace(location, 1);
+            unit.gameObject.GetComponent<Unit>().MoveToPlace(location, 1, 0);
         }
     }
 
@@ -91,13 +91,10 @@ public class UnitManager : MonoBehaviour
         SelectUIScript.Instance.setAttackMoveMaterials();
         SelectUIScript.Instance.showAtLocation(location);
 
-        GameObject unitsMover = Instantiate(groupMover);
-
         // We need to find the average position;
         int count = 0;
         float lowestMovementSpeed = 10000;
         float xPos = 0;
-        float yPos = 0;
         float zPos = 0;
 
         foreach (var unit in unitsSelected)
@@ -112,7 +109,6 @@ public class UnitManager : MonoBehaviour
                 lowestMovementSpeed = unit.gameObject.GetComponent<Unit>().movementSpeed;
             }
             xPos += unit.transform.position.x;
-            yPos += unit.transform.position.y;
             zPos += unit.transform.position.z;
 
             count++;
@@ -120,12 +116,10 @@ public class UnitManager : MonoBehaviour
         }
 
         xPos /= count;
-        yPos /= count;
         zPos /= count;
 
-        Vector3 averagePosition = new Vector3(xPos, yPos, zPos);
+        Vector3 averagePosition = new Vector3(xPos, 0, zPos);
 
-        unitsMover.gameObject.GetComponent<GroupMoverScript>().SetPosition(averagePosition);
 
         foreach (var unit in unitsSelected)
         {
@@ -135,12 +129,14 @@ public class UnitManager : MonoBehaviour
                 continue;
             }
 
-            unit.gameObject.GetComponent<Unit>().SetParent(unitsMover);
-            unit.gameObject.GetComponent<Unit>().setIgnoreEnemy(false);
-            
+            Vector3 offsetPosition = new Vector3(averagePosition.x - unit.transform.position.x,
+                                                 0,
+                                                 averagePosition.z - unit.transform.position.z);
+
+            unit.gameObject.GetComponent<Unit>().MoveToPlace(new Vector3(location.x - offsetPosition.x, location.y, location.z - offsetPosition.z), 3, lowestMovementSpeed);
+
         }
 
-        unitsMover.gameObject.GetComponent<GroupMoverScript>().MoveToPlace(location, lowestMovementSpeed);
     }
 
     public void RightClickIgnoreMove(Vector3 location)
@@ -160,12 +156,69 @@ public class UnitManager : MonoBehaviour
                 unitList.Remove(unit);
                 continue;
             }
-            unit.gameObject.GetComponent<Unit>().MoveToPlace(location, 0);
+            unit.gameObject.GetComponent<Unit>().MoveToPlace(location, 0, 0);
         }
     }
 
     public void GroupIgnoreMove(Vector3 location) {
 
+        if (unitsSelected.Count <= 1)
+        {
+            RightClickIgnoreMove(location);
+            return;
+        }
+
+        SelectUIScript.Instance.setIgnoreMoveMaterials();
+        SelectUIScript.Instance.showAtLocation(location);
+
+        // We need to find the average position;
+        int count = 0;
+        float lowestMovementSpeed = 10000;
+        float xPos = 0;
+        float zPos = 0;
+
+        foreach (var unit in unitsSelected)
+        {
+            // if unit dies when player still has it selected
+            if (unit == null)
+            {
+                unitList.Remove(unit);
+                continue;
+            }
+
+            if (unit.gameObject.GetComponent<Unit>().movementSpeed < lowestMovementSpeed)
+            {
+                lowestMovementSpeed = unit.gameObject.GetComponent<Unit>().movementSpeed;
+            }
+            xPos += unit.transform.position.x;
+            zPos += unit.transform.position.z;
+
+            count++;
+
+        }
+
+        xPos /= count;
+        zPos /= count;
+
+        Vector3 averagePosition = new Vector3(xPos, 0, zPos);
+
+
+        foreach (var unit in unitsSelected)
+        {
+            // if unit dies when player still has it selected
+            if (unit == null)
+            {
+                unitList.Remove(unit);
+                continue;
+            }
+
+            Vector3 offsetPosition = new Vector3(averagePosition.x - unit.transform.position.x,
+                                                 0,
+                                                 averagePosition.z - unit.transform.position.z);
+
+            unit.gameObject.GetComponent<Unit>().MoveToPlace(new Vector3(location.x - offsetPosition.x, location.y, location.z - offsetPosition.z), 2, lowestMovementSpeed);
+
+        }
     }
 
     public void DragSelect(GameObject unitToAdd)

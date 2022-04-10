@@ -231,7 +231,6 @@ public class BoltUnit : EntityEventListener<IUnit>
         // Now we check if the closest enemy is in range or not
         if (closestEnemyDistance < range)
         {
-            Debug.Log("In Here 0");
             // really just defensive coding
             // make sure that the enemy is still "alive" aka not set to null
             if (closestEnemy != null)
@@ -253,7 +252,6 @@ public class BoltUnit : EntityEventListener<IUnit>
                 // by logging the current time and setting startedAimingPhase to true.
                 if (!startedAimingPhase && !aimedAtEnemy)
                 {
-                    Debug.Log("In Here 2");
                     startAimTime = Time.time;
                     startedAimingPhase = true;
                 }
@@ -265,16 +263,18 @@ public class BoltUnit : EntityEventListener<IUnit>
                 // This checks if the unit has met the aiming time requirement
                 if (startAimTime + aimSpeed <= Time.time)
                 {
-                    Debug.Log("In Here 3");
                     aimedAtEnemy = true;
                     startedAimingPhase = false;
 
                     if (isCanAttack() && !ignoreEnemy)
                     {
-                        Debug.Log("In Here 4");
                         this.transform.LookAt(closestEnemy.transform);
                         attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>());
                         cantAttack();
+                        if (!selected)
+                        {
+                            targetPosition = this.transform.position;
+                        }
                     }
                 }
             }
@@ -306,20 +306,27 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     // type = 0: ignore move
     // type = 1: attack move
-    public void MoveToPlace(Vector3 location, int type)
+    public void MoveToPlace(Vector3 location, int type, float speed)
     {
-        if (type == 0)
+        if (type == 0 || type == 2)
         {
             ignoreEnemy = true;
         }
-        if (type == 1)
+        if (type == 1 || type == 3)
         {
             ignoreEnemy = false;
         }
         // refactored this line to outside the ifs
         targetPosition = location;
 
-        myAgent.speed = movementSpeed;
+        if (type == 2 || type == 3)
+        {
+            myAgent.speed = speed;
+        }
+        else
+        {
+            myAgent.speed = movementSpeed;
+        }
         myAgent.SetDestination(targetPosition);
         // sets the final destination to the location clicked.
         //this.transform.LookAt(location); Need to lerp this

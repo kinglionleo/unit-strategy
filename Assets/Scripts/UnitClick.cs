@@ -62,7 +62,7 @@ public class UnitClick : MonoBehaviour
                 if (hit.transform.gameObject.layer == ground) {
 
                     if(Input.GetKey(KeyCode.LeftShift)){
-                        //UnitManager.Instance.GroupIgnoreMove(hit.point);
+                        UnitManager.Instance.GroupIgnoreMove(hit.point);
                     }
                     else{
                         UnitManager.Instance.RightClickIgnoreMove(hit.point);

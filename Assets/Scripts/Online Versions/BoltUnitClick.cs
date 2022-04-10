@@ -60,14 +60,27 @@ public class BoltUnitClick : MonoBehaviour
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
 
+                if (Input.GetKey(KeyCode.LeftShift))
+                {
+                    BoltUnitManager.Instance.GroupIgnoreMove(hit.point);
+                }
+                else
+                {
                     BoltUnitManager.Instance.RightClickIgnoreMove(hit.point);
-
-                    // This checks for double clicking logic;
-                    if(Time.time < lastClickTime + doubleClickSpeed)
+                }
+                // This checks for double clicking logic;
+                if (Time.time < lastClickTime + doubleClickSpeed)
+                {
+                    if (Input.GetKey(KeyCode.LeftShift))
+                    {
+                        BoltUnitManager.Instance.GroupAttackMove(hit.point);
+                    }
+                    else
                     {
                         BoltUnitManager.Instance.RightClickAttackMove(hit.point);
                     }
-                    lastClickTime = Time.time;
+                }
+                lastClickTime = Time.time;
                
             }
         }

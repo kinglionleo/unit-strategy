@@ -77,8 +77,71 @@ public class BoltUnitManager : MonoBehaviour
                 unitList.Remove(unit);
                 continue;
             }
-            unit.gameObject.GetComponent<BoltUnit>().MoveToPlace(location, 1);
+            unit.gameObject.GetComponent<BoltUnit>().MoveToPlace(location, 1, 0);
         }
+    }
+
+    public void GroupAttackMove(Vector3 location)
+    {
+
+        if (unitsSelected.Count <= 1)
+        {
+            RightClickAttackMove(location);
+            return;
+        }
+
+        SelectUIScript.Instance.setAttackMoveMaterials();
+        SelectUIScript.Instance.showAtLocation(location);
+
+        // We need to find the average position;
+        int count = 0;
+        float lowestMovementSpeed = 10000;
+        float xPos = 0;
+        float zPos = 0;
+
+        foreach (var unit in unitsSelected)
+        {
+            // if unit dies when player still has it selected
+            if (unit == null)
+            {
+                unitList.Remove(unit);
+                continue;
+            }
+
+            if (unit.gameObject.GetComponent<BoltUnit>().movementSpeed < lowestMovementSpeed)
+            {
+                lowestMovementSpeed = unit.gameObject.GetComponent<BoltUnit>().movementSpeed;
+            }
+            xPos += unit.transform.position.x;
+            zPos += unit.transform.position.z;
+
+            count++;
+
+        }
+
+        xPos /= count;
+        zPos /= count;
+
+        Vector3 averagePosition = new Vector3(xPos, 0, zPos);
+
+
+        foreach (var unit in unitsSelected)
+        {
+            // if unit dies when player still has it selected
+            if (unit == null)
+            {
+                unitList.Remove(unit);
+                continue;
+            }
+
+            Vector3 offsetPosition = new Vector3(averagePosition.x - unit.transform.position.x,
+                                                 0,
+                                                 averagePosition.z - unit.transform.position.z);
+
+            unit.gameObject.GetComponent<BoltUnit>().MoveToPlace(new Vector3(location.x - offsetPosition.x, location.y, location.z - offsetPosition.z), 3, lowestMovementSpeed);
+
+        }
+
     }
 
     public void RightClickIgnoreMove(Vector3 location)
@@ -98,8 +161,71 @@ public class BoltUnitManager : MonoBehaviour
                 unitList.Remove(unit);
                 continue;
             }
-            unit.gameObject.GetComponent<BoltUnit>().MoveToPlace(location, 0);
+            unit.gameObject.GetComponent<BoltUnit>().MoveToPlace(location, 0, 0);
         }
+    }
+
+    public void GroupIgnoreMove(Vector3 location)
+    {
+
+        if (unitsSelected.Count <= 1)
+        {
+            RightClickIgnoreMove(location);
+            return;
+        }
+
+        SelectUIScript.Instance.setIgnoreMoveMaterials();
+        SelectUIScript.Instance.showAtLocation(location);
+
+        // We need to find the average position;
+        int count = 0;
+        float lowestMovementSpeed = 10000;
+        float xPos = 0;
+        float zPos = 0;
+
+        foreach (var unit in unitsSelected)
+        {
+            // if unit dies when player still has it selected
+            if (unit == null)
+            {
+                unitList.Remove(unit);
+                continue;
+            }
+
+            if (unit.gameObject.GetComponent<BoltUnit>().movementSpeed < lowestMovementSpeed)
+            {
+                lowestMovementSpeed = unit.gameObject.GetComponent<BoltUnit>().movementSpeed;
+            }
+            xPos += unit.transform.position.x;
+            zPos += unit.transform.position.z;
+
+            count++;
+
+        }
+
+        xPos /= count;
+        zPos /= count;
+
+        Vector3 averagePosition = new Vector3(xPos, 0, zPos);
+
+
+        foreach (var unit in unitsSelected)
+        {
+            // if unit dies when player still has it selected
+            if (unit == null)
+            {
+                unitList.Remove(unit);
+                continue;
+            }
+
+            Vector3 offsetPosition = new Vector3(averagePosition.x - unit.transform.position.x,
+                                                 0,
+                                                 averagePosition.z - unit.transform.position.z);
+
+            unit.gameObject.GetComponent<BoltUnit>().MoveToPlace(new Vector3(location.x - offsetPosition.x, location.y, location.z - offsetPosition.z), 2, lowestMovementSpeed);
+
+        }
+
     }
 
     public void DragSelect(GameObject unitToAdd)
