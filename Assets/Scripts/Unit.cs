@@ -29,6 +29,8 @@ public class Unit : MonoBehaviour
     public float range;
     // How much damage an attack does
     public float damage;
+    // The splash radius of an attack
+    public float damageRadius;
 
     // If this unit is flying or ground
     public string unitType;
@@ -302,9 +304,23 @@ public class Unit : MonoBehaviour
         //this.transform.LookAt(location); Need to lerp this
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, float damageRadius)
     {
         currentHealth -= damage;
+
+        if(damageRadius != 0) {
+
+            foreach (var unit in UnitManager.Instance.unitList) {
+
+                if (unit == null) {
+                    UnitManager.Instance.unitList.Remove(unit);
+                    continue;
+                }
+                if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
+                    unit.gameObject.GetComponent<Unit>().TakeDamage(damage, 0);
+                }
+            }
+        }
         if (currentHealth <= 0) {
             Destroy(this.gameObject);
         }
@@ -379,7 +395,7 @@ public class Unit : MonoBehaviour
 
     private void attackEnemy(Enemy enemy)
     {
-        enemy.TakeDamage(damage);
+        enemy.TakeDamage(damage, damageRadius);
         shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.transform.position);
         stationaryIndicator.SetActive(true);

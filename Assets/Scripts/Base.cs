@@ -172,7 +172,7 @@ public class Base : Enemy
     private void attackUnit(Unit unit)
     {
         Debug.Log("Base attacked " + unit);
-        unit.TakeDamage(damage);
+        unit.TakeDamage(damage, 0);
         shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.transform.position);
         //canMove = false;

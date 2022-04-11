@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
     public float range;
     // How much damage an attack does
     public float damage;
+    // The splash radius of an attack
+    public float damageRadius;
     
     // Denotes the point in time when the unit just shot a bullet
     protected float startShootTime;
@@ -39,7 +41,6 @@ public class Enemy : MonoBehaviour
         UnitManager.Instance.enemyList.Add(this.gameObject);
         myAgent = this.GetComponent<NavMeshAgent>();
 
-        maxHealth = 100;
         currentHealth = maxHealth;
 
         shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
@@ -173,9 +174,24 @@ public class Enemy : MonoBehaviour
         myAgent.SetDestination(location);
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, float damageRadius)
     {
         currentHealth -= damage;
+
+        if(damageRadius != 0) {
+
+            foreach (var unit in UnitManager.Instance.enemyList) {
+
+                if (unit == null) {
+                    UnitManager.Instance.enemyList.Remove(unit);
+                    continue;
+                }
+                if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
+                    unit.gameObject.GetComponent<Enemy>().TakeDamage(damage, 0);
+                }
+            }
+        }
+
         if (currentHealth <= 0) {
             Destroy(this.gameObject);
         }
@@ -208,7 +224,7 @@ public class Enemy : MonoBehaviour
 
     private void attackUnit(Unit unit)
     {
-        unit.TakeDamage(damage);
+        unit.TakeDamage(damage, damageRadius);
         shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.transform.position);
         startShootTime = Time.time;

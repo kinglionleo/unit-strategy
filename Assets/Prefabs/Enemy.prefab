@@ -138,12 +138,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 08c9b77c44ccd8c41b19e197bec987c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentHealth: 400
-  maxHealth: 400
+  currentHealth: 100
+  maxHealth: 100
   attackSpeed: 0.5
-  aimSpeed: 0.5
   range: 5
   damage: 10
+  damageRadius: 0
 --- !u!95 &3427469148858093651
 Animator:
   serializedVersion: 3
