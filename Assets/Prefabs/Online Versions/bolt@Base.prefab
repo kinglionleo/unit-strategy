@@ -157,6 +157,7 @@ MonoBehaviour:
   movementSpeed: 0
   range: 6
   damage: 10
+  damageRadius: 0
   cost: 0
   unitType: ground
   damageType: single

@@ -186,6 +186,9 @@ public class Enemy : MonoBehaviour
                     UnitManager.Instance.enemyList.Remove(unit);
                     continue;
                 }
+                if (GameObject.ReferenceEquals(unit, this.gameObject)) {
+                    continue;
+                }
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
                     unit.gameObject.GetComponent<Enemy>().TakeDamage(damage, 0);
                 }

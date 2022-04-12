@@ -316,6 +316,10 @@ public class Unit : MonoBehaviour
                     UnitManager.Instance.unitList.Remove(unit);
                     continue;
                 }
+                if (GameObject.ReferenceEquals(unit, this.gameObject)) {
+                    continue;
+                }
+                
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
                     unit.gameObject.GetComponent<Unit>().TakeDamage(damage, 0);
                 }

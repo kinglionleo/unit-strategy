@@ -28,6 +28,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     public float range;
     // How much damage an attack does
     public float damage;
+    // The radius of this attack
+    public float damageRadius;
     // How much it costs to spawn this unit
     public int cost;
 
@@ -342,6 +344,23 @@ public class BoltUnit : EntityEventListener<IUnit>
     public override void OnEvent(ReceiveDamage e) {
 
         state.Health -= e.DamageTaken;
+
+        if(e.DamageRadius != 0) {
+
+            foreach (var unit in BoltUnitManager.Instance.unitList) {
+
+                if (unit == null) {
+                    BoltUnitManager.Instance.unitList.Remove(unit);
+                    continue;
+                }
+                if (GameObject.ReferenceEquals(unit, this.gameObject)) {
+                    continue;
+                }
+                if(Vector3.Distance(unit.transform.position, this.transform.position) <= e.DamageRadius) {
+                    unit.gameObject.GetComponent<BoltUnit>().state.Health -= e.DamageTaken;
+                }
+            }
+        }
     }
 
     protected void HealthCallback()
@@ -419,6 +438,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         Debug.Log(enemy.gameObject.tag);
         ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
         e.DamageTaken = damage;
+        e.DamageRadius = damageRadius;
         e.Send();
 
         stationaryIndicator.SetActive(true);
