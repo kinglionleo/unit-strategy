@@ -177,8 +177,9 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage, float damageRadius)
     {
         currentHealth -= damage;
+        LeanTween.scale(this.gameObject, this.transform.localScale * 0.9f, 0.05f).setLoopPingPong(1);
 
-        if(damageRadius != 0) {
+        if (damageRadius != 0) {
 
             foreach (var unit in UnitManager.Instance.enemyList) {
 

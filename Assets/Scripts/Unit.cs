@@ -140,7 +140,7 @@ public class Unit : MonoBehaviour
         {
             this.transform.GetChild(0).gameObject.SetActive(true);
             this.transform.Find("RangeIndicator").gameObject.SetActive(true);
-            this.transform.Find("RangeIndicator").transform.localScale = new Vector3(range*4, range*4, 1);
+            this.transform.Find("RangeIndicator").transform.localScale = new Vector3(range * 2 / this.transform.localScale.x, range * 2 / this.transform.localScale.y, 1);
         }
         else
         {
@@ -307,6 +307,7 @@ public class Unit : MonoBehaviour
     public void TakeDamage(float damage, float damageRadius)
     {
         currentHealth -= damage;
+        LeanTween.scale(this.gameObject, this.transform.localScale * 0.9f, 0.05f).setLoopPingPong(1);
 
         if(damageRadius != 0) {
 

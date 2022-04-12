@@ -216,6 +216,7 @@ public class BoltBase : BoltUnit
         Debug.Log(enemy.gameObject.tag);
         ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
         e.DamageTaken = damage;
+        e.DamageRadius = damageRadius;
         e.Send();
         startShootTime = Time.time;
     }
