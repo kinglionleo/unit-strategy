@@ -12,6 +12,8 @@ public class Unit : MonoBehaviour
     GameObject shotLineRenderer;
     // The black acquisition circle that appears when a unit becomes stationary
     GameObject stationaryIndicator;
+    // White circle that appears when a unit is aiming
+    GameObject aimingIndicator;
     Animator animator;
 
     public float maxHealth;
@@ -85,6 +87,9 @@ public class Unit : MonoBehaviour
 
         stationaryIndicator = this.transform.Find("StationaryIndicator").gameObject;
         stationaryIndicator.SetActive(false);
+
+        aimingIndicator = this.transform.Find("AimingIndicator").gameObject;
+        aimingIndicator.SetActive(false);
 
         shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
         if (shotLineRenderer != null) {
@@ -245,6 +250,7 @@ public class Unit : MonoBehaviour
                 if (!startedAimingPhase && !aimedAtEnemy) {
                     startAimTime = Time.time;
                     startedAimingPhase = true;
+                    aimingIndicator.SetActive(true);
                 }
 
                 // This draws a line from the unit's current position to the closest enemy in range.
@@ -255,6 +261,7 @@ public class Unit : MonoBehaviour
                 if (startAimTime + aimSpeed <= Time.time) 
                 {
                     aimedAtEnemy = true;
+                    aimingIndicator.SetActive(false);
                     startedAimingPhase = false;
 
                     if (isCanAttack() && !ignoreEnemy)
@@ -272,6 +279,7 @@ public class Unit : MonoBehaviour
             {
                 startedAimingPhase = false;
                 aimedAtEnemy = false;
+                aimingIndicator.SetActive(false);
             }
         }
         else // whatever the closest target is, is not in range of the unit
@@ -282,6 +290,7 @@ public class Unit : MonoBehaviour
             // if there is no enemy in range, the unit must aim again.
             startedAimingPhase = false;
             aimedAtEnemy = false;
+            aimingIndicator.SetActive(false);
             // This makes it so no line is drawn since it is the same point
             lineRenderer.SetPosition(0, new Vector3(0,0,0));
             lineRenderer.SetPosition(1, new Vector3(0,0,0));
@@ -402,6 +411,10 @@ public class Unit : MonoBehaviour
 
     public GameObject getClosestEnemy() {
         return closestEnemy;
+    }
+
+    public float getStartAimTime() {
+        return startAimTime;
     }
 
     public void setIgnoreEnemy(bool ignore) {
