@@ -144,6 +144,7 @@ MonoBehaviour:
   range: 5
   damage: 10
   damageRadius: 0
+  flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
 --- !u!95 &3427469148858093651
 Animator:
   serializedVersion: 3

@@ -36,8 +36,10 @@ public class Unit : MonoBehaviour
     public string unitType;
     // If this unit deals splash or individual damage
     public string damageType;
-    
-    // The remaining two stats "unitCount" and "cost" will be stored in the UnitManager
+
+    public Material flashMaterial;
+    private bool materialsChanged;
+    private Material[][] myMaterials;
 
     // Denotes the point in time when the unit can start attacking
     private float attackCooldown;
@@ -47,6 +49,8 @@ public class Unit : MonoBehaviour
     private float startShootTime;
     // Denotes the position the unit is going to
     private Vector3 targetPosition;
+    // The time when this unit took damage
+    private float damageTakenTime;
 
     // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
     private bool startedAimingPhase;
@@ -97,6 +101,16 @@ public class Unit : MonoBehaviour
         this.transform.Find("HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
 
+        myMaterials = new Material[this.transform.GetChild(1).childCount][];
+        for(int i = 0; i < myMaterials.Length; i++)
+        {
+            myMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
+            for(int j = 0; j < myMaterials[i].Length; j++)
+            {
+                myMaterials[i][j] = this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials[j];
+            }
+        }
+
         attackCooldown = 0;
         startAimTime = 0;
         startShootTime = 0;
@@ -118,6 +132,12 @@ public class Unit : MonoBehaviour
         if (this.gameObject.tag.Equals("Blueprint"))
         {
             return;
+        }
+
+        if (materialsChanged && Time.time >= damageTakenTime + 0.1)
+        {
+            revertToNormalMaterials();
+            materialsChanged = false;
         }
 
         // If the unit cannot move, it checks for if it has stayed still for long enough, then allows it to move
@@ -307,7 +327,8 @@ public class Unit : MonoBehaviour
     public void TakeDamage(float damage, float damageRadius)
     {
         currentHealth -= damage;
-        LeanTween.scale(this.gameObject, this.transform.localScale * 0.9f, 0.05f).setLoopPingPong(1);
+        damageTakenTime = Time.time;
+        flashAnimation();
 
         if(damageRadius != 0) {
 
@@ -411,5 +432,30 @@ public class Unit : MonoBehaviour
     private void cantAttack()
     {
         attackCooldown = Time.time + attackSpeed;
+    }
+
+    private void flashAnimation()
+    {
+        int count = this.transform.GetChild(1).childCount;
+        for(int i = 0; i < count; i++)
+        {
+            Material[] m = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
+            for(int j = 0; j < m.Length; j++)
+            {
+                m[j] = flashMaterial;
+            }
+            this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = m;
+        }
+        materialsChanged = true;
+
+    }
+
+    private void revertToNormalMaterials()
+    {
+        int count = this.transform.GetChild(1).childCount;
+        for (int i = 0; i < count; i++)
+        {
+            this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = myMaterials[i];
+        }
     }
 }

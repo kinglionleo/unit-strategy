@@ -21,7 +21,13 @@ public class Enemy : MonoBehaviour
     public float damage;
     // The splash radius of an attack
     public float damageRadius;
-    
+
+    public Material flashMaterial;
+    private bool materialsChanged;
+    private Material[][] myMaterials;
+
+    private float damageTakenTime;
+
     // Denotes the point in time when the unit just shot a bullet
     protected float startShootTime;
     // A base delay for the unit to start shooting after acquiring the target. All units should have this > 0, buildings can have 0.
@@ -56,6 +62,16 @@ public class Enemy : MonoBehaviour
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
 
+        myMaterials = new Material[this.transform.GetChild(1).childCount][];
+        for (int i = 0; i < myMaterials.Length; i++)
+        {
+            myMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
+            for (int j = 0; j < myMaterials[i].Length; j++)
+            {
+                myMaterials[i][j] = this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials[j];
+            }
+        }
+
         this.transform.Find("EnemyHealthBar").gameObject.SetActive(true);
         attackCooldown = 0;
         startAimTime = 0;
@@ -71,6 +87,13 @@ public class Enemy : MonoBehaviour
         {
             return;
         }
+
+        if (materialsChanged && Time.time >= damageTakenTime + 0.1)
+        {
+            revertToNormalMaterials();
+            materialsChanged = false;
+        }
+
         if (currentHealth <= 0) Destroy(this.gameObject);
         // Loop through all enemies
 
@@ -177,7 +200,8 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage, float damageRadius)
     {
         currentHealth -= damage;
-        LeanTween.scale(this.gameObject, this.transform.localScale * 0.9f, 0.05f).setLoopPingPong(1);
+        damageTakenTime = Time.time;
+        flashAnimation();
 
         if (damageRadius != 0) {
 
@@ -237,6 +261,31 @@ public class Enemy : MonoBehaviour
     private void cantAttack()
     {
         attackCooldown = Time.time + attackSpeed;
+    }
+
+    private void flashAnimation()
+    {
+        int count = this.transform.GetChild(1).childCount;
+        for (int i = 0; i < count; i++)
+        {
+            Material[] m = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
+            for (int j = 0; j < m.Length; j++)
+            {
+                m[j] = flashMaterial;
+            }
+            this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = m;
+        }
+        materialsChanged = true;
+
+    }
+
+    private void revertToNormalMaterials()
+    {
+        int count = this.transform.GetChild(1).childCount;
+        for (int i = 0; i < count; i++)
+        {
+            this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = myMaterials[i];
+        }
     }
 
 }

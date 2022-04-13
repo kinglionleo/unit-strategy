@@ -272,8 +272,10 @@ MonoBehaviour:
   movementSpeed: 2.4
   range: 1
   damage: 0
+  damageRadius: 0
   unitType: ground
   damageType: individual
+  flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
 --- !u!195 &-8346763537606935791
 NavMeshAgent:
   m_ObjectHideFlags: 0
