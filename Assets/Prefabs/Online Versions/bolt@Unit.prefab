@@ -307,8 +307,9 @@ MonoBehaviour:
   movementSpeed: 2
   range: 4
   damage: 15
-  damageRadius: 1.5
-  cost: 30
+  damageRadius: 0
+  cost: 20
+  flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
   unitType: ground
   damageType: single
 --- !u!1 &8938795362695547254

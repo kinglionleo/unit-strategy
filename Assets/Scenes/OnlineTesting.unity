@@ -195,7 +195,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Basic
 
-    (30)'
+    (20)'
 --- !u!222 &123882659
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -484,7 +484,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Tank
 
-    (60)'
+    (30)'
 --- !u!222 &303284826
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1412,7 +1412,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Sniper
 
-    (50)'
+    (25)'
 --- !u!222 &1330447547
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2211,7 +2211,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Juggernaut
 
-    (200)'
+    (40)'
 --- !u!222 &1969759954
 CanvasRenderer:
   m_ObjectHideFlags: 0

@@ -299,16 +299,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44661da1d44b01d4498cdc822f24718e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 80
-  currentHealth: 80
+  maxHealth: 70
+  currentHealth: 70
   attackSpeed: 2
-  acquisitionSpeed: 4
+  acquisitionSpeed: 0.2
   aimSpeed: 0.5
-  movementSpeed: 1.5
-  range: 6
-  damage: 25
+  movementSpeed: 2.2
+  range: 5
+  damage: 12
   damageRadius: 0
-  cost: 50
+  cost: 25
+  flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
   unitType: ground
   damageType: single
 --- !u!1 &8938795362695547254

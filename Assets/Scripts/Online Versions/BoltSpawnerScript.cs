@@ -54,6 +54,7 @@ public class BoltSpawnerScript : GlobalEventListener
             spawnBase(new Vector3(-12.78f, 2.5f, -12.78f), Quaternion.Euler(0f, 180f, 0f));
         }
         resources = 0;
+        addResource(50);
         timer = 0;
     }
 

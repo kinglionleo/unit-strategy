@@ -153,12 +153,13 @@ MonoBehaviour:
   currentHealth: 2000
   attackSpeed: 1
   acquisitionSpeed: 0
-  aimSpeed: 2
+  aimSpeed: 1
   movementSpeed: 0
   range: 6
-  damage: 10
-  damageRadius: 0
+  damage: 20
+  damageRadius: 2
   cost: 0
+  flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
   unitType: ground
   damageType: single
 --- !u!114 &-2401226785905083680

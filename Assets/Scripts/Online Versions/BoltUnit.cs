@@ -33,6 +33,11 @@ public class BoltUnit : EntityEventListener<IUnit>
     // How much it costs to spawn this unit
     public int cost;
 
+    public Material flashMaterial;
+    protected bool materialsChanged;
+    protected Material[][] myMaterials;
+    protected Material[][] flashMaterials;
+
     // If this unit is flying or ground
     public string unitType;
     // If this unit deals splash or individual damage
@@ -50,6 +55,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     protected Vector3 targetPosition;
     // Denotes the radius of the hitbox so that it is accounted for in distance comparison
     protected float hitboxRadius;
+    // Denotes when this unit took damage
+    protected float damageTakenTime;
 
     // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
     protected bool startedAimingPhase;
@@ -130,6 +137,19 @@ public class BoltUnit : EntityEventListener<IUnit>
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
 
+        myMaterials = new Material[this.transform.GetChild(1).childCount][];
+        flashMaterials = new Material[this.transform.GetChild(1).childCount][];
+        for (int i = 0; i < myMaterials.Length; i++)
+        {
+            myMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
+            flashMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
+            for (int j = 0; j < myMaterials[i].Length; j++)
+            {
+                myMaterials[i][j] = this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials[j];
+                flashMaterials[i][j] = flashMaterial;
+            }
+        }
+
         this.transform.Find("bolt@HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
         attackCooldown = 0;
@@ -142,6 +162,15 @@ public class BoltUnit : EntityEventListener<IUnit>
         targetPosition = this.transform.position;
         ignoreEnemy = false;
         hitboxRadius = this.gameObject.GetComponent<CapsuleCollider>().radius * this.transform.localScale.x;
+    }
+
+    void Update()
+    {
+        if (materialsChanged && Time.time >= damageTakenTime + 0.1)
+        {
+            revertToNormalMaterials();
+            materialsChanged = false;
+        }
     }
 
     public override void SimulateOwner()
@@ -339,13 +368,19 @@ public class BoltUnit : EntityEventListener<IUnit>
     public void TakeDamage(float damage)
     {
         currentHealth -= damage;
+
+        damageTakenTime = Time.time;
+        flashAnimation();
     }
 
     public override void OnEvent(ReceiveDamage e) {
 
         state.Health -= e.DamageTaken;
 
-        if(e.DamageRadius != 0) {
+        damageTakenTime = Time.time;
+        flashAnimation();
+
+        if (e.DamageRadius != 0) {
 
             foreach (var unit in BoltUnitManager.Instance.unitList) {
 
@@ -449,5 +484,25 @@ public class BoltUnit : EntityEventListener<IUnit>
     protected void cantAttack()
     {
         attackCooldown = Time.time + attackSpeed;
+    }
+
+    protected void flashAnimation()
+    {
+        int count = this.transform.GetChild(1).childCount;
+        for (int i = 0; i < count; i++)
+        {
+            this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = flashMaterials[i];
+        }
+        materialsChanged = true;
+
+    }
+
+    protected void revertToNormalMaterials()
+    {
+        int count = this.transform.GetChild(1).childCount;
+        for (int i = 0; i < count; i++)
+        {
+            this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = myMaterials[i];
+        }
     }
 }

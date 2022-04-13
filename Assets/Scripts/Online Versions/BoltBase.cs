@@ -206,8 +206,10 @@ public class BoltBase : BoltUnit
 
     public override void OnEvent(ReceiveDamage e)
     {
-
         state.Health -= e.DamageTaken;
+
+        damageTakenTime = Time.time;
+        flashAnimation();
     }
 
     protected new void attackEnemy(BoltUnit enemy)

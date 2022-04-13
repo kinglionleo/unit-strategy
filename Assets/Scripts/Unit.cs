@@ -40,6 +40,7 @@ public class Unit : MonoBehaviour
     public Material flashMaterial;
     private bool materialsChanged;
     private Material[][] myMaterials;
+    private Material[][] flashMaterials;
 
     // Denotes the point in time when the unit can start attacking
     private float attackCooldown;
@@ -102,12 +103,15 @@ public class Unit : MonoBehaviour
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
 
         myMaterials = new Material[this.transform.GetChild(1).childCount][];
-        for(int i = 0; i < myMaterials.Length; i++)
+        flashMaterials = new Material[this.transform.GetChild(1).childCount][];
+        for (int i = 0; i < myMaterials.Length; i++)
         {
             myMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
-            for(int j = 0; j < myMaterials[i].Length; j++)
+            flashMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
+            for (int j = 0; j < myMaterials[i].Length; j++)
             {
                 myMaterials[i][j] = this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials[j];
+                flashMaterials[i][j] = flashMaterial;
             }
         }
 
@@ -437,14 +441,9 @@ public class Unit : MonoBehaviour
     private void flashAnimation()
     {
         int count = this.transform.GetChild(1).childCount;
-        for(int i = 0; i < count; i++)
+        for (int i = 0; i < count; i++)
         {
-            Material[] m = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
-            for(int j = 0; j < m.Length; j++)
-            {
-                m[j] = flashMaterial;
-            }
-            this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = m;
+            this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = flashMaterials[i];
         }
         materialsChanged = true;
 
