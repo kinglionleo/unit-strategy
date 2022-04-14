@@ -73,7 +73,6 @@ public class ShotRendererScript : MonoBehaviour
         if (shotFired) {
             shotFired = false; // reset immediately for next shot.
             shotStartTime = Time.time;
-            calculateShotTimeLengthOnVelocity();
             //shotLineRenderer.SetPosition(1, shotEndLocation);
             //Debug.Log("Shot started! " + shotEndLocation);
             shotAnimationStarted = true;
@@ -114,5 +113,6 @@ public class ShotRendererScript : MonoBehaviour
         this.shotEndLocation = shotEndLocation;
         //Debug.Log("Shot started! " + shotEndLocation);
         shotFired = true;
+        calculateShotTimeLengthOnVelocity();
     }
 }

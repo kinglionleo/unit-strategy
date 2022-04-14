@@ -266,11 +266,11 @@ public class Unit : MonoBehaviour
                     aimedAtEnemy = true;
                     aimingIndicator.SetActive(false);
                     startedAimingPhase = false;
-
-                    if (isCanAttack() && !ignoreEnemy)
+                    Enemy enemyToAttack = closestEnemy.transform.GetComponent<Enemy>();
+                    if (isCanAttack() && !ignoreEnemy && enemyToAttack.getTrueCurrentHealth() > 0)
                     {
                         this.transform.LookAt(closestEnemy.transform);
-                        attackEnemy(closestEnemy.transform.GetComponent<Enemy>());
+                        attackEnemy(enemyToAttack);
                         cantAttack();
                         if (!selected) {
                             targetPosition = this.transform.position;
@@ -445,9 +445,12 @@ public class Unit : MonoBehaviour
 
     private void attackEnemy(Enemy enemy)
     {
-        enemy.TakeDamage(damage, damageRadius);
         shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.transform.position);
+        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotTimeLength;
+        // need to call TakeDamage after we know how long the shot will take to arrive at enemy
+        enemy.TakeDamage(damage, damageRadius, takeDamageDelay);
+
         stationaryIndicator.SetActive(true);
         canMove = false;
         startShootTime = Time.time;

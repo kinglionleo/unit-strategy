@@ -10,7 +10,10 @@ public class Enemy : MonoBehaviour
     protected LineRenderer lineRenderer;
     // Shows a shot/bullet moving towards towards the target
     protected GameObject shotLineRenderer;
-
+    // The health that is equivalent to the "damage" that has not reached yet (bullets approaching) units will not
+    // attack units with trueCurrentHealth <= 0
+    protected float trueCurrentHealth;
+    // The health that is displayed, not necessarily equivalent to trueCurrentHealth
     public float currentHealth;
     public float maxHealth;
     // How fast this unit attacks measured in seconds
@@ -50,6 +53,7 @@ public class Enemy : MonoBehaviour
         myAgent = this.GetComponent<NavMeshAgent>();
 
         currentHealth = maxHealth;
+        trueCurrentHealth = currentHealth;
 
         shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
         if (shotLineRenderer != null) {
@@ -199,9 +203,16 @@ public class Enemy : MonoBehaviour
         myAgent.SetDestination(location);
     }
 
-    public void TakeDamage(float damage, float damageRadius)
+    // Take damage delay is for caller to pass in when the bullet arrives.
+    public void TakeDamage(float damage, float damageRadius, float takeDamageDelay)
     {
-        currentHealth -= damage;
+        trueCurrentHealth -= damage;
+        Invoke(nameof(displayDamage), takeDamageDelay);
+    }
+
+    // Will be called by TakeDamage after a delay, when the bullet reaches the target.
+    private void displayDamage() {
+        currentHealth = trueCurrentHealth;
         damageTakenTime = Time.time;
         flashAnimation();
 
@@ -217,7 +228,7 @@ public class Enemy : MonoBehaviour
                     continue;
                 }
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
-                    unit.gameObject.GetComponent<Enemy>().TakeDamage(damage, 0);
+                    unit.gameObject.GetComponent<Enemy>().TakeDamage(damage, 0, 0);
                 }
             }
         }
@@ -235,6 +246,12 @@ public class Enemy : MonoBehaviour
     public float getCurrentHealth()
     {
         return currentHealth;
+    }
+
+    // Units should be checking true current health to determine if they should attack
+    public float getTrueCurrentHealth()
+    {
+        return trueCurrentHealth;
     }
 
     public float getStartShootTime()
