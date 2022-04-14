@@ -189,7 +189,7 @@ public class BoltSpawnerScript : GlobalEventListener
 
     public void spawnJuggernaut()
     {
-        spawn = gatherer;
+        spawn = juggernaut;
         spawning = true;
     }
 
