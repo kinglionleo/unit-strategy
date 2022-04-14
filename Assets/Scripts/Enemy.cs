@@ -36,6 +36,8 @@ public class Enemy : MonoBehaviour
     protected float attackCooldown;
     // Denotes the point in time when the unit just started aiming
     protected float startAimTime;
+    // Holds the distance of the closest unit to attack.
+    protected float closestUnitDistance;
     // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
     protected bool startedAimingPhase;
     // Denotes if the unit is currently aimed at an enemy, so it no longer has to wait for its aiming speed
@@ -98,7 +100,7 @@ public class Enemy : MonoBehaviour
         // Loop through all enemies
 
         // Two variables to store the current closest distance and current closest unit (not necessarily within range)
-        float closestUnitDistance = float.MaxValue;
+        closestUnitDistance = float.MaxValue;
         GameObject closestUnit = null;
 
         foreach (var unit in UnitManager.Instance.unitList)
@@ -238,6 +240,10 @@ public class Enemy : MonoBehaviour
     public float getStartShootTime()
     {
         return startShootTime;
+    }
+
+    public float getClosestUnitDistance() {
+        return closestUnitDistance;
     }
 
     private bool isCanAttack()

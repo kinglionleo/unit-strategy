@@ -45,6 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotLineRenderer: {fileID: 0}
+  shotVelocity: 2
   shotTimeLength: 0.2
   shotStartOffset: {x: 0, y: 0.75, z: 0}
   shotSize: 0.25
