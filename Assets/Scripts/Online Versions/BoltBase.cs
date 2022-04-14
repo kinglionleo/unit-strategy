@@ -24,7 +24,7 @@ public class BoltBase : BoltUnit
             BoltUnitManager.Instance.unitList.Add(this.gameObject);
             // Make ourselves the lower left corner
             CameraController.Instance.SetPositionAndRotation(transform.position, transform.rotation);
-            BoltSpawnerScript.Instance.setBaseLocation(this.gameObject.transform.position);
+            BoltSpawnerScript.Instance.setBase(this.gameObject);
         }
         else
         {

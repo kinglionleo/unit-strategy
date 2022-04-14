@@ -9,7 +9,7 @@ public class BoltSpawnerScript : GlobalEventListener
 {
 
     private static BoltSpawnerScript _instance;
-    private Vector3 myBaseLocation;
+    private GameObject myBase;
     private Camera cam;
     public LayerMask ground;
 
@@ -29,6 +29,7 @@ public class BoltSpawnerScript : GlobalEventListener
     public GameObject sniper;
     public GameObject tank;
     public GameObject juggernaut;
+    public GameObject gatherer;
     public GameObject hq;
     public static BoltSpawnerScript Instance
     {
@@ -137,8 +138,8 @@ public class BoltSpawnerScript : GlobalEventListener
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
                 if(resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
-                   myBaseLocation != null &&
-                   Vector3.Distance(myBaseLocation, hit.point) <= spawnRadius )
+                   myBase != null &&
+                   Vector3.Distance(myBase.transform.position, hit.point) <= spawnRadius )
                 {
                     BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
                     addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
@@ -188,13 +189,24 @@ public class BoltSpawnerScript : GlobalEventListener
 
     public void spawnJuggernaut()
     {
-        spawn = juggernaut;
+        spawn = gatherer;
         spawning = true;
     }
 
-    public void setBaseLocation(Vector3 position)
+    public void spawnObject(GameObject unit)
     {
-        myBaseLocation = position;
+        spawn = unit;
+        spawning = true;
+    }
+
+    public void setBase(GameObject thisBase)
+    {
+        myBase = thisBase;
+    }
+
+    public GameObject getBase()
+    {
+        return myBase; 
     }
 
     private void spawnBase(Vector3 position, Quaternion rotation)
