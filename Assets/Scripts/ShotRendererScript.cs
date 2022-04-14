@@ -8,7 +8,9 @@ public class ShotRendererScript : MonoBehaviour
 
     public LineRenderer shotLineRenderer;
     // The amount of time the shot should take to reach the target.
-    public float shotTimeLength; // must be faster than attack speed unless we change to 
+    // The speed that the shot travels in m/s... i think?
+    public float shotVelocity; // must be faster than attack speed unless we change to 
+    public float shotTimeLength;
 
     // The offset (usually vertical) from the Unit's position, to make it look like it
     // is shooting from the correct place in the mesh.
@@ -21,6 +23,7 @@ public class ShotRendererScript : MonoBehaviour
     private Vector3 shotEndLocation;
     
     private Unit myUnit;
+    private Enemy myEnemy;
 
     // The time the shot was fired.
     private float shotStartTime;
@@ -33,7 +36,11 @@ public class ShotRendererScript : MonoBehaviour
     // Awake is called once in the lifetime of a gameObject instance
     void Awake()
     {
-        myUnit = this.transform.parent.gameObject.GetComponent<Unit>();
+        myUnit = this.transform.parent.GetComponent<Unit>();
+        myEnemy = null;
+        if(myUnit == null) {
+            myEnemy = this.transform.parent.GetComponent<Enemy>();
+        }
 
         shotLineRenderer = this.GetComponent<LineRenderer>();
         //shotLineRenderer.alignment
@@ -43,7 +50,8 @@ public class ShotRendererScript : MonoBehaviour
         shotLineRenderer.numCapVertices = 2;
         shotLineRenderer.useWorldSpace = true;
         this.shotSize = 0.075f;
-        this.shotTimeLength = 0.15f;
+        this.shotTimeLength = 0.2f;
+        this.shotVelocity = 50f;
         // Color shotColor = new Color(80, 190, 200, 50);
         // shotLineRenderer.startColor = shotColor;
         // shotLineRenderer.endColor = Color.yellow;
@@ -63,8 +71,9 @@ public class ShotRendererScript : MonoBehaviour
         // if shot is "fired" (by startShot method call), run the animation
         //Debug.Log("Shot started? " + shotAnimationStarted);
         if (shotFired) {
-            shotFired = false;    
+            shotFired = false; // reset immediately for next shot.
             shotStartTime = Time.time;
+            calculateShotTimeLengthOnVelocity();
             //shotLineRenderer.SetPosition(1, shotEndLocation);
             //Debug.Log("Shot started! " + shotEndLocation);
             shotAnimationStarted = true;
@@ -89,6 +98,15 @@ public class ShotRendererScript : MonoBehaviour
                 shotLineRenderer.SetPosition(0, shotStartLocation + deltaVector);
                 shotLineRenderer.SetPosition(1, shotStartLocation + deltaVector + shotSizeVector);
             }
+        }
+    }
+
+    private void calculateShotTimeLengthOnVelocity() {
+        if (myUnit != null) {
+            this.shotTimeLength = myUnit.getClosestEnemyDistance() / shotVelocity;
+        }
+        else { // myEnemy should be not null
+            this.shotTimeLength = myEnemy.getClosestUnitDistance() / shotVelocity;
         }
     }
 

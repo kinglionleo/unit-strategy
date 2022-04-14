@@ -66,6 +66,9 @@ public class Unit : MonoBehaviour
     // Denotes if the unit can auto attack
     private bool ignoreEnemy;
 
+    //The distance to the closest enemy.
+    private float closestEnemyDistance;
+
     GameObject closestEnemy;
 
     GameObject prevClosestEnemy;
@@ -192,7 +195,7 @@ public class Unit : MonoBehaviour
         }
 
         // Two variables to store the current closest distance and current closest enemy (not necessarily within range)
-        float closestEnemyDistance = float.MaxValue;
+        closestEnemyDistance = float.MaxValue;
         closestEnemy = null;
 
         // Loop through all enemies
@@ -411,6 +414,10 @@ public class Unit : MonoBehaviour
 
     public GameObject getClosestEnemy() {
         return closestEnemy;
+    }
+
+    public float getClosestEnemyDistance() {
+        return closestEnemyDistance;
     }
 
     public float getStartAimTime() {

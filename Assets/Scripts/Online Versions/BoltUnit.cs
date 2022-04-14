@@ -11,6 +11,7 @@ public class BoltUnit : EntityEventListener<IUnit>
     protected LineRenderer lineRenderer;
     // The black acquisition circle that appears when a unit becomes stationary
     protected GameObject stationaryIndicator;
+    protected GameObject aimingIndicator;
     Animator animator;
 
     public float maxHealth;
@@ -128,6 +129,9 @@ public class BoltUnit : EntityEventListener<IUnit>
 
         stationaryIndicator = this.transform.Find("bolt@StationaryIndicator").gameObject;
         stationaryIndicator.SetActive(false);
+
+        aimingIndicator = this.transform.Find("bolt@AimingIndicator").gameObject;
+        aimingIndicator.SetActive(false);
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -285,6 +289,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                 {
                     startAimTime = Time.time;
                     startedAimingPhase = true;
+                    aimingIndicator.SetActive(true);
                 }
 
                 // This draws a line from the unit's current position to the closest enemy in range.
@@ -295,6 +300,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                 if (startAimTime + aimSpeed <= Time.time)
                 {
                     aimedAtEnemy = true;
+                    aimingIndicator.SetActive(false);
                     startedAimingPhase = false;
 
                     if (isCanAttack() && !ignoreEnemy)
@@ -312,6 +318,7 @@ public class BoltUnit : EntityEventListener<IUnit>
             else
             {
                 startedAimingPhase = false;
+                aimingIndicator.SetActive(false);
                 aimedAtEnemy = false;
             }
         }
@@ -322,6 +329,7 @@ public class BoltUnit : EntityEventListener<IUnit>
             prevClosestEnemy = null;
             // if there is no enemy in range, the unit must aim again.
             startedAimingPhase = false;
+            aimingIndicator.SetActive(false);
             aimedAtEnemy = false;
             // This makes it so no line is drawn since it is the same point
             lineRenderer.SetPosition(0, new Vector3(0, 0, 0));
@@ -446,6 +454,11 @@ public class BoltUnit : EntityEventListener<IUnit>
     public float getStartShootTime()
     {
         return startShootTime;
+    }
+
+    public float getStartAimTime()
+    {
+        return startAimTime;
     }
 
     public float getHitboxSize()

@@ -74,20 +74,20 @@ public class Base : Enemy
             {
                 // This chunk checks to see if the unit is trying to shoot through a physical barrier such as a house by using a raycast
                 RaycastHit hit;
-                Debug.Log("Trying to raycast");
+                //Debug.Log("Trying to raycast");
                 bool didRaycastHit = Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range);
                 if (didRaycastHit)
                 {
-                    Debug.Log("raycast hit " + hit);
+                    //Debug.Log("raycast hit " + hit);
                     if (hit.transform == unit.transform)
                     {
-                        Debug.Log("Raycasted to a target in range " + unit.gameObject);
+                        //Debug.Log("Raycasted to a target in range " + unit.gameObject);
                         // If the enemy is going to be the current closest enemy and is also in line-of-sight, we save it to be checked further
                         closestUnitDistance = distance;
                         closestUnit = unit;
                     }
                     else {
-                        Debug.Log("raycast hit itself" + hit);
+                        //Debug.Log("raycast hit itself" + hit);
                     }
                 }
             }
