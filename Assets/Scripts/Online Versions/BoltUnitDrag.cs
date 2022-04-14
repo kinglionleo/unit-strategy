@@ -96,7 +96,7 @@ public class BoltUnitDrag : MonoBehaviour
     {
         foreach (var unit in BoltUnitManager.Instance.unitList)
         {
-            if (selectionBox.Contains(myCam.WorldToScreenPoint(unit.transform.position)))
+            if (selectionBox.Contains(myCam.WorldToScreenPoint(unit.transform.position)) && unit.gameObject.GetComponent<BoltGatherer>() == null)
             {
                 BoltUnitManager.Instance.DragSelect(unit);
             }

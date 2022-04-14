@@ -6,6 +6,9 @@ using Photon.Bolt;
 
 public class BoltGatherer : BoltUnit
 {
+    // How much the unit generates per gather
+    public int generationAmount;
+
     protected Vector3 resourceLocation;
 
     private bool holdingResource;
@@ -26,7 +29,7 @@ public class BoltGatherer : BoltUnit
 
             if(holdingResource)
             {
-                BoltSpawnerScript.Instance.addResource(50);
+                BoltSpawnerScript.Instance.addResource(generationAmount);
                 holdingResource = false;
                 if(resourceLocation != null)
                 {
