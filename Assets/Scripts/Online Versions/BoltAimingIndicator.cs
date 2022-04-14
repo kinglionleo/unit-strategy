@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AimingIndicatorScript : MonoBehaviour
+public class BoltAimingIndicator : MonoBehaviour
 {
     public Image aimingIndicator;
-    private Unit myUnit;
+    private BoltUnit myUnit;
 
     void Awake()
     {
-        myUnit = this.transform.parent.gameObject.GetComponent<Unit>();
+        myUnit = this.transform.parent.gameObject.GetComponent<BoltUnit>();
     }
     void Update()
     {
