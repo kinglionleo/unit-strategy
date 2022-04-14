@@ -19,7 +19,7 @@ public class UnitClick : MonoBehaviour
     {
         cam = Camera.main;
         lastClickTime = 0;
-        ground = LayerMask.NameToLayer("Ground");
+        //ground = LayerMask.NameToLayer("Ground");
     }
 
     // Update is called once per frame
@@ -56,15 +56,21 @@ public class UnitClick : MonoBehaviour
         {
             RaycastHit hit;
             Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-
-            if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+            Debug.Log("raycast cast");
+            if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
-                if (hit.transform.gameObject.layer == ground) {
-
+                // bool hitObstacle = false;
+                // if (hit.transform.gameObject.layer == LayerMask.GetMask("Obstacle")) {
+                //     Debug.Log("Hit obstacle");
+                //     hitObstacle = true;
+                // }
+                //if (hit.transform.gameObject.layer == ground) {
+                    Debug.Log("raycast hit ground");
                     if(Input.GetKey(KeyCode.LeftShift)){
                         UnitManager.Instance.GroupIgnoreMove(hit.point);
                     }
                     else{
+                        Debug.Log("ignoremoved after raycast hit the ground.");
                         UnitManager.Instance.RightClickIgnoreMove(hit.point);
                     }
                     // This checks for double clicking logic;
@@ -78,10 +84,10 @@ public class UnitClick : MonoBehaviour
                         }
                     }
                     lastClickTime = Time.time;
-                    }
-                else {
-                    // do nothing, raycast hit an obstacle
-                }
+                //}
+                // else {
+                // //     // do nothing, raycast hit an obstacle
+                // }
             }
         }
         
