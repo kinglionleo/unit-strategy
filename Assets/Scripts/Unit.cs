@@ -17,6 +17,10 @@ public class Unit : MonoBehaviour
     Animator animator;
 
     public float maxHealth;
+    // The health that is equivalent to the "damage" that has not reached yet (bullets approaching) units will not
+    // attack units with trueCurrentHealth <= 0
+    protected float trueCurrentHealth;
+    // The health that is displayed, not necessarily equivalent to trueCurrentHealth
     public float currentHealth;
 
     // How fast this unit attacks measured in seconds
@@ -76,6 +80,7 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         currentHealth = maxHealth;
+        trueCurrentHealth = currentHealth;
     }
 
     void Start()
@@ -340,9 +345,16 @@ public class Unit : MonoBehaviour
         //this.transform.LookAt(location); Need to lerp this
     }
 
-    public void TakeDamage(float damage, float damageRadius)
+    public void TakeDamage(float damage, float damageRadius, float takeDamageDelay)
     {
-        currentHealth -= damage;
+        trueCurrentHealth -= damage;
+        Invoke(nameof(displayDamage), takeDamageDelay);
+
+        
+    }
+
+    private void displayDamage() {
+        currentHealth = trueCurrentHealth;
         damageTakenTime = Time.time;
         flashAnimation();
 
@@ -359,7 +371,7 @@ public class Unit : MonoBehaviour
                 }
                 
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
-                    unit.gameObject.GetComponent<Unit>().TakeDamage(damage, 0);
+                    unit.gameObject.GetComponent<Unit>().TakeDamage(damage, 0, 0);
                 }
             }
         }
@@ -367,10 +379,6 @@ public class Unit : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
-
-    // private void displayTakeDamage() {
-    //     Instantiate(spawn, hit.point, transform.rotation);
-    // }
 
     public float getMaxHealth()
     {
@@ -380,6 +388,11 @@ public class Unit : MonoBehaviour
     public float getCurrentHealth()
     {
         return currentHealth;
+    }
+
+    public float getTrueCurrentHealth()
+    {
+        return trueCurrentHealth;
     }
 
     public string getUnitType()

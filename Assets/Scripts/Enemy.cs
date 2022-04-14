@@ -46,14 +46,18 @@ public class Enemy : MonoBehaviour
     // Denotes if the unit is currently aimed at an enemy, so it no longer has to wait for its aiming speed
     protected bool aimedAtUnit;
 
+    void Awake() {
+        
+        currentHealth = maxHealth;
+        trueCurrentHealth = currentHealth;
+
+    }
+
     // Start is called before the first frame update
     void Start()
     {
         UnitManager.Instance.enemyList.Add(this.gameObject);
         myAgent = this.GetComponent<NavMeshAgent>();
-
-        currentHealth = maxHealth;
-        trueCurrentHealth = currentHealth;
 
         shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
         if (shotLineRenderer != null) {
@@ -68,6 +72,8 @@ public class Enemy : MonoBehaviour
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
 
+        this.transform.Find("EnemyHealthBar").gameObject.SetActive(true);
+
         myMaterials = new Material[this.transform.GetChild(1).childCount][];
         for (int i = 0; i < myMaterials.Length; i++)
         {
@@ -78,7 +84,6 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        this.transform.Find("EnemyHealthBar").gameObject.SetActive(true);
         attackCooldown = 0;
         startAimTime = 0;
         startShootTime = 0;
@@ -167,12 +172,12 @@ public class Enemy : MonoBehaviour
                 {
                     aimedAtUnit = true;
                     startedAimingPhase = false;
-
-                    if (isCanAttack())
+                    Unit unitToAttack = closestUnit.transform.GetComponent<Unit>();
+                    if (isCanAttack() && unitToAttack.getTrueCurrentHealth() > 0)
                     {
-                        Debug.Log("enemy attacked!");
+                        //Debug.Log("enemy attacked!");
                         this.transform.LookAt(closestUnit.transform);
-                        attackUnit(closestUnit.transform.GetComponent<Unit>());
+                        attackUnit(unitToAttack);
                         cantAttack();
                     }
                 }
@@ -273,11 +278,13 @@ public class Enemy : MonoBehaviour
         return attackCooldown <= Time.time;
     }
 
-    private void attackUnit(Unit unit)
+    protected void attackUnit(Unit unit)
     {
-        unit.TakeDamage(damage, damageRadius);
         shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.transform.position);
+        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotTimeLength;
+        unit.TakeDamage(damage, damageRadius, takeDamageDelay);
+
         startShootTime = Time.time;
     }
 
