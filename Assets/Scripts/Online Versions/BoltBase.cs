@@ -65,6 +65,8 @@ public class BoltBase : BoltUnit
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
 
+        ignoreLayer = LayerMask.NameToLayer("Clickable");
+
         this.transform.Find("bolt@HealthBarCanvas").gameObject.SetActive(true);
         attackCooldown = 0;
         startAimTime = 0;
@@ -120,7 +122,7 @@ public class BoltBase : BoltUnit
             {
                 // This chunk checks to see if the unit is trying to shoot through a physical barrier such as a house by using a raycast
                 RaycastHit hit;
-                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range))
+                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range, ignoreLayer))
                 {
                     if (hit.transform == unit.transform)
                     {

@@ -1921,7 +1921,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'Gatherer
 
-    (10)'
+    (50)'
 --- !u!222 &1435738481
 CanvasRenderer:
   m_ObjectHideFlags: 0

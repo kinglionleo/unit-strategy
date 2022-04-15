@@ -310,9 +310,12 @@ MonoBehaviour:
   damage: 12
   damageRadius: 0
   cost: 25
-  flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
   unitType: ground
   damageType: single
+  flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
+  ignoreLayer:
+    serializedVersion: 2
+    m_Bits: 128
 --- !u!1 &8938795362695547254
 GameObject:
   m_ObjectHideFlags: 0
