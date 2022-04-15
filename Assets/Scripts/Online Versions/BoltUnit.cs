@@ -38,15 +38,18 @@ public class BoltUnit : EntityEventListener<IUnit>
     // How much it costs to spawn this unit
     public int cost;
 
+    // If this unit is flying or ground
+    public string unitType;
+    // If this unit deals splash or individual damage
+    public string damageType;
+
+    // Material related
     public Material flashMaterial;
     protected bool materialsChanged;
     protected Material[][] myMaterials;
     protected Material[][] flashMaterials;
 
-    // If this unit is flying or ground
-    public string unitType;
-    // If this unit deals splash or individual damage
-    public string damageType;
+    protected LayerMask ignoreLayer;
 
     // The remaining two stats "unitCount" and "cost" will be stored in the UnitManager
 
@@ -161,6 +164,8 @@ public class BoltUnit : EntityEventListener<IUnit>
             }
         }
 
+        ignoreLayer = LayerMask.NameToLayer("Clickable");
+
         this.transform.Find("bolt@HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
         attackCooldown = 0;
@@ -256,7 +261,7 @@ public class BoltUnit : EntityEventListener<IUnit>
             {
                 // This chunk checks to see if the unit is trying to shoot through a physical barrier such as a house by using a raycast
                 RaycastHit hit;
-                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range))
+                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range, ignoreLayer))
                 {
                     if (hit.transform == unit.transform)
                     {
