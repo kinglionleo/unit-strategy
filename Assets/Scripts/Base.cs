@@ -169,15 +169,16 @@ public class Base : Enemy
         return attackCooldown <= Time.time;
     }
 
-    private void attackUnit(Unit unit)
-    {
-        Debug.Log("Base attacked " + unit);
-        unit.TakeDamage(damage, 0);
-        shotLineRenderer.SetActive(true);
-        shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.transform.position);
-        //canMove = false;
-        startShootTime = Time.time;
-    }
+    // SHOULD CALL Enemy's attack unit
+    // private void attackUnit(Unit unit)
+    // {
+    //     Debug.Log("Base attacked " + unit);
+    //     shotLineRenderer.SetActive(true);
+    //     shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.transform.position);
+    //     unit.TakeDamage()
+    //     //canMove = false;
+    //     startShootTime = Time.time;
+    // }
 
     private void cantAttack()
     {

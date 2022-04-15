@@ -17,6 +17,10 @@ public class Unit : MonoBehaviour
     Animator animator;
 
     public float maxHealth;
+    // The health that is equivalent to the "damage" that has not reached yet (bullets approaching) units will not
+    // attack units with trueCurrentHealth <= 0
+    protected float trueCurrentHealth;
+    // The health that is displayed, not necessarily equivalent to trueCurrentHealth
     public float currentHealth;
 
     // How fast this unit attacks measured in seconds
@@ -76,6 +80,7 @@ public class Unit : MonoBehaviour
     void Awake()
     {
         currentHealth = maxHealth;
+        trueCurrentHealth = currentHealth;
     }
 
     void Start()
@@ -215,8 +220,15 @@ public class Unit : MonoBehaviour
             {
                 // This chunk checks to see if the unit is trying to shoot through a physical barrier such as a house by using a raycast
                 RaycastHit hit;
-                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range))
+                // Layer to ignore
+                LayerMask clickableLayer = 1 << 7;
+                Debug.Log(clickableLayer.value);
+                bool cast = Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range, ~clickableLayer);
+                if (cast)
                 {
+                    if (maxHealth >= 500) {
+                        Debug.Log("hit " + hit.transform.name + " at " + hit.distance);
+                    }
                     if (hit.transform == unit.transform)
                     {
                         // If the enemy is going to be the current closest enemy and is also in line-of-sight, we save it to be checked further
@@ -266,11 +278,11 @@ public class Unit : MonoBehaviour
                     aimedAtEnemy = true;
                     aimingIndicator.SetActive(false);
                     startedAimingPhase = false;
-
-                    if (isCanAttack() && !ignoreEnemy)
+                    Enemy enemyToAttack = closestEnemy.transform.GetComponent<Enemy>();
+                    if (isCanAttack() && !ignoreEnemy && enemyToAttack.getTrueCurrentHealth() > 0)
                     {
                         this.transform.LookAt(closestEnemy.transform);
-                        attackEnemy(closestEnemy.transform.GetComponent<Enemy>());
+                        attackEnemy(enemyToAttack);
                         cantAttack();
                         if (!selected) {
                             targetPosition = this.transform.position;
@@ -340,12 +352,10 @@ public class Unit : MonoBehaviour
         //this.transform.LookAt(location); Need to lerp this
     }
 
-    public void TakeDamage(float damage, float damageRadius)
+    public void TakeDamage(float damage, float damageRadius, float takeDamageDelay)
     {
-        currentHealth -= damage;
-        damageTakenTime = Time.time;
-        flashAnimation();
-
+        trueCurrentHealth -= damage;
+        Invoke(nameof(displayDamage), takeDamageDelay);
         if(damageRadius != 0) {
 
             foreach (var unit in UnitManager.Instance.unitList) {
@@ -359,18 +369,21 @@ public class Unit : MonoBehaviour
                 }
                 
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
-                    unit.gameObject.GetComponent<Unit>().TakeDamage(damage, 0);
+                    unit.gameObject.GetComponent<Unit>().TakeDamage(damage, 0, 0);
                 }
             }
         }
+    }
+
+    private void displayDamage() {
+        currentHealth = trueCurrentHealth;
+        damageTakenTime = Time.time;
+        flashAnimation();
+
         if (currentHealth <= 0) {
             Destroy(this.gameObject);
         }
     }
-
-    // private void displayTakeDamage() {
-    //     Instantiate(spawn, hit.point, transform.rotation);
-    // }
 
     public float getMaxHealth()
     {
@@ -380,6 +393,11 @@ public class Unit : MonoBehaviour
     public float getCurrentHealth()
     {
         return currentHealth;
+    }
+
+    public float getTrueCurrentHealth()
+    {
+        return trueCurrentHealth;
     }
 
     public string getUnitType()
@@ -445,9 +463,12 @@ public class Unit : MonoBehaviour
 
     private void attackEnemy(Enemy enemy)
     {
-        enemy.TakeDamage(damage, damageRadius);
         shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.transform.position);
+        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotTimeLength;
+        // need to call TakeDamage after we know how long the shot will take to arrive at enemy
+        enemy.TakeDamage(damage, damageRadius, takeDamageDelay);
+
         stationaryIndicator.SetActive(true);
         canMove = false;
         startShootTime = Time.time;
