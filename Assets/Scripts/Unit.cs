@@ -220,7 +220,10 @@ public class Unit : MonoBehaviour
             {
                 // This chunk checks to see if the unit is trying to shoot through a physical barrier such as a house by using a raycast
                 RaycastHit hit;
-                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range, LayerMask.NameToLayer("Clickable")))
+                // Layer to ignore
+                //LayerMask clickableLayer = ~(LayerMask.NameToLayer("Clickable"));
+                //Debug.Log(clickableLayer.value);
+                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range))
                 {
                     if (hit.transform == unit.transform)
                     {
@@ -349,15 +352,6 @@ public class Unit : MonoBehaviour
     {
         trueCurrentHealth -= damage;
         Invoke(nameof(displayDamage), takeDamageDelay);
-
-        
-    }
-
-    private void displayDamage() {
-        currentHealth = trueCurrentHealth;
-        damageTakenTime = Time.time;
-        flashAnimation();
-
         if(damageRadius != 0) {
 
             foreach (var unit in UnitManager.Instance.unitList) {
@@ -375,6 +369,13 @@ public class Unit : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void displayDamage() {
+        currentHealth = trueCurrentHealth;
+        damageTakenTime = Time.time;
+        flashAnimation();
+
         if (currentHealth <= 0) {
             Destroy(this.gameObject);
         }

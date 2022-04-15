@@ -213,14 +213,6 @@ public class Enemy : MonoBehaviour
     {
         trueCurrentHealth -= damage;
         Invoke(nameof(displayDamage), takeDamageDelay);
-    }
-
-    // Will be called by TakeDamage after a delay, when the bullet reaches the target.
-    private void displayDamage() {
-        currentHealth = trueCurrentHealth;
-        damageTakenTime = Time.time;
-        flashAnimation();
-
         if (damageRadius != 0) {
 
             foreach (var unit in UnitManager.Instance.enemyList) {
@@ -237,7 +229,13 @@ public class Enemy : MonoBehaviour
                 }
             }
         }
+    }
 
+    // Will be called by TakeDamage after a delay, when the bullet reaches the target.
+    private void displayDamage() {
+        currentHealth = trueCurrentHealth;
+        damageTakenTime = Time.time;
+        flashAnimation();
         if (currentHealth <= 0) {
             Destroy(this.gameObject);
         }
