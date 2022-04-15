@@ -713,7 +713,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5723375844424855714, guid: 3f8c4d7f45b3a9a4bba6871cab1b17ee, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f8c4d7f45b3a9a4bba6871cab1b17ee, type: 3}
@@ -2347,7 +2347,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5723375844424855714, guid: 3f8c4d7f45b3a9a4bba6871cab1b17ee, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3f8c4d7f45b3a9a4bba6871cab1b17ee, type: 3}
@@ -2773,6 +2773,14 @@ PrefabInstance:
     - target: {fileID: 5524071975866291432, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5635241210178686432, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5635241210178686432, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.652851
       objectReference: {fileID: 0}
     - target: {fileID: 6065787198880084089, guid: 6dc58ba799c4c07468842cb9db9b76c0, type: 3}
       propertyPath: m_Sources.Array.size

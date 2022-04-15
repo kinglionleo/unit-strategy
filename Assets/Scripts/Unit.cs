@@ -227,9 +227,10 @@ public class Unit : MonoBehaviour
                 bool cast = Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range, clickableLayer);
                 if (cast)
                 {
-                    if (maxHealth >= 500) {
-                        Debug.Log("hit " + hit.transform.name + " at " + hit.distance);
-                    }
+                    // Debugging layermask
+                    // if (maxHealth >= 500) {
+                    //     Debug.Log("hit " + hit.transform.name + " at " + hit.distance);
+                    // }
                     if (hit.transform == unit.transform)
                     {
                         // If the enemy is going to be the current closest enemy and is also in line-of-sight, we save it to be checked further
@@ -465,7 +466,7 @@ public class Unit : MonoBehaviour
     private void attackEnemy(Enemy enemy)
     {
         //shotLineRenderer.SetActive(true);
-        shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.transform.position);
+        shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.gameObject);
         float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotTimeLength;
         // need to call TakeDamage after we know how long the shot will take to arrive at enemy
         enemy.TakeDamage(damage, damageRadius, takeDamageDelay);
