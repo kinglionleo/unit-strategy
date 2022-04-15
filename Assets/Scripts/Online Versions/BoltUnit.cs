@@ -9,6 +9,10 @@ public class BoltUnit : EntityEventListener<IUnit>
     // Used for pathfinding
     protected NavMeshAgent myAgent;
     protected LineRenderer lineRenderer;
+
+    // Shows a shot/bullet moving towards towards the target
+    GameObject shotLineRenderer;
+
     // The black acquisition circle that appears when a unit becomes stationary
     protected GameObject stationaryIndicator;
     protected GameObject aimingIndicator;
@@ -132,6 +136,9 @@ public class BoltUnit : EntityEventListener<IUnit>
 
         aimingIndicator = this.transform.Find("bolt@AimingIndicator").gameObject;
         aimingIndicator.SetActive(false);
+
+        // shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
+        // shotLineRenderer.SetActive(false);
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;

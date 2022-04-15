@@ -359,6 +359,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 5524071975866291432}
     m_Modifications:
+    - target: {fileID: 5452056031990695598, guid: af50217571ea84f1aafd3e23ecfc5baa, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5452056031990695598, guid: af50217571ea84f1aafd3e23ecfc5baa, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].time
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5452056031990695598, guid: af50217571ea84f1aafd3e23ecfc5baa, type: 3}
+      propertyPath: m_Parameters.widthCurve.m_Curve.Array.data[1].value
+      value: 0.6591376
+      objectReference: {fileID: 0}
     - target: {fileID: 7258229279860654333, guid: af50217571ea84f1aafd3e23ecfc5baa, type: 3}
       propertyPath: m_RootOrder
       value: 6

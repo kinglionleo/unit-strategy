@@ -220,10 +220,11 @@ public class Unit : MonoBehaviour
             {
                 // This chunk checks to see if the unit is trying to shoot through a physical barrier such as a house by using a raycast
                 RaycastHit hit;
-                // Layer to ignore
-                LayerMask clickableLayer = 1 << 7;
+                // Layer to ignore layer is 7, so we need to bit shift and negate
+                // so the layer mask is something like 1101111111 (7th bit from the right is 0, the ignored)
+                LayerMask clickableLayer = ~(1 << 7);
                 Debug.Log(clickableLayer.value);
-                bool cast = Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range, ~clickableLayer);
+                bool cast = Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range, clickableLayer);
                 if (cast)
                 {
                     if (maxHealth >= 500) {
@@ -463,7 +464,7 @@ public class Unit : MonoBehaviour
 
     private void attackEnemy(Enemy enemy)
     {
-        shotLineRenderer.SetActive(true);
+        //shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.transform.position);
         float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotTimeLength;
         // need to call TakeDamage after we know how long the shot will take to arrive at enemy

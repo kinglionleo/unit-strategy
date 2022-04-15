@@ -49,7 +49,7 @@ public class ShotRendererScript : MonoBehaviour
         shotLineRenderer.positionCount = 2;
         shotLineRenderer.numCapVertices = 2;
         shotLineRenderer.useWorldSpace = true;
-        this.shotSize = 0.075f;
+        this.shotSize = 1.5f;
         this.shotTimeLength = 0.2f;
         this.shotVelocity = 50f;
         // Color shotColor = new Color(80, 190, 200, 50);
@@ -80,6 +80,8 @@ public class ShotRendererScript : MonoBehaviour
         else {
             // if the shot has been shooting for length shotTimeLength, stop the shot animation.
             if (shotStartTime + shotTimeLength <= Time.time) {
+                shotLineRenderer.SetPosition(0, new Vector3(0,0,0));
+                shotLineRenderer.SetPosition(1, new Vector3(0,0,0));
                 //Debug.Log(shotStartTime + shotTimeLength + " " + Time.time);
 
                 //shotLineRenderer.SetPosition(1, this.transform.position + shotStartOffset);
@@ -88,14 +90,18 @@ public class ShotRendererScript : MonoBehaviour
             }
             else if (shotAnimationStarted) { // is shot is still shooting
                 // End - start location
+                //this.gameObject.SetActive(true);
                 float timePassedPercent = (Time.time - shotStartTime) / shotTimeLength;
-
-                Vector3 deltaVector = (shotEndLocation - shotStartLocation) * timePassedPercent;
-                Vector3 unitVector = (deltaVector / deltaVector.magnitude);
+                Vector3 distanceVector = shotEndLocation - shotStartLocation;
+                Vector3 unitVector = (distanceVector / distanceVector.magnitude);
                 Vector3 shotSizeVector = unitVector * shotSize;
+                Vector3 deltaVector = (distanceVector - shotSizeVector) * timePassedPercent;
                 
-                shotLineRenderer.SetPosition(0, shotStartLocation + deltaVector);
-                shotLineRenderer.SetPosition(1, shotStartLocation + deltaVector + shotSizeVector);
+                shotLineRenderer.SetPosition(0, shotStartLocation + deltaVector + shotSizeVector);
+                shotLineRenderer.SetPosition(1, shotStartLocation + deltaVector);
+                
+                
+                //shotLineRenderer.SetPosition(1, shotEndLocation);
             }
         }
     }
@@ -105,12 +111,12 @@ public class ShotRendererScript : MonoBehaviour
             this.shotTimeLength = myUnit.getClosestEnemyDistance() / shotVelocity;
         }
         else { // myEnemy should be not null
-            this.shotTimeLength = myEnemy.getClosestUnitDistance() / shotVelocity;
         }
     }
 
     public void startShot(Vector3 shotEndLocation) {
         this.shotEndLocation = shotEndLocation;
+        this.gameObject.SetActive(true);
         //Debug.Log("Shot started! " + shotEndLocation);
         shotFired = true;
         calculateShotTimeLengthOnVelocity();
