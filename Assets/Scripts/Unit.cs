@@ -221,9 +221,9 @@ public class Unit : MonoBehaviour
                 // This chunk checks to see if the unit is trying to shoot through a physical barrier such as a house by using a raycast
                 RaycastHit hit;
                 // Layer to ignore
-                //LayerMask clickableLayer = ~(LayerMask.NameToLayer("Clickable"));
-                //Debug.Log(clickableLayer.value);
-                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range))
+                LayerMask clickableLayer = (LayerMask.NameToLayer("Clickable"));
+                Debug.Log(clickableLayer.value);
+                if (Physics.Raycast(this.transform.position, (unit.transform.position - this.transform.position), out hit, range, clickableLayer))
                 {
                     if (hit.transform == unit.transform)
                     {
