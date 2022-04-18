@@ -140,8 +140,8 @@ public class BoltUnit : EntityEventListener<IUnit>
         aimingIndicator = this.transform.Find("bolt@AimingIndicator").gameObject;
         aimingIndicator.SetActive(false);
 
-        // shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
-        // shotLineRenderer.SetActive(false);
+        shotLineRenderer = this.transform.Find("bolt@ShotLineRenderer").gameObject;
+        shotLineRenderer.SetActive(false);
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -318,7 +318,10 @@ public class BoltUnit : EntityEventListener<IUnit>
                     if (isCanAttack() && !ignoreEnemy)
                     {
                         this.transform.LookAt(closestEnemy.transform);
-                        attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>());
+
+                        shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+                        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
+                        StartCoroutine(attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay));
                         cantAttack();
                         if (!selected)
                         {
@@ -492,10 +495,10 @@ public class BoltUnit : EntityEventListener<IUnit>
         return attackCooldown <= Time.time;
     }
 
-    protected void attackEnemy(BoltUnit enemy)
+    protected IEnumerator attackEnemy(BoltUnit enemy, float delay)
     {
+        yield return new WaitForSeconds(delay);
         enemy.TakeDamage(damage);
-        Debug.Log(enemy.gameObject.tag);
         ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
         e.DamageTaken = damage;
         e.DamageRadius = damageRadius;
