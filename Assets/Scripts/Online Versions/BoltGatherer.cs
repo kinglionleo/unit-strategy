@@ -12,6 +12,27 @@ public class BoltGatherer : BoltUnit
     protected Vector3 resourceLocation;
 
     private bool holdingResource;
+
+    // Start Equivalent
+    public override void Attached()
+    {
+        base.Attached();
+        if(entity.IsOwner)
+        {
+            BoltSpawnerScript.Instance.AddGatherer(1);
+        }
+    }
+
+    // Destroy Equivalent
+    public override void Detached()
+    {
+        base.Detached();
+        if (entity.IsOwner)
+        {
+            BoltSpawnerScript.Instance.AddGatherer(-1);
+        }
+
+    }
     void OnCollisionEnter(Collision collision)
     {
         if(!entity.IsOwner)

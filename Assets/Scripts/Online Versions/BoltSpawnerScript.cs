@@ -21,6 +21,7 @@ public class BoltSpawnerScript : GlobalEventListener
     private int resources;
     private float timer;
     private bool canIncrease;
+    private int gathererCount;
 
     public Material blueprint;
     public Text resourceText;
@@ -55,6 +56,7 @@ public class BoltSpawnerScript : GlobalEventListener
             spawnBase(new Vector3(-12.78f, 2.5f, -12.78f), Quaternion.Euler(0f, 180f, 0f));
         }
         resources = 0;
+        gathererCount = 0;
         addResource(50);
         timer = 0;
     }
@@ -106,15 +108,7 @@ public class BoltSpawnerScript : GlobalEventListener
             hold.transform.localScale = new Vector3(hold.transform.localScale.x * spawn.transform.localScale.x,
                                                     hold.transform.localScale.y * spawn.transform.localScale.y,
                                                     hold.transform.localScale.z * spawn.transform.localScale.z);
-            // NavMeshAgent[] navMeshAgents;
-            // navMeshAgents = hold.GetComponents<NavMeshAgent>();
-            // navMeshAgents[0].enabled = false;
-            //((GameObject)hold).GetComponent<Collider>().enabled = false;
-
-            // This is to prevent the bug where the blueprint will be added to unitsSelected (as the game detects the click on it) which will then
-            // become null after destroying the blueprint.
-
-            // The 1 refers to the fact that models will always be the second child
+            
             for (int i = 0; i < hold.transform.childCount; i++)
             {
                 setBlueprintMaterial(hold.transform.GetChild(i).gameObject);
@@ -195,8 +189,18 @@ public class BoltSpawnerScript : GlobalEventListener
 
     public void spawnObject(GameObject unit)
     {
+        if(unit.GetComponent<BoltGatherer>() != null)
+        {
+            if(gathererCount < 3)
+            {
+                spawn = unit;
+                spawning = true;
+            }
+            return;
+        }
+        
         spawn = unit;
-        spawning = true;
+        spawning = true; 
     }
 
     public void setBase(GameObject thisBase)
@@ -207,6 +211,11 @@ public class BoltSpawnerScript : GlobalEventListener
     public GameObject getBase()
     {
         return myBase; 
+    }
+
+    public void AddGatherer(int amount)
+    {
+        gathererCount += amount;
     }
 
     private void spawnBase(Vector3 position, Quaternion rotation)
