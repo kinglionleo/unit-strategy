@@ -135,6 +135,7 @@ public class BoltSpawnerScript : GlobalEventListener
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
                 if(resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
+                   research >= spawn.gameObject.GetComponent<BoltUnit>().getResearchRequirement() &&
                    myBase != null &&
                    Vector3.Distance(myBase.transform.position, hit.point) <= spawnRadius )
                 {

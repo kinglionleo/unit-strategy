@@ -37,6 +37,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     public float damageRadius;
     // How much it costs to spawn this unit
     public int cost;
+    // The research requirement for this unit
+    public int researchRequirement;
 
     // If this unit is flying or ground
     public string unitType;
@@ -484,6 +486,10 @@ public class BoltUnit : EntityEventListener<IUnit>
     public int getCost()
     {
         return cost;
+    }
+    public int getResearchRequirement()
+    {
+        return researchRequirement;
     }
     protected bool isCanAttack()
     {
