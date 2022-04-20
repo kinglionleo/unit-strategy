@@ -19,12 +19,14 @@ public class BoltSpawnerScript : GlobalEventListener
     private bool spawning;
 
     private int resources;
+    private int research;
     private float timer;
     private bool canIncrease;
     private int gathererCount;
 
     public Material blueprint;
     public Text resourceText;
+    public Text researchText;
     public float spawnRadius;
     public GameObject basic;
     public GameObject sniper;
@@ -56,6 +58,7 @@ public class BoltSpawnerScript : GlobalEventListener
             spawnBase(new Vector3(-12.78f, 2.5f, -12.78f), Quaternion.Euler(0f, 180f, 0f));
         }
         resources = 0;
+        research = 0;
         gathererCount = 0;
         addResource(50);
         timer = 0;
@@ -161,6 +164,13 @@ public class BoltSpawnerScript : GlobalEventListener
     {
         resources += amount;
         resourceText.text = resources.ToString();
+    }
+
+    public void addResearch(int amount)
+    {
+        research += amount;
+        researchText.text = research.ToString();
+
     }
 
     public void spawnBasic()

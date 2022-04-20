@@ -10,8 +10,10 @@ public class BoltGatherer : BoltUnit
     public int generationAmount;
 
     protected Vector3 resourceLocation;
+    protected Vector3 researchLocation;
 
     private bool holdingResource;
+    private bool holdingResearch;
 
     // Start Equivalent
     public override void Attached()
@@ -39,12 +41,21 @@ public class BoltGatherer : BoltUnit
         {
             return;
         }
-        if(collision.gameObject.name.Equals("Resource"))
+        if(collision.gameObject.name.Equals("Resource") && !holdingResearch)
         {
             holdingResource = true;
+            holdingResearch = false;
             resourceLocation = collision.transform.position;
             MoveToPlace(BoltSpawnerScript.Instance.getBase().transform.position, 0, 0);
             
+        }
+        if (collision.gameObject.name.Equals("Research") && !holdingResource)
+        {
+            holdingResearch = true;
+            holdingResource = false;
+            researchLocation = collision.transform.position;
+            MoveToPlace(BoltSpawnerScript.Instance.getBase().transform.position, 0, 0);
+
         }
         else if(GameObject.ReferenceEquals(collision.gameObject, BoltSpawnerScript.Instance.getBase())) {
 
@@ -57,7 +68,16 @@ public class BoltGatherer : BoltUnit
                     MoveToPlace(resourceLocation, 0, 0);
                 }
             }
-            
+            if (holdingResearch)
+            {
+                BoltSpawnerScript.Instance.addResearch(generationAmount);
+                holdingResearch = false;
+                if (researchLocation != null)
+                {
+                    MoveToPlace(researchLocation, 0, 0);
+                }
+            }
+
         }
     }
 
