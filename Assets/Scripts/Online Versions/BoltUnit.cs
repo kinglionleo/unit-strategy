@@ -319,12 +319,29 @@ public class BoltUnit : EntityEventListener<IUnit>
 
                     if (isCanAttack() && !ignoreEnemy)
                     {
+                        // Everything related to the actual attack is in here:
+
+                        // Look at the enemy
                         this.transform.LookAt(closestEnemy.transform);
 
+                        // Tell our shotrenderer to start a shot
                         shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+
+                        // Tell the other player that we just fired a shot at them so they can render it on their screen.
+                        ShotFired e = ShotFired.Create(entity, EntityTargets.EveryoneExceptOwner);
+                        e.Target = closestEnemy.GetComponent<BoltUnit>().entity;
+                        e.Send();
+
+                        // Get how long it takes for the shot to arrive at the target
                         float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
+
+                        // Create the delay with a coroutine which after waiting will tell the target to take damage
                         StartCoroutine(attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay));
+
+                        // Start reloading
                         cantAttack();
+
+                        // This is to prevent stutterstepping
                         if (!selected)
                         {
                             targetPosition = this.transform.position;
@@ -392,12 +409,11 @@ public class BoltUnit : EntityEventListener<IUnit>
     // This is for pure, instantaneous feedback and has nothing to do with an enemy's actual health.
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
-
         damageTakenTime = Time.time;
         flashAnimation();
     }
 
+    // This event will only be recieved by OWNERS of the entity.
     public override void OnEvent(ReceiveDamage e) {
 
         state.Health -= e.DamageTaken;
@@ -421,6 +437,13 @@ public class BoltUnit : EntityEventListener<IUnit>
                 }
             }
         }
+    }
+
+    // It's important to note that this is for a LOCAL ENEMY to start the shot animation. No health is modified.
+    // If we are the owner, we will NEVER receive this event.
+    public override void OnEvent(ShotFired e)
+    {
+        shotLineRenderer.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
     }
 
     protected void HealthCallback()
@@ -503,13 +526,19 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     protected IEnumerator attackEnemy(BoltUnit enemy, float delay)
     {
+        // Wait for the delay (travel time of "projectile)
         yield return new WaitForSeconds(delay);
+
+        // This tells the local enemy to flash
         enemy.TakeDamage(damage);
+
+        // This tells the online enemy to take damage
         ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
         e.DamageTaken = damage;
         e.DamageRadius = damageRadius;
         e.Send();
 
+        // Now we can't move
         stationaryIndicator.SetActive(true);
         canMove = false;
         startShootTime = Time.time;
