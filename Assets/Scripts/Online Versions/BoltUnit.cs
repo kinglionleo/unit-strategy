@@ -443,7 +443,9 @@ public class BoltUnit : EntityEventListener<IUnit>
     // If we are the owner, we will NEVER receive this event.
     public override void OnEvent(ShotFired e)
     {
-        shotLineRenderer.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
+        if (shotLineRenderer != null) {
+            shotLineRenderer.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
+        }
     }
 
     protected void HealthCallback()
