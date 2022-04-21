@@ -467,7 +467,7 @@ public class Unit : MonoBehaviour
     {
         //shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.gameObject);
-        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotTimeLength;
+        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
         // need to call TakeDamage after we know how long the shot will take to arrive at enemy
         enemy.TakeDamage(damage, damageRadius, takeDamageDelay);
 

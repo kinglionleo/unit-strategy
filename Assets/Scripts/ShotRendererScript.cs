@@ -11,7 +11,7 @@ public class ShotRendererScript : MonoBehaviour
     // The amount of time the shot should take to reach the target.
     // The speed that the shot travels in m/s... i think?
     public float shotVelocity; // must be faster than attack speed unless we change to 
-    public float shotTimeLength;
+    private float shotTimeLength;
 
     // The offset (usually vertical) from the Unit's position, to make it look like it
     // is shooting from the correct place in the mesh.
@@ -130,7 +130,7 @@ public class ShotRendererScript : MonoBehaviour
         }
         else {
             shotStartLocation = myEnemy.transform.position + shotStartOffset;
-            Debug.Log("Enemy's shotstartoffset is" + shotStartOffset);
+            //Debug.Log("Enemy's shotstartoffset is" + shotStartOffset);
         }
         this.shotTimeLength = Math.Abs((target.transform.position - shotStartLocation).magnitude / shotVelocity);
     }
@@ -148,5 +148,9 @@ public class ShotRendererScript : MonoBehaviour
         //Debug.Log("Shot started! " + shotEndLocation);
         shotFired = true;
         calculateShotTimeLengthOnVelocity(target);
+    }
+
+    public float getShotTimeLength() {
+        return shotTimeLength;
     }
 }

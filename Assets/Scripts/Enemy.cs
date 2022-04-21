@@ -280,7 +280,7 @@ public class Enemy : MonoBehaviour
     {
         //shotLineRenderer.SetActive(true);
         shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.gameObject);
-        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotTimeLength;
+        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
         unit.TakeDamage(damage, damageRadius, takeDamageDelay);
 
         startShootTime = Time.time;
