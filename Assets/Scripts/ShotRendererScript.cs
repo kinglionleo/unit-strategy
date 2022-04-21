@@ -8,6 +8,7 @@ public class ShotRendererScript : MonoBehaviour
 {
 
     public LineRenderer shotLineRenderer;
+
     // The amount of time the shot should take to reach the target.
     // The speed that the shot travels in m/s... i think?
     public float shotVelocity; // must be faster than attack speed unless we change to 
@@ -97,6 +98,7 @@ public class ShotRendererScript : MonoBehaviour
                 //shotLineRenderer.SetPosition(1, this.transform.position + shotStartOffset);
                 shotAnimationStarted = false;
                 this.gameObject.SetActive(false);
+                Destroy(this.gameObject);
             }
             else if (shotAnimationStarted) { // is shot is still shooting
                 // End - start location

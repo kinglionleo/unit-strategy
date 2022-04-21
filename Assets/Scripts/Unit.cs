@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour
     NavMeshAgent myAgent;
     LineRenderer lineRenderer;
     // Shows a shot/bullet moving towards towards the target
-    GameObject shotLineRenderer;
+    public GameObject shotLineRenderer;
     // The black acquisition circle that appears when a unit becomes stationary
     GameObject stationaryIndicator;
     // White circle that appears when a unit is aiming
@@ -99,10 +99,10 @@ public class Unit : MonoBehaviour
         aimingIndicator = this.transform.Find("AimingIndicator").gameObject;
         aimingIndicator.SetActive(false);
 
-        shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
-        if (shotLineRenderer != null) {
-            shotLineRenderer.SetActive(false);
-        }
+        // shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
+        // if (shotLineRenderer != null) {
+        //     shotLineRenderer.SetActive(false);
+        // }
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -464,10 +464,11 @@ public class Unit : MonoBehaviour
     }
 
     private void attackEnemy(Enemy enemy)
-    {
-        //shotLineRenderer.SetActive(true);
-        shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.gameObject);
-        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
+    {   
+        GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
+        shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.gameObject);
+        float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
+        
         // need to call TakeDamage after we know how long the shot will take to arrive at enemy
         enemy.TakeDamage(damage, damageRadius, takeDamageDelay);
 

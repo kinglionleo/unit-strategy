@@ -9,7 +9,7 @@ public class Enemy : MonoBehaviour
     protected NavMeshAgent myAgent;
     protected LineRenderer lineRenderer;
     // Shows a shot/bullet moving towards towards the target
-    protected GameObject shotLineRenderer;
+    public GameObject shotLineRenderer;
     // The health that is equivalent to the "damage" that has not reached yet (bullets approaching) units will not
     // attack units with trueCurrentHealth <= 0
     protected float trueCurrentHealth;
@@ -59,10 +59,10 @@ public class Enemy : MonoBehaviour
         UnitManager.Instance.enemyList.Add(this.gameObject);
         myAgent = this.GetComponent<NavMeshAgent>();
 
-        shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
-        if (shotLineRenderer != null) {
-            shotLineRenderer.SetActive(false);
-        }
+        // shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
+        // if (shotLineRenderer != null) {
+        //     shotLineRenderer.SetActive(false);
+        // }
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -278,10 +278,9 @@ public class Enemy : MonoBehaviour
 
     protected void attackUnit(Unit unit)
     {
-        //shotLineRenderer.SetActive(true);
-        shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.gameObject);
-        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
-        unit.TakeDamage(damage, damageRadius, takeDamageDelay);
+        GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
+        shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().startShot(unit.gameObject);
+        float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
 
         startShootTime = Time.time;
     }
