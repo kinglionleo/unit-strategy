@@ -2906,7 +2906,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7473859621737395381, guid: a274ecc7225653e41b5f514fd0813bc5, type: 3}
       propertyPath: attackSpeed
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 7473859621737395381, guid: a274ecc7225653e41b5f514fd0813bc5, type: 3}
       propertyPath: currentHealth
@@ -2916,6 +2916,10 @@ PrefabInstance:
       propertyPath: acquisitionSpeed
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7473859621737395381, guid: a274ecc7225653e41b5f514fd0813bc5, type: 3}
+      propertyPath: shotLineRenderer
+      value: 
+      objectReference: {fileID: 8670927707957941255, guid: af50217571ea84f1aafd3e23ecfc5baa, type: 3}
     - target: {fileID: 8734056347011895153, guid: a274ecc7225653e41b5f514fd0813bc5, type: 3}
       propertyPath: m_RootOrder
       value: 5
