@@ -14,13 +14,14 @@ public class BoltBase : BoltUnit
         if (entity.IsOwner)
         {
             state.Health = maxHealth;
+            state.TrueHealth = maxHealth;
         }
         state.AddCallback("Health", HealthCallback);
 
         if (entity.IsOwner)
         {
             this.gameObject.tag = "Player";
-            this.gameObject.layer = 9;
+            this.gameObject.layer = 7;
             BoltUnitManager.Instance.unitList.Add(this.gameObject);
             // Make ourselves the lower left corner
             CameraController.Instance.SetPositionAndRotation(transform.position, transform.rotation);
@@ -29,27 +30,9 @@ public class BoltBase : BoltUnit
         else
         {
             this.gameObject.tag = "Enemy";
-            this.gameObject.layer = 9;
+            this.gameObject.layer = 0;
             BoltUnitManager.Instance.enemyList.Add(this.gameObject);
         }
-    }
-
-    // Destroy Equivalent
-    public override void Detached()
-    {
-        if (entity.IsOwner)
-        {
-            BoltUnitManager.Instance.unitList.Remove(this.gameObject);
-        }
-        else
-        {
-            BoltUnitManager.Instance.enemyList.Remove(this.gameObject);
-        }
-
-    }
-    void Awake()
-    {
-        currentHealth = maxHealth;
     }
 
     void Start()
@@ -57,6 +40,19 @@ public class BoltBase : BoltUnit
         /*
          * This code is just instantiation related
          */
+
+        myAgent = null;
+        animator = this.GetComponent<Animator>();
+
+        stationaryIndicator = this.transform.Find("bolt@StationaryIndicator").gameObject;
+        stationaryIndicator.SetActive(false);
+
+        aimingIndicator = this.transform.Find("bolt@AimingIndicator").gameObject;
+        aimingIndicator.SetActive(false);
+
+        shotLineRenderer = this.transform.Find("bolt@ShotLineRenderer").gameObject;
+        shotLineRenderer.SetActive(false);
+
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
         lineRenderer.endWidth = 0.04f;
@@ -65,9 +61,23 @@ public class BoltBase : BoltUnit
         lineRenderer.startColor = Color.white;
         lineRenderer.endColor = Color.white;
 
+        myMaterials = new Material[this.transform.GetChild(1).childCount][];
+        flashMaterials = new Material[this.transform.GetChild(1).childCount][];
+        for (int i = 0; i < myMaterials.Length; i++)
+        {
+            myMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
+            flashMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
+            for (int j = 0; j < myMaterials[i].Length; j++)
+            {
+                myMaterials[i][j] = this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials[j];
+                flashMaterials[i][j] = flashMaterial;
+            }
+        }
+
         ignoreLayer = LayerMask.NameToLayer("Clickable");
 
         this.transform.Find("bolt@HealthBarCanvas").gameObject.SetActive(true);
+        this.transform.Find("RangeIndicator").gameObject.SetActive(false);
         attackCooldown = 0;
         startAimTime = 0;
         startShootTime = 0;
@@ -88,16 +98,32 @@ public class BoltBase : BoltUnit
             return;
         }
 
+
         // This handles if the unit is selected or not. Pretty inefficient, can be a on/off function instead.
         if (selected)
         {
+            this.transform.GetChild(0).gameObject.SetActive(true);
             this.transform.Find("RangeIndicator").gameObject.SetActive(true);
-            this.transform.Find("RangeIndicator").transform.localScale = new Vector3(range * 2 / this.transform.localScale.x, range * 2 / this.transform.localScale.x, 1);
+            this.transform.Find("RangeIndicator").transform.localScale = new Vector3(range * 2 / this.transform.localScale.x, range * 2 / this.transform.localScale.y, 1);
         }
         else
         {
+            this.transform.GetChild(0).gameObject.SetActive(false);
             this.transform.Find("RangeIndicator").gameObject.SetActive(false);
             ignoreEnemy = false;
+        }
+
+        // The following section handles attacking logic
+
+        // This checks for if we can interrupt movement to attack an enemy
+        if (ignoreEnemy)
+        {
+            // TODO: make the margin of error dynamic based on the group size as bigger clumps make it impossible to reach the target destination
+            if (Mathf.Abs(this.transform.position.x - targetPosition.x) <= 0.6 &&
+               Mathf.Abs(this.transform.position.z - targetPosition.z) <= 0.6)
+            {
+                ignoreEnemy = false;
+            }
         }
 
         // Two variables to store the current closest distance and current closest enemy (not necessarily within range)
@@ -143,6 +169,7 @@ public class BoltBase : BoltUnit
             // make sure that the enemy is still "alive" aka not set to null
             if (closestEnemy != null)
             {
+                Debug.Log("In Here 1");
                 // This if statement checks if the unit is locking onto a new enemy or not
                 // If the previous enemy that it was aiming at is different from the new closest enemy,
                 // will reset fields startedAim and aimedAtEnemy to start aiming process again.
@@ -161,6 +188,7 @@ public class BoltBase : BoltUnit
                 {
                     startAimTime = Time.time;
                     startedAimingPhase = true;
+                    aimingIndicator.SetActive(true);
                 }
 
                 // This draws a line from the unit's current position to the closest enemy in range.
@@ -171,18 +199,44 @@ public class BoltBase : BoltUnit
                 if (startAimTime + aimSpeed <= Time.time)
                 {
                     aimedAtEnemy = true;
+                    aimingIndicator.SetActive(false);
                     startedAimingPhase = false;
 
-                    if (isCanAttack() && !ignoreEnemy)
+                    if (isCanAttack() && !ignoreEnemy && closestEnemy.GetComponent<BoltUnit>().state.TrueHealth >= 0)
                     {
-                        attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>());
+                        // Everything related to the actual attack is in here:
+
+                        // Tell our shotrenderer to start a shot
+                        shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+
+                        // Tell the other player that we just fired a shot at them so they can render it on their screen.
+                        ShotFired e = ShotFired.Create(entity, EntityTargets.EveryoneExceptOwner);
+                        e.Target = closestEnemy.GetComponent<BoltUnit>().entity;
+                        e.DamageTaken = damage;
+                        e.DamageRadius = damageRadius;
+                        e.Send();
+
+                        // Get how long it takes for the shot to arrive at the target
+                        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
+
+                        // Create the delay with a coroutine which after waiting will tell the target to take damage
+                        StartCoroutine(attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay));
+
+                        // Start reloading
                         cantAttack();
+
+                        // This is to prevent stutterstepping
+                        if (!selected)
+                        {
+                            targetPosition = this.transform.position;
+                        }
                     }
                 }
             }
             else
             {
                 startedAimingPhase = false;
+                aimingIndicator.SetActive(false);
                 aimedAtEnemy = false;
             }
         }
@@ -193,6 +247,7 @@ public class BoltBase : BoltUnit
             prevClosestEnemy = null;
             // if there is no enemy in range, the unit must aim again.
             startedAimingPhase = false;
+            aimingIndicator.SetActive(false);
             aimedAtEnemy = false;
             // This makes it so no line is drawn since it is the same point
             lineRenderer.SetPosition(0, new Vector3(0, 0, 0));
@@ -203,25 +258,27 @@ public class BoltBase : BoltUnit
 
     public new void MoveToPlace(Vector3 location, int type)
     {
-        
+        return;
     }
 
-    public override void OnEvent(ReceiveDamage e)
+    protected IEnumerator attackEnemy(BoltUnit enemy, float delay)
     {
-        state.Health -= e.DamageTaken;
+        // Wait for the delay (travel time of "projectile")
+        yield return new WaitForSeconds(delay);
 
-        damageTakenTime = Time.time;
-        flashAnimation();
+        // Defensive programming: ensure that our enemy still exists after delay
+        if (enemy != null)
+        {
+            // This tells the local enemy to flash
+            enemy.TakeDamage(damage);
+
+            // This tells the online enemy to take damage
+            ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
+            e.DamageTaken = damage;
+            e.DamageRadius = damageRadius;
+            e.Send();
+            startShootTime = Time.time;
+        }
     }
 
-    protected new void attackEnemy(BoltUnit enemy)
-    {
-        enemy.TakeDamage(damage);
-        Debug.Log(enemy.gameObject.tag);
-        ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
-        e.DamageTaken = damage;
-        e.DamageRadius = damageRadius;
-        e.Send();
-        startShootTime = Time.time;
-    }
 }

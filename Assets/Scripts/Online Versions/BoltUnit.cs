@@ -11,12 +11,12 @@ public class BoltUnit : EntityEventListener<IUnit>
     protected LineRenderer lineRenderer;
 
     // Shows a shot/bullet moving towards towards the target
-    GameObject shotLineRenderer;
+    protected GameObject shotLineRenderer;
 
     // The black acquisition circle that appears when a unit becomes stationary
     protected GameObject stationaryIndicator;
     protected GameObject aimingIndicator;
-    Animator animator;
+    protected Animator animator;
 
     public float maxHealth;
     public float currentHealth;
@@ -322,9 +322,6 @@ public class BoltUnit : EntityEventListener<IUnit>
                     {
                         // Everything related to the actual attack is in here:
 
-                        // Look at the enemy
-                        this.transform.LookAt(closestEnemy.transform);
-
                         // Tell our shotrenderer to start a shot
                         shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
 
@@ -340,6 +337,11 @@ public class BoltUnit : EntityEventListener<IUnit>
 
                         // Create the delay with a coroutine which after waiting will tell the target to take damage
                         StartCoroutine(attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay));
+
+                        // Now we can't move
+                        stationaryIndicator.SetActive(true);
+                        canMove = false;
+                        startShootTime = Time.time;
 
                         // Start reloading
                         cantAttack();
@@ -569,11 +571,6 @@ public class BoltUnit : EntityEventListener<IUnit>
             e.DamageTaken = damage;
             e.DamageRadius = damageRadius;
             e.Send();
-
-            // Now we can't move
-            stationaryIndicator.SetActive(true);
-            canMove = false;
-            startShootTime = Time.time;
         }
     }
 
