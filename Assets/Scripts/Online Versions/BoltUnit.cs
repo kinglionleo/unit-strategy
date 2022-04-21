@@ -11,7 +11,7 @@ public class BoltUnit : EntityEventListener<IUnit>
     protected LineRenderer lineRenderer;
 
     // Shows a shot/bullet moving towards towards the target
-    protected GameObject shotLineRenderer;
+    public GameObject shotLineRenderer;
 
     // The black acquisition circle that appears when a unit becomes stationary
     protected GameObject stationaryIndicator;
@@ -143,8 +143,8 @@ public class BoltUnit : EntityEventListener<IUnit>
         aimingIndicator = this.transform.Find("bolt@AimingIndicator").gameObject;
         aimingIndicator.SetActive(false);
 
-        shotLineRenderer = this.transform.Find("bolt@ShotLineRenderer").gameObject;
-        shotLineRenderer.SetActive(false);
+        // shotLineRenderer = this.transform.Find("bolt@ShotLineRenderer").gameObject;
+        // shotLineRenderer.SetActive(false);
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -323,7 +323,10 @@ public class BoltUnit : EntityEventListener<IUnit>
                         // Everything related to the actual attack is in here:
 
                         // Tell our shotrenderer to start a shot
-                        shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+                        GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
+                        shotLineRendererClone.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+                        // float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
+                        // shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
 
                         // Tell the other player that we just fired a shot at them so they can render it on their screen.
                         ShotFired e = ShotFired.Create(entity, EntityTargets.EveryoneExceptOwner);
@@ -333,7 +336,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                         e.Send();
 
                         // Get how long it takes for the shot to arrive at the target
-                        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
+                        float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
 
                         // Create the delay with a coroutine which after waiting will tell the target to take damage
                         StartCoroutine(attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay));
@@ -451,7 +454,8 @@ public class BoltUnit : EntityEventListener<IUnit>
         if (e != null && shotLineRenderer != null && shotLineRenderer.GetComponent<BoltShotLineRenderer>() != null) {
             e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
             Debug.Log(e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
-            shotLineRenderer.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
+            GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
+            shotLineRendererClone.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
 
             if (e.DamageRadius != 0)
             {

@@ -302,6 +302,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e65aeb8204af33a4fa84124f4fcb07a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shotLineRenderer: {fileID: 891957454947057193}
   maxHealth: 30
   currentHealth: 30
   attackSpeed: 0
@@ -882,6 +883,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 11a62171889024c4690def07cb34a464, type: 3}
+--- !u!1 &891957454947057193 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8670927707957941255, guid: 11a62171889024c4690def07cb34a464, type: 3}
+  m_PrefabInstance: {fileID: 8373753404787108398}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1193424523901446867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7258229279860654333, guid: 11a62171889024c4690def07cb34a464, type: 3}

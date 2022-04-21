@@ -87,6 +87,7 @@ public class BoltShotLineRenderer : MonoBehaviour
                 //shotLineRenderer.SetPosition(1, this.transform.position + shotStartOffset);
                 shotAnimationStarted = false;
                 this.gameObject.SetActive(false);
+                Destroy(this.gameObject);
             }
             else if (shotAnimationStarted)
             { // is shot is still shooting

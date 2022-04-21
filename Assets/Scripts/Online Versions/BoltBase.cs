@@ -50,8 +50,8 @@ public class BoltBase : BoltUnit
         aimingIndicator = this.transform.Find("bolt@AimingIndicator").gameObject;
         aimingIndicator.SetActive(false);
 
-        shotLineRenderer = this.transform.Find("bolt@ShotLineRenderer").gameObject;
-        shotLineRenderer.SetActive(false);
+        // shotLineRenderer = this.transform.Find("bolt@ShotLineRenderer").gameObject;
+        // shotLineRenderer.SetActive(false);
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -207,7 +207,9 @@ public class BoltBase : BoltUnit
                         // Everything related to the actual attack is in here:
 
                         // Tell our shotrenderer to start a shot
-                        shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+                        //shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+                        GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
+                        shotLineRendererClone.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
 
                         // Tell the other player that we just fired a shot at them so they can render it on their screen.
                         ShotFired e = ShotFired.Create(entity, EntityTargets.EveryoneExceptOwner);
@@ -217,7 +219,7 @@ public class BoltBase : BoltUnit
                         e.Send();
 
                         // Get how long it takes for the shot to arrive at the target
-                        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
+                        float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
 
                         // Create the delay with a coroutine which after waiting will tell the target to take damage
                         StartCoroutine(attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay));
