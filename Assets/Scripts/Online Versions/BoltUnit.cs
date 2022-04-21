@@ -89,6 +89,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         if(entity.IsOwner)
         {
             state.Health = maxHealth;
+            state.TrueHealth = maxHealth;
         }
         state.AddCallback("Health", HealthCallback);
 
@@ -317,7 +318,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                     aimingIndicator.SetActive(false);
                     startedAimingPhase = false;
 
-                    if (isCanAttack() && !ignoreEnemy)
+                    if (isCanAttack() && !ignoreEnemy && closestEnemy.GetComponent<BoltUnit>().state.TrueHealth >= 0)
                     {
                         // Everything related to the actual attack is in here:
 
@@ -330,6 +331,8 @@ public class BoltUnit : EntityEventListener<IUnit>
                         // Tell the other player that we just fired a shot at them so they can render it on their screen.
                         ShotFired e = ShotFired.Create(entity, EntityTargets.EveryoneExceptOwner);
                         e.Target = closestEnemy.GetComponent<BoltUnit>().entity;
+                        e.DamageTaken = damage;
+                        e.DamageRadius = damageRadius;
                         e.Send();
 
                         // Get how long it takes for the shot to arrive at the target
@@ -444,7 +447,31 @@ public class BoltUnit : EntityEventListener<IUnit>
     public override void OnEvent(ShotFired e)
     {
         if (e != null && shotLineRenderer != null && shotLineRenderer.GetComponent<BoltShotLineRenderer>() != null) {
+            e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
+            Debug.Log(e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
             shotLineRenderer.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
+
+            if (e.DamageRadius != 0)
+            {
+
+                foreach (var unit in BoltUnitManager.Instance.unitList)
+                {
+
+                    if (unit == null)
+                    {
+                        BoltUnitManager.Instance.unitList.Remove(unit);
+                        continue;
+                    }
+                    if (GameObject.ReferenceEquals(unit, this.gameObject))
+                    {
+                        continue;
+                    }
+                    if (Vector3.Distance(unit.transform.position, this.transform.position) <= e.DamageRadius)
+                    {
+                        unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
+                    }
+                }
+            }
         }
     }
 
@@ -528,22 +555,26 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     protected IEnumerator attackEnemy(BoltUnit enemy, float delay)
     {
-        // Wait for the delay (travel time of "projectile)
+        // Wait for the delay (travel time of "projectile")
         yield return new WaitForSeconds(delay);
 
-        // This tells the local enemy to flash
-        enemy.TakeDamage(damage);
+        // Defensive programming: ensure that our enemy still exists after delay
+        if(enemy != null)
+        {
+            // This tells the local enemy to flash
+            enemy.TakeDamage(damage);
 
-        // This tells the online enemy to take damage
-        ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
-        e.DamageTaken = damage;
-        e.DamageRadius = damageRadius;
-        e.Send();
+            // This tells the online enemy to take damage
+            ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
+            e.DamageTaken = damage;
+            e.DamageRadius = damageRadius;
+            e.Send();
 
-        // Now we can't move
-        stationaryIndicator.SetActive(true);
-        canMove = false;
-        startShootTime = Time.time;
+            // Now we can't move
+            stationaryIndicator.SetActive(true);
+            canMove = false;
+            startShootTime = Time.time;
+        }
     }
 
     protected void cantAttack()
