@@ -443,7 +443,7 @@ public class BoltUnit : EntityEventListener<IUnit>
     // If we are the owner, we will NEVER receive this event.
     public override void OnEvent(ShotFired e)
     {
-        if (shotLineRenderer != null) {
+        if (e != null && shotLineRenderer != null) {
             shotLineRenderer.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
         }
     }
@@ -556,7 +556,6 @@ public class BoltUnit : EntityEventListener<IUnit>
         int count = this.transform.GetChild(1).childCount;
         for (int i = 0; i < count; i++)
         {
-
             this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = flashMaterials[i];
         }
         materialsChanged = true;
