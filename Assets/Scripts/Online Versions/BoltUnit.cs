@@ -416,10 +416,10 @@ public class BoltUnit : EntityEventListener<IUnit>
     // This event will only be recieved by OWNERS of the entity.
     public override void OnEvent(ReceiveDamage e) {
 
-        state.Health -= e.DamageTaken;
-
         damageTakenTime = Time.time;
         flashAnimation();
+
+        state.Health -= e.DamageTaken;
 
         if (e.DamageRadius != 0) {
 
@@ -556,6 +556,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         int count = this.transform.GetChild(1).childCount;
         for (int i = 0; i < count; i++)
         {
+
             this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials = flashMaterials[i];
         }
         materialsChanged = true;
