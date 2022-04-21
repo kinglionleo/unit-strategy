@@ -553,6 +553,11 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     protected void flashAnimation()
     {
+        if(this.transform.GetChild(1) == null)
+        {
+            Debug.Log("Null Child");
+            return;
+        }
         int count = this.transform.GetChild(1).childCount;
         for (int i = 0; i < count; i++)
         {
