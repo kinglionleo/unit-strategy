@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2356893412700284574}
   - component: {fileID: 7605291903516709314}
   - component: {fileID: 3324170695317089866}
-  m_Layer: 7
+  m_Layer: 0
   m_Name: PowerCrystalBase
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9f56af2136c9431a9c7ece6ed4f62d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shotLineRenderer: {fileID: 0}
   currentHealth: 0
   maxHealth: 0
   attackSpeed: 1
