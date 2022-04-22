@@ -78,6 +78,7 @@ public class BoltBase : BoltUnit
 
         this.transform.Find("bolt@HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
+        this.transform.Find("SpawnIndicator").gameObject.SetActive(false);
         attackCooldown = 0;
         startAimTime = 0;
         startShootTime = 0;
@@ -110,21 +111,19 @@ public class BoltBase : BoltUnit
         {
             this.transform.GetChild(0).gameObject.SetActive(false);
             this.transform.Find("RangeIndicator").gameObject.SetActive(false);
-            ignoreEnemy = false;
+        }
+
+        if (BoltHUDListener.Instance.selected != null)
+        {
+            this.transform.Find("SpawnIndicator").gameObject.SetActive(true);
+            this.transform.Find("SpawnIndicator").transform.localScale = new Vector3(BoltSpawnerScript.Instance.spawnRadius * 2 / this.transform.localScale.x, BoltSpawnerScript.Instance.spawnRadius * 2 / this.transform.localScale.y, 1);
+        }
+        else
+        {
+            this.transform.Find("SpawnIndicator").gameObject.SetActive(false);
         }
 
         // The following section handles attacking logic
-
-        // This checks for if we can interrupt movement to attack an enemy
-        if (ignoreEnemy)
-        {
-            // TODO: make the margin of error dynamic based on the group size as bigger clumps make it impossible to reach the target destination
-            if (Mathf.Abs(this.transform.position.x - targetPosition.x) <= 0.6 &&
-               Mathf.Abs(this.transform.position.z - targetPosition.z) <= 0.6)
-            {
-                ignoreEnemy = false;
-            }
-        }
 
         // Two variables to store the current closest distance and current closest enemy (not necessarily within range)
         float closestEnemyDistance = float.MaxValue;
@@ -258,12 +257,12 @@ public class BoltBase : BoltUnit
 
     }
 
-    public new void MoveToPlace(Vector3 location, int type)
+    public override void MoveToPlace(Vector3 location, int type, float speed)
     {
         return;
     }
 
-    protected IEnumerator attackEnemy(BoltUnit enemy, float delay)
+    protected override IEnumerator attackEnemy(BoltUnit enemy, float delay)
     {
         // Wait for the delay (travel time of "projectile")
         yield return new WaitForSeconds(delay);

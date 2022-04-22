@@ -387,7 +387,7 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     // type = 0: ignore move
     // type = 1: attack move
-    public void MoveToPlace(Vector3 location, int type, float speed)
+    public virtual void MoveToPlace(Vector3 location, int type, float speed)
     {
         if (type == 0 || type == 2)
         {
@@ -538,7 +538,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         return attackCooldown <= Time.time;
     }
 
-    protected IEnumerator attackEnemy(BoltUnit enemy, float delay)
+    protected virtual IEnumerator attackEnemy(BoltUnit enemy, float delay)
     {
         // Wait for the delay (travel time of "projectile")
         yield return new WaitForSeconds(delay);

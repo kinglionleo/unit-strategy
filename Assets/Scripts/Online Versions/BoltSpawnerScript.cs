@@ -15,8 +15,6 @@ public class BoltSpawnerScript : GlobalEventListener
 
     private GameObject spawn;
     private GameObject hold;
-    // Denotes if we want to spawn something
-    private bool spawning;
 
     private int resources;
     private int research;
@@ -97,8 +95,10 @@ public class BoltSpawnerScript : GlobalEventListener
             timer = 0;
         }
 
-        if(!spawning)
+        if(BoltHUDListener.Instance.selected == null)
         {
+            Destroy(hold);
+            hold = null;
             return;
         }
 
@@ -134,17 +134,22 @@ public class BoltSpawnerScript : GlobalEventListener
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
-                if(resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
-                   research >= spawn.gameObject.GetComponent<BoltUnit>().getResearchRequirement() &&
-                   myBase != null &&
-                   Vector3.Distance(myBase.transform.position, hit.point) <= spawnRadius )
+                if(myBase != null &&
+                   Vector3.Distance(myBase.transform.position, hit.point) <= spawnRadius)
                 {
-                    BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
-                    addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+                    if (resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
+                        research >= spawn.gameObject.GetComponent<BoltUnit>().getResearchRequirement())
+                    {
+                        BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
+                        addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+                    }
+                }
+                else
+                {
                     spawn = null;
                     Destroy(hold);
                     hold = null;
-                    spawning = false;
+                    BoltHUDListener.Instance.DeselectAll();
                 }
                 
             }
@@ -156,7 +161,7 @@ public class BoltSpawnerScript : GlobalEventListener
             spawn = null;
             Destroy(hold);
             hold = null;
-            spawning = false;
+            BoltHUDListener.Instance.DeselectAll();
         }
 
     }
@@ -177,25 +182,21 @@ public class BoltSpawnerScript : GlobalEventListener
     public void spawnBasic()
     {
         spawn = basic;
-        spawning = true;
     }
 
     public void spawnSniper()
     {
         spawn = sniper;
-        spawning = true;
     }
 
     public void spawnTank()
     {
         spawn = tank;
-        spawning = true;
     }
 
     public void spawnJuggernaut()
     {
         spawn = juggernaut;
-        spawning = true;
     }
 
     public void spawnObject(GameObject unit)
@@ -205,13 +206,11 @@ public class BoltSpawnerScript : GlobalEventListener
             if(gathererCount < 3)
             {
                 spawn = unit;
-                spawning = true;
             }
             return;
         }
         
         spawn = unit;
-        spawning = true; 
     }
 
     public void setBase(GameObject thisBase)
