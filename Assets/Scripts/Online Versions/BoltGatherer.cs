@@ -41,7 +41,7 @@ public class BoltGatherer : BoltUnit
         {
             return;
         }
-        if(collision.gameObject.name.Equals("Resource") && !holdingResearch)
+        if(collision.gameObject.tag.Equals("Resource") && !holdingResearch)
         {
             holdingResource = true;
             holdingResearch = false;
@@ -49,7 +49,7 @@ public class BoltGatherer : BoltUnit
             MoveToPlace(BoltSpawnerScript.Instance.getBase().transform.position, 0, 0);
             
         }
-        if (collision.gameObject.name.Equals("Research") && !holdingResource)
+        if (collision.gameObject.tag.Equals("Research") && !holdingResource)
         {
             holdingResearch = true;
             holdingResource = false;
