@@ -318,7 +318,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                     aimingIndicator.SetActive(false);
                     startedAimingPhase = false;
 
-                    if (isCanAttack() && !ignoreEnemy && closestEnemy.GetComponent<BoltUnit>().state.TrueHealth >= 0)
+                    if (isCanAttack() && !ignoreEnemy /*&& closestEnemy.GetComponent<BoltUnit>().state.TrueHealth >= 0*/)
                     {
                         // Everything related to the actual attack is in here:
 
@@ -442,6 +442,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                 }
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= e.DamageRadius) {
                     unit.gameObject.GetComponent<BoltUnit>().state.Health -= e.DamageTaken;
+                    unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
                 }
             }
         }
@@ -456,28 +457,6 @@ public class BoltUnit : EntityEventListener<IUnit>
             Debug.Log(e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
             GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
             shotLineRendererClone.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
-
-            if (e.DamageRadius != 0)
-            {
-
-                foreach (var unit in BoltUnitManager.Instance.unitList)
-                {
-
-                    if (unit == null)
-                    {
-                        BoltUnitManager.Instance.unitList.Remove(unit);
-                        continue;
-                    }
-                    if (GameObject.ReferenceEquals(unit, this.gameObject))
-                    {
-                        continue;
-                    }
-                    if (Vector3.Distance(unit.transform.position, this.transform.position) <= e.DamageRadius)
-                    {
-                        unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
-                    }
-                }
-            }
         }
     }
 
