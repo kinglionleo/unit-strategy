@@ -452,7 +452,7 @@ public class BoltUnit : EntityEventListener<IUnit>
     // If we are the owner, we will NEVER receive this event.
     public override void OnEvent(ShotFired e)
     {
-        if (e != null && shotLineRenderer != null && shotLineRenderer.GetComponent<BoltShotLineRenderer>() != null) {
+        if (e != null && e.Target != null && shotLineRenderer != null && shotLineRenderer.GetComponent<BoltShotLineRenderer>() != null) {
             e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
             Debug.Log(e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
             GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
