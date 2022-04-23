@@ -318,7 +318,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                     aimingIndicator.SetActive(false);
                     startedAimingPhase = false;
 
-                    if (isCanAttack() && !ignoreEnemy /*&& closestEnemy.GetComponent<BoltUnit>().state.TrueHealth >= 0*/)
+                    if (isCanAttack() && !ignoreEnemy && closestEnemy.GetComponent<BoltUnit>().state.TrueHealth >= 0)
                     {
                         // Everything related to the actual attack is in here:
 
