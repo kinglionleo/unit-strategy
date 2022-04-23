@@ -141,8 +141,19 @@ public class BoltSpawnerScript : GlobalEventListener
                     if (resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
                         research >= spawn.gameObject.GetComponent<BoltUnit>().getResearchRequirement())
                     {
-                        BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
-                        addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+                        if (spawn.gameObject.GetComponent<BoltGatherer>() != null)
+                        {
+                            if (gathererCount < 3)
+                            {
+                                BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
+                                addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+                            }
+                        }
+                        else
+                        {
+                            BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
+                            addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+                        }
                     }
                 }
                 else
@@ -206,16 +217,7 @@ public class BoltSpawnerScript : GlobalEventListener
     }
 
     public void spawnObject(GameObject unit)
-    {
-        if(unit.GetComponent<BoltGatherer>() != null)
-        {
-            if(gathererCount < 3)
-            {
-                spawn = unit;
-            }
-            return;
-        }
-        
+    {   
         spawn = unit;
     }
 
