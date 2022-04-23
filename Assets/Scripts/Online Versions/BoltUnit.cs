@@ -443,6 +443,8 @@ public class BoltUnit : EntityEventListener<IUnit>
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= e.DamageRadius) {
                     unit.gameObject.GetComponent<BoltUnit>().state.Health -= e.DamageTaken;
                     unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
+
+                    Debug.Log("H: " + unit.gameObject.GetComponent<BoltUnit>().state.Health + ", TH:" + unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
                 }
             }
         }
@@ -454,7 +456,7 @@ public class BoltUnit : EntityEventListener<IUnit>
     {
         if (e != null && e.Target != null && shotLineRenderer != null && shotLineRenderer.GetComponent<BoltShotLineRenderer>() != null) {
             e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
-            Debug.Log(e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
+            Debug.Log("TH: " + e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
             GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
             shotLineRendererClone.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
         }

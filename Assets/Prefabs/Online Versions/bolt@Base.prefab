@@ -227,7 +227,7 @@ MonoBehaviour:
   acquisitionSpeed: 0
   aimSpeed: 1
   movementSpeed: 0
-  range: 6
+  range: 20
   damage: 20
   damageRadius: 2
   cost: 0
