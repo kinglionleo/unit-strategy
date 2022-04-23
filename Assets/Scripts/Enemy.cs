@@ -10,6 +10,8 @@ public class Enemy : MonoBehaviour
     protected LineRenderer lineRenderer;
     // Shows a shot/bullet moving towards towards the target
     public GameObject shotLineRenderer;
+
+    public GameObject splashIndicator;
     // The health that is equivalent to the "damage" that has not reached yet (bullets approaching) units will not
     // attack units with trueCurrentHealth <= 0
     protected float trueCurrentHealth;
@@ -209,12 +211,14 @@ public class Enemy : MonoBehaviour
     }
 
     // Take damage delay is for caller to pass in when the bullet arrives.
-    public void TakeDamage(float damage, float damageRadius, float takeDamageDelay)
+    public void TakeDamage(float damage, float damageRadius, float takeDamageDelay, float scaledDamageRadius)
     {
         trueCurrentHealth -= damage;
         Invoke(nameof(displayDamage), takeDamageDelay);
         if (damageRadius != 0) {
-
+            // clone splashRenderer at the origin of the unit that got hit.
+            GameObject splashIndicatorClone = Instantiate(splashIndicator, this.transform);
+            splashIndicatorClone.gameObject.GetComponent<SplashIndicatorScript>().startSplash(scaledDamageRadius);
             foreach (var unit in UnitManager.Instance.enemyList) {
 
                 if (unit == null) {
@@ -225,7 +229,7 @@ public class Enemy : MonoBehaviour
                     continue;
                 }
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
-                    unit.gameObject.GetComponent<Enemy>().TakeDamage(damage, 0, 0);
+                    unit.gameObject.GetComponent<Enemy>().TakeDamage(damage, 0, 0, 0);
                 }
             }
         }
@@ -282,7 +286,8 @@ public class Enemy : MonoBehaviour
         shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().startShot(unit.gameObject);
         float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
 
-        unit.TakeDamage(damage, damageRadius, takeDamageDelay);
+        float scaledDamageRadius = damageRadius * 2 / this.transform.localScale.x;
+        unit.TakeDamage(damage, damageRadius, takeDamageDelay, scaledDamageRadius);
 
         startShootTime = Time.time;
     }

@@ -30,6 +30,7 @@ public class BoltSpawnerScript : GlobalEventListener
     public GameObject sniper;
     public GameObject tank;
     public GameObject juggernaut;
+    public GameObject superSniper;
     public GameObject gatherer;
     public GameObject hq;
     public static BoltSpawnerScript Instance
@@ -197,6 +198,11 @@ public class BoltSpawnerScript : GlobalEventListener
     public void spawnJuggernaut()
     {
         spawn = juggernaut;
+    }
+
+    public void spawnSuperSniper()
+    {
+        spawn = superSniper;
     }
 
     public void spawnObject(GameObject unit)
