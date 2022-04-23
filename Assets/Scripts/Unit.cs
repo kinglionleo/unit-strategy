@@ -286,7 +286,7 @@ public class Unit : MonoBehaviour
                     if (isCanAttack() && !ignoreEnemy && enemyToAttack.getTrueCurrentHealth() > 0)
                     {
                         this.transform.LookAt(closestEnemy.transform);
-                        attackEnemy(enemyToAttack);
+                        StartCoroutine(attackEnemy(enemyToAttack));
                         cantAttack();
                         if (!selected) {
                             targetPosition = this.transform.position;
@@ -356,10 +356,10 @@ public class Unit : MonoBehaviour
         //this.transform.LookAt(location); Need to lerp this
     }
 
-    public void TakeDamage(float damage, float damageRadius, float takeDamageDelay, float scaledDamageRadius)
+    public void TakeDamage(float damage, float damageRadius, float scaledDamageRadius)
     {
         trueCurrentHealth -= damage;
-        Invoke(nameof(displayDamage), takeDamageDelay);
+        displayDamage();
         if(damageRadius != 0) {
             // clone splashRenderer at the origin of the unit that got hit.
             GameObject splashIndicatorClone = Instantiate(splashIndicator, this.transform);
@@ -375,7 +375,7 @@ public class Unit : MonoBehaviour
                 }
                 
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
-                    unit.gameObject.GetComponent<Unit>().TakeDamage(damage, 0, 0, 0);
+                    unit.gameObject.GetComponent<Unit>().TakeDamage(damage, 0, 0);
                 }
             }
         }
@@ -467,22 +467,28 @@ public class Unit : MonoBehaviour
         return attackCooldown <= Time.time;
     }
 
-    private void attackEnemy(Enemy enemy)
+    protected virtual IEnumerator attackEnemy(Enemy enemy)
     {   
         if (enemy == null) {
-            return;
+            yield break;
         }
         GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
         shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.gameObject);
         float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
         
         float scaledDamageRadius = damageRadius * 2 / this.transform.localScale.x;
-        // need to call TakeDamage after we know how long the shot will take to arrive at enemy
-        enemy.TakeDamage(damage, damageRadius, takeDamageDelay, scaledDamageRadius);
-
+        
         stationaryIndicator.SetActive(true);
         canMove = false;
         startShootTime = Time.time;
+
+        // Wait for the delay (travel time of "projectile")
+        yield return new WaitForSeconds(takeDamageDelay);
+
+        // need to call TakeDamage after we know how long the shot will take to arrive at enemy
+        enemy.TakeDamage(damage, damageRadius, scaledDamageRadius);
+
+        
     }
 
     private void cantAttack()

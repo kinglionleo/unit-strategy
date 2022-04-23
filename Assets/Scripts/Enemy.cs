@@ -179,7 +179,7 @@ public class Enemy : MonoBehaviour
                     {
                         //Debug.Log("enemy attacked!");
                         this.transform.LookAt(closestUnit.transform);
-                        attackUnit(unitToAttack);
+                        StartCoroutine(attackUnit(unitToAttack));
                         cantAttack();
                     }
                 }
@@ -211,10 +211,10 @@ public class Enemy : MonoBehaviour
     }
 
     // Take damage delay is for caller to pass in when the bullet arrives.
-    public void TakeDamage(float damage, float damageRadius, float takeDamageDelay, float scaledDamageRadius)
+    public void TakeDamage(float damage, float damageRadius, float scaledDamageRadius)
     {
         trueCurrentHealth -= damage;
-        Invoke(nameof(displayDamage), takeDamageDelay);
+        displayDamage();
         if (damageRadius != 0) {
             // clone splashRenderer at the origin of the unit that got hit.
             GameObject splashIndicatorClone = Instantiate(splashIndicator, this.transform);
@@ -229,7 +229,7 @@ public class Enemy : MonoBehaviour
                     continue;
                 }
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius) {
-                    unit.gameObject.GetComponent<Enemy>().TakeDamage(damage, 0, 0, 0);
+                    unit.gameObject.GetComponent<Enemy>().TakeDamage(damage, 0, 0);
                 }
             }
         }
@@ -280,16 +280,20 @@ public class Enemy : MonoBehaviour
         return attackCooldown <= Time.time;
     }
 
-    protected void attackUnit(Unit unit)
+    protected virtual IEnumerator attackUnit(Unit unit)
     {
         GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
         shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().startShot(unit.gameObject);
         float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
 
-        float scaledDamageRadius = damageRadius * 2 / this.transform.localScale.x;
-        unit.TakeDamage(damage, damageRadius, takeDamageDelay, scaledDamageRadius);
-
         startShootTime = Time.time;
+
+        yield return new WaitForSeconds(takeDamageDelay);
+
+        float scaledDamageRadius = damageRadius * 2 / this.transform.localScale.x;
+        unit.TakeDamage(damage, damageRadius, scaledDamageRadius);
+
+        
     }
 
     private void cantAttack()
