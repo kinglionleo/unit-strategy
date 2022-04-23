@@ -221,15 +221,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotLineRenderer: {fileID: 1069659724156776002}
-  maxHealth: 2000
-  currentHealth: 2000
-  attackSpeed: 1
+  maxHealth: 1500
+  currentHealth: 1500
+  attackSpeed: 1.5
   acquisitionSpeed: 0
-  aimSpeed: 1
+  aimSpeed: 1.5
   movementSpeed: 0
-  range: 20
-  damage: 20
-  damageRadius: 2
+  range: 15
+  damage: 15
+  damageRadius: 1
   cost: 0
   researchRequirement: 0
   unitType: ground
