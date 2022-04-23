@@ -304,15 +304,15 @@ MonoBehaviour:
   shotLineRenderer: {fileID: 945250129048815421}
   maxHealth: 70
   currentHealth: 70
-  attackSpeed: 4
-  acquisitionSpeed: 3
-  aimSpeed: 5
-  movementSpeed: 1.2
+  attackSpeed: 2.5
+  acquisitionSpeed: 1
+  aimSpeed: 2
+  movementSpeed: 1.5
   range: 7
   damage: 35
   damageRadius: 0
   cost: 40
-  researchRequirement: 1
+  researchRequirement: 100
   unitType: ground
   damageType: single
   flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
