@@ -356,6 +356,13 @@ public class Unit : MonoBehaviour
         //this.transform.LookAt(location); Need to lerp this
     }
 
+    public void CancelCommand()
+    {
+        targetPosition = this.transform.position;
+        myAgent.SetDestination(targetPosition);
+        ignoreEnemy = false;
+    }
+
     public void TakeDamage(float damage, float damageRadius, float scaledDamageRadius)
     {
         trueCurrentHealth -= damage;

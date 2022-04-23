@@ -194,11 +194,6 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     public override void SimulateOwner()
     {
-        // If the unit is in blueprint mode, it shouldn't do anything. TODO: Remove this part later
-        if (this.gameObject.tag.Equals("Blueprint"))
-        {
-            return;
-        }
 
         // If the unit cannot move, it checks for if it has stayed still for long enough, then allows it to move
         if (!canMove)
@@ -411,6 +406,13 @@ public class BoltUnit : EntityEventListener<IUnit>
         myAgent.SetDestination(targetPosition);
         // sets the final destination to the location clicked.
         //this.transform.LookAt(location); Need to lerp this
+    }
+
+    public void CancelCommand()
+    {
+        targetPosition = this.transform.position;
+        myAgent.SetDestination(targetPosition);
+        ignoreEnemy = false;
     }
 
     // It's important to note that this is for a LOCAL ENEMY to have their health updated without needing to access server health.

@@ -25,7 +25,10 @@ public class BoltUnitManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            CancelCommand();
+        }
     }
 
     void Awake()
@@ -248,6 +251,19 @@ public class BoltUnitManager : MonoBehaviour
             unit.GetComponent<BoltUnit>().setSelected(false);
         }
         unitsSelected.Clear();
+    }
+
+    public void CancelCommand()
+    {
+        foreach (var unit in unitsSelected)
+        {
+            if (unit == null)
+            {
+                unitList.Remove(unit);
+                continue;
+            }
+            unit.GetComponent<BoltUnit>().CancelCommand();
+        }
     }
     
     public void Deselect(GameObject unitToAdd)
