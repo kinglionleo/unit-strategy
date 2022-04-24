@@ -9,7 +9,9 @@ public class Unit : MonoBehaviour
     NavMeshAgent myAgent;
     LineRenderer lineRenderer;
     // Shows a shot/bullet moving towards towards the target
-    GameObject shotLineRenderer;
+    public GameObject shotLineRenderer;
+    // Shows the radius of splash damage if applicable
+    public GameObject splashIndicator;
     // The black acquisition circle that appears when a unit becomes stationary
     GameObject stationaryIndicator;
     // White circle that appears when a unit is aiming
@@ -99,10 +101,10 @@ public class Unit : MonoBehaviour
         aimingIndicator = this.transform.Find("AimingIndicator").gameObject;
         aimingIndicator.SetActive(false);
 
-        shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
-        if (shotLineRenderer != null) {
-            shotLineRenderer.SetActive(false);
-        }
+        // shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
+        // if (shotLineRenderer != null) {
+        //     shotLineRenderer.SetActive(false);
+        // }
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -284,7 +286,7 @@ public class Unit : MonoBehaviour
                     if (isCanAttack() && !ignoreEnemy && enemyToAttack.getTrueCurrentHealth() > 0)
                     {
                         this.transform.LookAt(closestEnemy.transform);
-                        attackEnemy(enemyToAttack);
+                        StartCoroutine(attackEnemy(enemyToAttack));
                         cantAttack();
                         if (!selected) {
                             targetPosition = this.transform.position;
@@ -354,12 +356,21 @@ public class Unit : MonoBehaviour
         //this.transform.LookAt(location); Need to lerp this
     }
 
-    public void TakeDamage(float damage, float damageRadius, float takeDamageDelay)
+    public void CancelCommand()
+    {
+        targetPosition = this.transform.position;
+        myAgent.SetDestination(targetPosition);
+        ignoreEnemy = false;
+    }
+
+    public void TakeDamage(float damage, float damageRadius, float scaledDamageRadius)
     {
         trueCurrentHealth -= damage;
-        Invoke(nameof(displayDamage), takeDamageDelay);
+        displayDamage();
         if(damageRadius != 0) {
-
+            // clone splashRenderer at the origin of the unit that got hit.
+            GameObject splashIndicatorClone = Instantiate(splashIndicator, this.transform);
+            splashIndicatorClone.gameObject.GetComponent<SplashIndicatorScript>().startSplash(scaledDamageRadius);
             foreach (var unit in UnitManager.Instance.unitList) {
 
                 if (unit == null) {
@@ -463,17 +474,28 @@ public class Unit : MonoBehaviour
         return attackCooldown <= Time.time;
     }
 
-    private void attackEnemy(Enemy enemy)
-    {
-        //shotLineRenderer.SetActive(true);
-        shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.gameObject);
-        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotTimeLength;
-        // need to call TakeDamage after we know how long the shot will take to arrive at enemy
-        enemy.TakeDamage(damage, damageRadius, takeDamageDelay);
-
+    protected virtual IEnumerator attackEnemy(Enemy enemy)
+    {   
+        if (enemy == null) {
+            yield break;
+        }
+        GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
+        shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().startShot(enemy.gameObject);
+        float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
+        
+        float scaledDamageRadius = damageRadius * 2 / this.transform.localScale.x;
+        
         stationaryIndicator.SetActive(true);
         canMove = false;
         startShootTime = Time.time;
+
+        // Wait for the delay (travel time of "projectile")
+        yield return new WaitForSeconds(takeDamageDelay);
+
+        // need to call TakeDamage after we know how long the shot will take to arrive at enemy
+        enemy.TakeDamage(damage, damageRadius, scaledDamageRadius);
+
+        
     }
 
     private void cantAttack()

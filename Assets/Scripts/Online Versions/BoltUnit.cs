@@ -11,12 +11,12 @@ public class BoltUnit : EntityEventListener<IUnit>
     protected LineRenderer lineRenderer;
 
     // Shows a shot/bullet moving towards towards the target
-    GameObject shotLineRenderer;
+    public GameObject shotLineRenderer;
 
     // The black acquisition circle that appears when a unit becomes stationary
     protected GameObject stationaryIndicator;
     protected GameObject aimingIndicator;
-    Animator animator;
+    protected Animator animator;
 
     public float maxHealth;
     public float currentHealth;
@@ -37,6 +37,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     public float damageRadius;
     // How much it costs to spawn this unit
     public int cost;
+    // The research requirement for this unit
+    public int researchRequirement;
 
     // If this unit is flying or ground
     public string unitType;
@@ -87,6 +89,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         if(entity.IsOwner)
         {
             state.Health = maxHealth;
+            state.TrueHealth = maxHealth;
         }
         state.AddCallback("Health", HealthCallback);
 
@@ -140,7 +143,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         aimingIndicator = this.transform.Find("bolt@AimingIndicator").gameObject;
         aimingIndicator.SetActive(false);
 
-        // shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
+        // shotLineRenderer = this.transform.Find("bolt@ShotLineRenderer").gameObject;
         // shotLineRenderer.SetActive(false);
 
         lineRenderer = this.GetComponent<LineRenderer>();
@@ -191,11 +194,6 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     public override void SimulateOwner()
     {
-        // If the unit is in blueprint mode, it shouldn't do anything. TODO: Remove this part later
-        if (this.gameObject.tag.Equals("Blueprint"))
-        {
-            return;
-        }
 
         // If the unit cannot move, it checks for if it has stayed still for long enough, then allows it to move
         if (!canMove)
@@ -315,11 +313,38 @@ public class BoltUnit : EntityEventListener<IUnit>
                     aimingIndicator.SetActive(false);
                     startedAimingPhase = false;
 
-                    if (isCanAttack() && !ignoreEnemy)
+                    if (isCanAttack() && !ignoreEnemy /*&& closestEnemy.GetComponent<BoltUnit>().state.TrueHealth >= 0*/)
                     {
-                        this.transform.LookAt(closestEnemy.transform);
-                        attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>());
+                        // Everything related to the actual attack is in here:
+
+                        // Tell our shotrenderer to start a shot
+                        GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
+                        shotLineRendererClone.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+                        // float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
+                        // shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+
+                        // Tell the other player that we just fired a shot at them so they can render it on their screen.
+                        ShotFired e = ShotFired.Create(entity, EntityTargets.EveryoneExceptOwner);
+                        e.Target = closestEnemy.GetComponent<BoltUnit>().entity;
+                        e.DamageTaken = damage;
+                        e.DamageRadius = damageRadius;
+                        e.Send();
+
+                        // Get how long it takes for the shot to arrive at the target
+                        float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
+
+                        // Create the delay with a coroutine which after waiting will tell the target to take damage
+                        StartCoroutine(attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay));
+
+                        // Now we can't move
+                        stationaryIndicator.SetActive(true);
+                        canMove = false;
+                        startShootTime = Time.time;
+
+                        // Start reloading
                         cantAttack();
+
+                        // This is to prevent stutterstepping
                         if (!selected)
                         {
                             targetPosition = this.transform.position;
@@ -357,7 +382,7 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     // type = 0: ignore move
     // type = 1: attack move
-    public void MoveToPlace(Vector3 location, int type, float speed)
+    public virtual void MoveToPlace(Vector3 location, int type, float speed)
     {
         if (type == 0 || type == 2)
         {
@@ -383,22 +408,28 @@ public class BoltUnit : EntityEventListener<IUnit>
         //this.transform.LookAt(location); Need to lerp this
     }
 
+    public void CancelCommand()
+    {
+        targetPosition = this.transform.position;
+        myAgent.SetDestination(targetPosition);
+        ignoreEnemy = false;
+    }
+
     // It's important to note that this is for a LOCAL ENEMY to have their health updated without needing to access server health.
     // This is for pure, instantaneous feedback and has nothing to do with an enemy's actual health.
     public void TakeDamage(float damage)
     {
-        currentHealth -= damage;
-
         damageTakenTime = Time.time;
         flashAnimation();
     }
 
+    // This event will only be recieved by OWNERS of the entity.
     public override void OnEvent(ReceiveDamage e) {
-
-        state.Health -= e.DamageTaken;
 
         damageTakenTime = Time.time;
         flashAnimation();
+
+        state.Health -= e.DamageTaken;
 
         if (e.DamageRadius != 0) {
 
@@ -413,8 +444,23 @@ public class BoltUnit : EntityEventListener<IUnit>
                 }
                 if(Vector3.Distance(unit.transform.position, this.transform.position) <= e.DamageRadius) {
                     unit.gameObject.GetComponent<BoltUnit>().state.Health -= e.DamageTaken;
+                    unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
+
+                    Debug.Log("H: " + unit.gameObject.GetComponent<BoltUnit>().state.Health + ", TH:" + unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
                 }
             }
+        }
+    }
+
+    // It's important to note that this is for a LOCAL ENEMY to start the shot animation. No health is modified.
+    // If we are the owner, we will NEVER receive this event.
+    public override void OnEvent(ShotFired e)
+    {
+        if (e != null && e.Target != null && shotLineRenderer != null && shotLineRenderer.GetComponent<BoltShotLineRenderer>() != null) {
+            e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
+            Debug.Log("TH: " + e.Target.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
+            GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
+            shotLineRendererClone.GetComponent<BoltShotLineRenderer>().startShot(e.Target.gameObject);
         }
     }
 
@@ -482,6 +528,10 @@ public class BoltUnit : EntityEventListener<IUnit>
     {
         return cost;
     }
+    public int getResearchRequirement()
+    {
+        return researchRequirement;
+    }
     protected bool isCanAttack()
     {
         if (!aimedAtEnemy)
@@ -492,18 +542,23 @@ public class BoltUnit : EntityEventListener<IUnit>
         return attackCooldown <= Time.time;
     }
 
-    protected void attackEnemy(BoltUnit enemy)
+    protected virtual IEnumerator attackEnemy(BoltUnit enemy, float delay)
     {
-        enemy.TakeDamage(damage);
-        Debug.Log(enemy.gameObject.tag);
-        ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
-        e.DamageTaken = damage;
-        e.DamageRadius = damageRadius;
-        e.Send();
+        // Wait for the delay (travel time of "projectile")
+        yield return new WaitForSeconds(delay);
 
-        stationaryIndicator.SetActive(true);
-        canMove = false;
-        startShootTime = Time.time;
+        // Defensive programming: ensure that our enemy still exists after delay
+        if(enemy != null)
+        {
+            // This tells the local enemy to flash
+            enemy.TakeDamage(damage);
+
+            // This tells the online enemy to take damage
+            ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
+            e.DamageTaken = damage;
+            e.DamageRadius = damageRadius;
+            e.Send();
+        }
     }
 
     protected void cantAttack()
@@ -513,6 +568,11 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     protected void flashAnimation()
     {
+        if(this == null)
+        {
+            Debug.Log("Null Child");
+            return;
+        }
         int count = this.transform.GetChild(1).childCount;
         for (int i = 0; i < count; i++)
         {

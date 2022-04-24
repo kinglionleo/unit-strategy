@@ -28,11 +28,11 @@ public class Base : Enemy
         maxHealth = 5000;
         currentHealth = maxHealth;
         
-        shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
-        if (shotLineRenderer != null) {
-            shotLineRenderer.SetActive(false);
-            shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotStartOffset = new Vector3(0, 6, 0);
-        }
+        // shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
+        // if (shotLineRenderer != null) {
+        //     shotLineRenderer.SetActive(false);
+        //     shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotStartOffset = new Vector3(0, 6, 0);
+        // }
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;

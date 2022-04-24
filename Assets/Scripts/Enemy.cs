@@ -9,7 +9,9 @@ public class Enemy : MonoBehaviour
     protected NavMeshAgent myAgent;
     protected LineRenderer lineRenderer;
     // Shows a shot/bullet moving towards towards the target
-    protected GameObject shotLineRenderer;
+    public GameObject shotLineRenderer;
+
+    public GameObject splashIndicator;
     // The health that is equivalent to the "damage" that has not reached yet (bullets approaching) units will not
     // attack units with trueCurrentHealth <= 0
     protected float trueCurrentHealth;
@@ -59,10 +61,10 @@ public class Enemy : MonoBehaviour
         UnitManager.Instance.enemyList.Add(this.gameObject);
         myAgent = this.GetComponent<NavMeshAgent>();
 
-        shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
-        if (shotLineRenderer != null) {
-            shotLineRenderer.SetActive(false);
-        }
+        // shotLineRenderer = this.transform.Find("ShotLineRenderer").gameObject;
+        // if (shotLineRenderer != null) {
+        //     shotLineRenderer.SetActive(false);
+        // }
 
         lineRenderer = this.GetComponent<LineRenderer>();
         lineRenderer.startWidth = 0.04f;
@@ -177,7 +179,7 @@ public class Enemy : MonoBehaviour
                     {
                         //Debug.Log("enemy attacked!");
                         this.transform.LookAt(closestUnit.transform);
-                        attackUnit(unitToAttack);
+                        StartCoroutine(attackUnit(unitToAttack));
                         cantAttack();
                     }
                 }
@@ -209,12 +211,14 @@ public class Enemy : MonoBehaviour
     }
 
     // Take damage delay is for caller to pass in when the bullet arrives.
-    public void TakeDamage(float damage, float damageRadius, float takeDamageDelay)
+    public void TakeDamage(float damage, float damageRadius, float scaledDamageRadius)
     {
         trueCurrentHealth -= damage;
-        Invoke(nameof(displayDamage), takeDamageDelay);
+        displayDamage();
         if (damageRadius != 0) {
-
+            // clone splashRenderer at the origin of the unit that got hit.
+            GameObject splashIndicatorClone = Instantiate(splashIndicator, this.transform);
+            splashIndicatorClone.gameObject.GetComponent<SplashIndicatorScript>().startSplash(scaledDamageRadius);
             foreach (var unit in UnitManager.Instance.enemyList) {
 
                 if (unit == null) {
@@ -276,14 +280,20 @@ public class Enemy : MonoBehaviour
         return attackCooldown <= Time.time;
     }
 
-    protected void attackUnit(Unit unit)
+    protected virtual IEnumerator attackUnit(Unit unit)
     {
-        //shotLineRenderer.SetActive(true);
-        shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().startShot(unit.gameObject);
-        float takeDamageDelay = shotLineRenderer.gameObject.GetComponent<ShotRendererScript>().shotTimeLength;
-        unit.TakeDamage(damage, damageRadius, takeDamageDelay);
+        GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
+        shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().startShot(unit.gameObject);
+        float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
 
         startShootTime = Time.time;
+
+        yield return new WaitForSeconds(takeDamageDelay);
+
+        float scaledDamageRadius = damageRadius * 2 / this.transform.localScale.x;
+        unit.TakeDamage(damage, damageRadius, scaledDamageRadius);
+
+        
     }
 
     private void cantAttack()

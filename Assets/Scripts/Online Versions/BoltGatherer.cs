@@ -10,20 +10,52 @@ public class BoltGatherer : BoltUnit
     public int generationAmount;
 
     protected Vector3 resourceLocation;
+    protected Vector3 researchLocation;
 
     private bool holdingResource;
+    private bool holdingResearch;
+
+    // Start Equivalent
+    public override void Attached()
+    {
+        base.Attached();
+        if(entity.IsOwner)
+        {
+            BoltSpawnerScript.Instance.AddGatherer(1);
+        }
+    }
+
+    // Destroy Equivalent
+    public override void Detached()
+    {
+        base.Detached();
+        if (entity.IsOwner)
+        {
+            BoltSpawnerScript.Instance.AddGatherer(-1);
+        }
+
+    }
     void OnCollisionEnter(Collision collision)
     {
         if(!entity.IsOwner)
         {
             return;
         }
-        if(collision.gameObject.name.Equals("Resource"))
+        if(collision.gameObject.tag.Equals("Resource"))
         {
             holdingResource = true;
+            holdingResearch = false;
             resourceLocation = collision.transform.position;
             MoveToPlace(BoltSpawnerScript.Instance.getBase().transform.position, 0, 0);
             
+        }
+        if (collision.gameObject.tag.Equals("Research"))
+        {
+            holdingResearch = true;
+            holdingResource = false;
+            researchLocation = collision.transform.position;
+            MoveToPlace(BoltSpawnerScript.Instance.getBase().transform.position, 0, 0);
+
         }
         else if(GameObject.ReferenceEquals(collision.gameObject, BoltSpawnerScript.Instance.getBase())) {
 
@@ -36,7 +68,16 @@ public class BoltGatherer : BoltUnit
                     MoveToPlace(resourceLocation, 0, 0);
                 }
             }
-            
+            if (holdingResearch)
+            {
+                BoltSpawnerScript.Instance.addResearch(generationAmount);
+                holdingResearch = false;
+                if (researchLocation != null)
+                {
+                    MoveToPlace(researchLocation, 0, 0);
+                }
+            }
+
         }
     }
 

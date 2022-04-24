@@ -15,20 +15,22 @@ public class BoltSpawnerScript : GlobalEventListener
 
     private GameObject spawn;
     private GameObject hold;
-    // Denotes if we want to spawn something
-    private bool spawning;
 
     private int resources;
+    private int research;
     private float timer;
     private bool canIncrease;
+    private int gathererCount;
 
     public Material blueprint;
     public Text resourceText;
+    public Text researchText;
     public float spawnRadius;
     public GameObject basic;
     public GameObject sniper;
     public GameObject tank;
     public GameObject juggernaut;
+    public GameObject superSniper;
     public GameObject gatherer;
     public GameObject hq;
     public static BoltSpawnerScript Instance
@@ -55,6 +57,8 @@ public class BoltSpawnerScript : GlobalEventListener
             spawnBase(new Vector3(-12.78f, 2.5f, -12.78f), Quaternion.Euler(0f, 180f, 0f));
         }
         resources = 0;
+        research = 0;
+        gathererCount = 0;
         addResource(50);
         timer = 0;
     }
@@ -92,8 +96,10 @@ public class BoltSpawnerScript : GlobalEventListener
             timer = 0;
         }
 
-        if(!spawning)
+        if(BoltHUDListener.Instance.selected == null)
         {
+            Destroy(hold);
+            hold = null;
             return;
         }
 
@@ -106,15 +112,7 @@ public class BoltSpawnerScript : GlobalEventListener
             hold.transform.localScale = new Vector3(hold.transform.localScale.x * spawn.transform.localScale.x,
                                                     hold.transform.localScale.y * spawn.transform.localScale.y,
                                                     hold.transform.localScale.z * spawn.transform.localScale.z);
-            // NavMeshAgent[] navMeshAgents;
-            // navMeshAgents = hold.GetComponents<NavMeshAgent>();
-            // navMeshAgents[0].enabled = false;
-            //((GameObject)hold).GetComponent<Collider>().enabled = false;
-
-            // This is to prevent the bug where the blueprint will be added to unitsSelected (as the game detects the click on it) which will then
-            // become null after destroying the blueprint.
-
-            // The 1 refers to the fact that models will always be the second child
+            
             for (int i = 0; i < hold.transform.childCount; i++)
             {
                 setBlueprintMaterial(hold.transform.GetChild(i).gameObject);
@@ -137,16 +135,33 @@ public class BoltSpawnerScript : GlobalEventListener
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
-                if(resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
-                   myBase != null &&
-                   Vector3.Distance(myBase.transform.position, hit.point) <= spawnRadius )
+                if(myBase != null &&
+                   Vector3.Distance(myBase.transform.position, hit.point) <= spawnRadius)
                 {
-                    BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
-                    addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+                    if (resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
+                        research >= spawn.gameObject.GetComponent<BoltUnit>().getResearchRequirement())
+                    {
+                        if (spawn.gameObject.GetComponent<BoltGatherer>() != null)
+                        {
+                            if (gathererCount < 3)
+                            {
+                                BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
+                                addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+                            }
+                        }
+                        else
+                        {
+                            BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
+                            addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+                        }
+                    }
+                }
+                else
+                {
                     spawn = null;
                     Destroy(hold);
                     hold = null;
-                    spawning = false;
+                    BoltHUDListener.Instance.DeselectAll();
                 }
                 
             }
@@ -158,7 +173,7 @@ public class BoltSpawnerScript : GlobalEventListener
             spawn = null;
             Destroy(hold);
             hold = null;
-            spawning = false;
+            BoltHUDListener.Instance.DeselectAll();
         }
 
     }
@@ -169,34 +184,41 @@ public class BoltSpawnerScript : GlobalEventListener
         resourceText.text = resources.ToString();
     }
 
+    public void addResearch(int amount)
+    {
+        research += amount;
+        researchText.text = research.ToString();
+
+    }
+
     public void spawnBasic()
     {
         spawn = basic;
-        spawning = true;
     }
 
     public void spawnSniper()
     {
         spawn = sniper;
-        spawning = true;
     }
 
     public void spawnTank()
     {
         spawn = tank;
-        spawning = true;
     }
 
     public void spawnJuggernaut()
     {
         spawn = juggernaut;
-        spawning = true;
+    }
+
+    public void spawnSuperSniper()
+    {
+        spawn = superSniper;
     }
 
     public void spawnObject(GameObject unit)
-    {
+    {   
         spawn = unit;
-        spawning = true;
     }
 
     public void setBase(GameObject thisBase)
@@ -207,6 +229,11 @@ public class BoltSpawnerScript : GlobalEventListener
     public GameObject getBase()
     {
         return myBase; 
+    }
+
+    public void AddGatherer(int amount)
+    {
+        gathererCount += amount;
     }
 
     private void spawnBase(Vector3 position, Quaternion rotation)
