@@ -313,6 +313,7 @@ MonoBehaviour:
   damageRadius: 0
   cost: 40
   researchRequirement: 100
+  lifetime: 30
   unitType: ground
   damageType: single
   flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}

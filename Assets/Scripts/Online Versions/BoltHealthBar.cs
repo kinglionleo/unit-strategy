@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Photon.Bolt;
 
 public class BoltHealthBar : MonoBehaviour
 {
 
     public Image healthBar;
     public Image healthBarBackground;
+    public Image lifetimeBar;
     public float lerpSpeed;
     private BoltUnit myUnit;
     private Color32 redColor;
@@ -21,6 +23,7 @@ public class BoltHealthBar : MonoBehaviour
     void FixedUpdate()
     {
         HealthBarFiller();
+        LifeBarFiller();
         this.transform.rotation = Camera.main.transform.rotation;
     }
 
@@ -39,5 +42,14 @@ public class BoltHealthBar : MonoBehaviour
             healthBar.color = redColor;
         }
         
+    }
+
+    void LifeBarFiller()
+    {
+        // If the lifetime field of a unit is 0, it does not die on a timer, so we return
+        if (myUnit.lifetime == 0) return;
+        lifetimeBar.fillAmount = (myUnit.lifetime - (BoltNetwork.ServerTime - myUnit.getSpawnTime())) / myUnit.lifetime;
+
+
     }
 }

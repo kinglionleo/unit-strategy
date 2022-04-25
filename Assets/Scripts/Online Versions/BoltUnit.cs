@@ -39,6 +39,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     public int cost;
     // The research requirement for this unit
     public int researchRequirement;
+    // How long this unit lasts
+    public int lifetime;
 
     // If this unit is flying or ground
     public string unitType;
@@ -67,6 +69,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     protected float hitboxRadius;
     // Denotes when this unit took damage
     protected float damageTakenTime;
+    // Denotes when this unit spawned
+    protected float spawnTime;
 
     // Denotes if the unit is in an aiming state, basically, a NEW target has appeared and it is waiting on its aiming speed
     protected bool startedAimingPhase;
@@ -90,6 +94,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         {
             state.Health = maxHealth;
             state.TrueHealth = maxHealth;
+            spawnTime = BoltNetwork.ServerTime;
         }
         state.AddCallback("Health", HealthCallback);
 
@@ -194,7 +199,10 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     public override void SimulateOwner()
     {
-
+        if (BoltNetwork.ServerTime >= spawnTime + lifetime)
+        {
+            BoltNetwork.Destroy(this.gameObject);
+        }
         // If the unit cannot move, it checks for if it has stayed still for long enough, then allows it to move
         if (!canMove)
         {
@@ -531,6 +539,11 @@ public class BoltUnit : EntityEventListener<IUnit>
     public int getResearchRequirement()
     {
         return researchRequirement;
+    }
+
+    public float getSpawnTime()
+    {
+        return spawnTime;
     }
     protected bool isCanAttack()
     {
