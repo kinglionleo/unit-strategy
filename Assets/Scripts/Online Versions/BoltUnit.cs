@@ -392,6 +392,11 @@ public class BoltUnit : EntityEventListener<IUnit>
     // type = 1: attack move
     public virtual void MoveToPlace(Vector3 location, int type, float speed)
     {
+        if (myAgent == null)
+        {
+            return;
+        }
+
         if (type == 0 || type == 2)
         {
             ignoreEnemy = true;
