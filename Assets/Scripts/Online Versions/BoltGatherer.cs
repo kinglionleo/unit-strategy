@@ -83,6 +83,10 @@ public class BoltGatherer : BoltUnit
 
     public override void SimulateOwner()
     {
+        if (BoltNetwork.ServerTime >= spawnTime + lifetime)
+        {
+            BoltNetwork.Destroy(this.gameObject);
+        }
 
         // This handles if the unit is selected or not. Pretty inefficient, can be a on/off function instead.
         if (selected)
