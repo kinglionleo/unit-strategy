@@ -90,7 +90,7 @@ public class BoltSpawnerScript : GlobalEventListener
     {
         timer += Time.deltaTime;
         
-        if (canIncrease && timer >= 1.5)
+        if (canIncrease && timer >= 2.5)
         {
             addResource(5);
             timer = 0;

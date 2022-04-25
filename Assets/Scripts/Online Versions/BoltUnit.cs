@@ -94,8 +94,8 @@ public class BoltUnit : EntityEventListener<IUnit>
         {
             state.Health = maxHealth;
             state.TrueHealth = maxHealth;
-            spawnTime = BoltNetwork.ServerTime;
         }
+        spawnTime = BoltNetwork.ServerTime;
         state.AddCallback("Health", HealthCallback);
 
         if (entity.IsOwner)
