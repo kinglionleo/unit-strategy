@@ -310,9 +310,9 @@ MonoBehaviour:
   movementSpeed: 1.6
   range: 4
   damage: 20
-  damageRadius: 1.2
+  damageRadius: 1.5
   cost: 50
-  researchRequirement: 100
+  researchRequirement: 0
   lifetime: 30
   unitType: ground
   damageType: single

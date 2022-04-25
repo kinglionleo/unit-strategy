@@ -307,10 +307,10 @@ MonoBehaviour:
   attackSpeed: 2.5
   acquisitionSpeed: 1
   aimSpeed: 2
-  movementSpeed: 1.5
-  range: 7
+  movementSpeed: 2
+  range: 9
   damage: 35
-  damageRadius: 0
+  damageRadius: 0.5
   cost: 40
   researchRequirement: 100
   lifetime: 30

@@ -302,8 +302,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shotLineRenderer: {fileID: 6144919617998317244}
-  maxHealth: 100
-  currentHealth: 100
+  maxHealth: 80
+  currentHealth: 80
   attackSpeed: 1
   acquisitionSpeed: 0.4
   aimSpeed: 0.2
