@@ -18,13 +18,16 @@ public class BoltSpawnerScript : GlobalEventListener
 
     private int resources;
     private int research;
+    private int resourceCap;
     private float timer;
     private bool canIncrease;
     private int gathererCount;
 
+    public float increaseDelay;
     public Material blueprint;
     public Text resourceText;
     public Text researchText;
+    public Text resourceCapText;
     public float spawnRadius;
     public GameObject basic;
     public GameObject sniper;
@@ -58,8 +61,12 @@ public class BoltSpawnerScript : GlobalEventListener
         }
         resources = 0;
         research = 0;
+    
         gathererCount = 0;
+
         addResource(50);
+        addResourceCap(100);
+
         timer = 0;
     }
 
@@ -90,7 +97,7 @@ public class BoltSpawnerScript : GlobalEventListener
     {
         timer += Time.deltaTime;
         
-        if (canIncrease && timer >= 2.5)
+        if (canIncrease && timer >= increaseDelay)
         {
             addResource(5);
             timer = 0;
@@ -181,7 +188,14 @@ public class BoltSpawnerScript : GlobalEventListener
     public void addResource(int amount)
     {
         resources += amount;
+        resources = Math.Min(resources, resourceCap);
         resourceText.text = resources.ToString();
+    }
+
+    public void addResourceCap(int amount)
+    {
+        resourceCap += amount;
+        resourceCapText.text = resourceCap.ToString();
     }
 
     public void addResearch(int amount)

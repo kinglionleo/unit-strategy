@@ -61,7 +61,7 @@ public class BoltGatherer : BoltUnit
 
             if(holdingResource)
             {
-                BoltSpawnerScript.Instance.addResource(generationAmount);
+                BoltSpawnerScript.Instance.addResourceCap(generationAmount);
                 holdingResource = false;
                 if(resourceLocation != null)
                 {
