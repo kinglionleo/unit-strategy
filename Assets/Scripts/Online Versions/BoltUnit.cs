@@ -206,8 +206,9 @@ public class BoltUnit : EntityEventListener<IUnit>
         // If the unit cannot move, it checks for if it has stayed still for long enough, then allows it to move
         if (!canMove)
         {
-            myAgent.SetDestination(this.transform.position);
-
+            if (myAgent != null) {
+                myAgent.SetDestination(this.transform.position);
+            }
             // Checks if the current point in time is greater than the time it shot a bullet and the time it must stay still
             if (Time.time >= startShootTime + acquisitionSpeed)
             {
