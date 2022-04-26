@@ -277,8 +277,15 @@ public class BoltBase : BoltUnit
             ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
             e.DamageTaken = damage;
             e.DamageRadius = damageRadius;
+            e.DamageDealer = this.GetComponent<BoltEntity>();
             e.Send();
             startShootTime = Time.time;
+
+            if (damageRadius > 0) {
+                float scaledDamageRadius = damageRadius * 2 / this.transform.localScale.x;
+                GameObject splashIndicatorClone = Instantiate(splashIndicator, this.transform);
+                splashIndicatorClone.gameObject.GetComponent<BoltSplashIndicatorScript>().startSplash(scaledDamageRadius, enemy);
+            }
         }
     }
 

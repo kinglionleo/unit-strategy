@@ -116,7 +116,7 @@ public class BoltShotLineRenderer : MonoBehaviour
         }
     }
 
-    private void calculateShotTimeLengthOnVelocity(GameObject target)
+    public void calculateShotTimeLengthOnVelocity(GameObject target)
     {
         shotStartLocation = myUnit.transform.position + shotStartOffset;
         this.shotTimeLength = Math.Abs((target.transform.position - shotStartLocation).magnitude / shotVelocity);

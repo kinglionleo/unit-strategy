@@ -12,6 +12,8 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     // Shows a shot/bullet moving towards towards the target
     public GameObject shotLineRenderer;
+    // Shows the radius of splash damage if applicable
+    public GameObject splashIndicator;
 
     // The black acquisition circle that appears when a unit becomes stationary
     protected GameObject stationaryIndicator;
@@ -434,6 +436,7 @@ public class BoltUnit : EntityEventListener<IUnit>
     public void TakeDamage(float damage)
     {
         damageTakenTime = Time.time;
+        
         flashAnimation();
     }
 
@@ -446,7 +449,10 @@ public class BoltUnit : EntityEventListener<IUnit>
         state.Health -= e.DamageTaken;
 
         if (e.DamageRadius != 0) {
-
+            float scaledDamageRadius = e.DamageRadius * 2 / (e.DamageDealer.GetComponent<BoltEntity>()).transform.localScale.x;
+            GameObject splashIndicatorClone = Instantiate(splashIndicator, (e.DamageDealer.GetComponent<BoltEntity>()).transform);
+            splashIndicatorClone.gameObject.GetComponent<BoltSplashIndicatorScript>().startSplash(scaledDamageRadius, this);
+        
             foreach (var unit in BoltUnitManager.Instance.unitList) {
 
                 if (unit == null) {
@@ -576,7 +582,14 @@ public class BoltUnit : EntityEventListener<IUnit>
             ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
             e.DamageTaken = damage;
             e.DamageRadius = damageRadius;
+            e.DamageDealer = enemy.GetComponent<BoltEntity>();
             e.Send();
+            
+            if (damageRadius > 0) {
+                float scaledDamageRadius = damageRadius * 2 / this.transform.localScale.x;
+                GameObject splashIndicatorClone = Instantiate(splashIndicator, this.transform);
+                splashIndicatorClone.gameObject.GetComponent<BoltSplashIndicatorScript>().startSplash(scaledDamageRadius, enemy);
+            }
         }
     }
 
