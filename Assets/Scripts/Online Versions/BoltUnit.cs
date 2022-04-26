@@ -344,8 +344,8 @@ public class BoltUnit : EntityEventListener<IUnit>
                         // Get how long it takes for the shot to arrive at the target
                         float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
 
-                        // Create the delay with a coroutine which after waiting will tell the target to take damage
-                        StartCoroutine(attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay));
+                        // Actually attack the enemy and tell them when they will be taking the damage
+                        attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay);
 
                         // Now we can't move
                         stationaryIndicator.SetActive(true);
@@ -442,34 +442,46 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     // This event will only be recieved by OWNERS of the entity.
     public override void OnEvent(ReceiveDamage e) {
+        StartCoroutine(ReceiveDamageEvent(e.DamageTaken, e.DamageRadius, e.DamageDealer, e.DelayUntilDamageIsTaken));
+    }
+
+    protected IEnumerator ReceiveDamageEvent(float damageTaken, float damageRadius, BoltEntity damageDealer, float delay)
+    {
+        yield return new WaitForSeconds(delay);
 
         damageTakenTime = Time.time;
         flashAnimation();
 
-        state.Health -= e.DamageTaken;
+        state.Health -= damageTaken;
 
-        if (e.DamageRadius != 0) {
-            float scaledDamageRadius = e.DamageRadius * 2 / (e.DamageDealer.GetComponent<BoltEntity>()).transform.localScale.x;
-            GameObject splashIndicatorClone = Instantiate(splashIndicator, (e.DamageDealer.GetComponent<BoltEntity>()).transform);
+        if (damageRadius != 0)
+        {
+            float scaledDamageRadius = damageRadius * 2 / (damageDealer.GetComponent<BoltEntity>()).transform.localScale.x;
+            GameObject splashIndicatorClone = Instantiate(splashIndicator, (damageDealer.GetComponent<BoltEntity>()).transform);
             splashIndicatorClone.gameObject.GetComponent<BoltSplashIndicatorScript>().startSplash(scaledDamageRadius, this);
-        
-            foreach (var unit in BoltUnitManager.Instance.unitList) {
 
-                if (unit == null) {
+            foreach (var unit in BoltUnitManager.Instance.unitList)
+            {
+
+                if (unit == null)
+                {
                     BoltUnitManager.Instance.unitList.Remove(unit);
                     continue;
                 }
-                if (GameObject.ReferenceEquals(unit, this.gameObject)) {
+                if (GameObject.ReferenceEquals(unit, this.gameObject))
+                {
                     continue;
                 }
-                if(Vector3.Distance(unit.transform.position, this.transform.position) <= e.DamageRadius) {
-                    unit.gameObject.GetComponent<BoltUnit>().state.Health -= e.DamageTaken;
-                    unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= e.DamageTaken;
+                if (Vector3.Distance(unit.transform.position, this.transform.position) <= damageRadius)
+                {
+                    unit.gameObject.GetComponent<BoltUnit>().state.Health -= damageTaken;
+                    unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth -= damageTaken;
 
                     Debug.Log("H: " + unit.gameObject.GetComponent<BoltUnit>().state.Health + ", TH:" + unit.gameObject.GetComponent<BoltUnit>().state.TrueHealth);
                 }
             }
         }
+
     }
 
     // It's important to note that this is for a LOCAL ENEMY to start the shot animation. No health is modified.
@@ -567,12 +579,9 @@ public class BoltUnit : EntityEventListener<IUnit>
         return attackCooldown <= Time.time;
     }
 
-    protected virtual IEnumerator attackEnemy(BoltUnit enemy, float delay)
+    protected virtual void attackEnemy(BoltUnit enemy, float delay)
     {
-        // Wait for the delay (travel time of "projectile")
-        yield return new WaitForSeconds(delay);
-
-        // Defensive programming: ensure that our enemy still exists after delay
+        // Defensive programming: ensure that our enemy still exists
         if(enemy != null)
         {
             // This tells the local enemy to flash
@@ -583,6 +592,7 @@ public class BoltUnit : EntityEventListener<IUnit>
             e.DamageTaken = damage;
             e.DamageRadius = damageRadius;
             e.DamageDealer = enemy.GetComponent<BoltEntity>();
+            e.DelayUntilDamageIsTaken = delay;
             e.Send();
             
             if (damageRadius > 0) {

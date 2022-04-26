@@ -220,8 +220,8 @@ public class BoltBase : BoltUnit
                         // Get how long it takes for the shot to arrive at the target
                         float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<BoltShotLineRenderer>().shotTimeLength;
 
-                        // Create the delay with a coroutine which after waiting will tell the target to take damage
-                        StartCoroutine(attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay));
+                        // Actually attack the enemy and tell them when they will be taking the damage
+                        attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay);
 
                         // Start reloading
                         cantAttack();
@@ -262,12 +262,10 @@ public class BoltBase : BoltUnit
         return;
     }
 
-    protected override IEnumerator attackEnemy(BoltUnit enemy, float delay)
+    protected override void attackEnemy(BoltUnit enemy, float delay)
     {
-        // Wait for the delay (travel time of "projectile")
-        yield return new WaitForSeconds(delay);
 
-        // Defensive programming: ensure that our enemy still exists after delay
+        // Defensive programming: ensure that our enemy still exists
         if (enemy != null)
         {
             // This tells the local enemy to flash
