@@ -321,6 +321,7 @@ MonoBehaviour:
   damageType: single
   flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
   generationAmount: 10
+  capIncreaseAmount: 5
 --- !u!54 &7545411591375517267
 Rigidbody:
   m_ObjectHideFlags: 0

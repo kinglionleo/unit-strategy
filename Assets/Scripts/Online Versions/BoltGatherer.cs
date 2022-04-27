@@ -8,6 +8,7 @@ public class BoltGatherer : BoltUnit
 {
     // How much the unit generates per gather
     public int generationAmount;
+    public int capIncreaseAmount;
 
     protected Vector3 resourceLocation;
     protected Vector3 researchLocation;
@@ -61,7 +62,8 @@ public class BoltGatherer : BoltUnit
 
             if(holdingResource)
             {
-                BoltSpawnerScript.Instance.addResourceCap(generationAmount);
+                BoltSpawnerScript.Instance.addResourceCap(capIncreaseAmount);
+                BoltSpawnerScript.Instance.addResource(generationAmount);
                 holdingResource = false;
                 if(resourceLocation != null)
                 {
