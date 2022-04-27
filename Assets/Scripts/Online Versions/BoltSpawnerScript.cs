@@ -20,8 +20,10 @@ public class BoltSpawnerScript : GlobalEventListener
     private int research;
     private int resourceCap;
     private float timer;
+    private float startTime;
     private bool canIncrease;
     private int gathererCount;
+    private int rateMultiplier;
 
     public float increaseDelay;
     public Material blueprint;
@@ -68,6 +70,8 @@ public class BoltSpawnerScript : GlobalEventListener
         addResourceCap(100);
 
         timer = 0;
+        startTime = 0;
+        rateMultiplier = 1;
     }
 
     public override void SceneLoadRemoteDone(BoltConnection connection, IProtocolToken token)
@@ -95,9 +99,24 @@ public class BoltSpawnerScript : GlobalEventListener
      */
     void Update()
     {
-        timer += Time.deltaTime;
+        if (canIncrease)
+        {
+            timer += Time.deltaTime;
+        }
+
+        if (startTime == 0 && canIncrease)
+        {
+            startTime = BoltNetwork.ServerTime;
+        }
+
+        if( BoltNetwork.ServerTime - startTime >= 180)
+        {
+            Debug.Log("2x increase");
+            rateMultiplier = 2;
+        }
         
-        if (canIncrease && timer >= increaseDelay)
+        
+        if (canIncrease && timer >= (increaseDelay / rateMultiplier))
         {
             addResource(5);
             timer = 0;
