@@ -66,8 +66,8 @@ public class BoltSpawnerScript : GlobalEventListener
     
         gathererCount = 0;
 
-        addResource(50);
         addResourceCap(100);
+        addResource(50);
 
         timer = 0;
         startTime = 0;
