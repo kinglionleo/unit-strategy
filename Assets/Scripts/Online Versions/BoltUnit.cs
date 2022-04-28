@@ -187,7 +187,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         prevClosestEnemy = null;
         targetPosition = this.transform.position;
         ignoreEnemy = false;
-        hitboxRadius = this.gameObject.GetComponent<CapsuleCollider>().radius * this.transform.localScale.x;
+        hitboxRadius = this.gameObject.GetComponent<CapsuleCollider>().radius / this.transform.localScale.x;
     }
 
     void Update()
@@ -201,7 +201,7 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     public override void SimulateOwner()
     {
-        if (BoltNetwork.ServerTime >= spawnTime + lifetime)
+        if (lifetime != 0 && BoltNetwork.ServerTime >= spawnTime + lifetime)
         {
             BoltNetwork.Destroy(this.gameObject);
         }

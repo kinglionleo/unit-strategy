@@ -39,8 +39,8 @@ Transform:
   m_Children:
   - {fileID: 3258237075622748406}
   - {fileID: 9221596890719206260}
-  - {fileID: 1908620139681410022}
   - {fileID: 6459398154636437334}
+  - {fileID: 1908620139681410022}
   - {fileID: 6688383845156665563}
   - {fileID: 1092917101248472527}
   - {fileID: 1193424523901446867}
@@ -264,7 +264,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: db1a7dbc-7964-4c02-95bf-869953700050
-  _prefabId: 2
+  _prefabId: 3
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 1
@@ -367,7 +367,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5524071975866291432}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!212 &7972565674805567910
 SpriteRenderer:
@@ -585,7 +585,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1248761008207996482, guid: 4ef23f7e12ae88044b94bda75aa15d98, type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 1248761008207996482, guid: 4ef23f7e12ae88044b94bda75aa15d98, type: 3}
       propertyPath: m_AnchorMax.x

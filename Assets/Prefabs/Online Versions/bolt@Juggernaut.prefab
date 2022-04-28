@@ -263,7 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: fb583a5f-e532-49c0-8da8-aa039ed32688
-  _prefabId: 3
+  _prefabId: 4
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 1
@@ -306,7 +306,7 @@ MonoBehaviour:
   splashIndicator: {fileID: 537283118637871907}
   maxHealth: 120
   currentHealth: 120
-  attackSpeed: 3.5
+  attackSpeed: 2.5
   acquisitionSpeed: 0.8
   aimSpeed: 0.5
   movementSpeed: 1.6

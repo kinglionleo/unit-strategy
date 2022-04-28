@@ -4,95 +4,14 @@ using UnityEngine;
 using UnityEngine.AI;
 using Photon.Bolt;
 
-public class BoltBase : BoltUnit
+public class BoltBuilding : BoltUnit
 {
-
-    // Start Equivalent
-    public override void Attached()
-    {
-        // This ensures that we are only modifying the health variable if we are the owner when the Network instantiates.
-        if (entity.IsOwner)
-        {
-            state.Health = maxHealth;
-            state.TrueHealth = maxHealth;
-        }
-        state.AddCallback("Health", HealthCallback);
-
-        if (entity.IsOwner)
-        {
-            this.gameObject.tag = "Player";
-            this.gameObject.layer = 7;
-            BoltUnitManager.Instance.unitList.Add(this.gameObject);
-            // Make ourselves the lower left corner
-            CameraController.Instance.SetPositionAndRotation(transform.position, transform.rotation);
-            BoltSpawnerScript.Instance.setBase(this.gameObject);
-        }
-        else
-        {
-            this.gameObject.tag = "Enemy";
-            this.gameObject.layer = 0;
-            BoltUnitManager.Instance.enemyList.Add(this.gameObject);
-        }
-    }
-
-    void Start()
-    {
-        /*
-         * This code is just instantiation related
-         */
-
-        myAgent = null;
-        animator = this.GetComponent<Animator>();
-
-        stationaryIndicator = this.transform.Find("bolt@StationaryIndicator").gameObject;
-        stationaryIndicator.SetActive(false);
-
-        aimingIndicator = this.transform.Find("bolt@AimingIndicator").gameObject;
-        aimingIndicator.SetActive(false);
-
-        // shotLineRenderer = this.transform.Find("bolt@ShotLineRenderer").gameObject;
-        // shotLineRenderer.SetActive(false);
-
-        lineRenderer = this.GetComponent<LineRenderer>();
-        lineRenderer.startWidth = 0.04f;
-        lineRenderer.endWidth = 0.04f;
-        lineRenderer.positionCount = 2;
-        lineRenderer.useWorldSpace = true;
-        lineRenderer.startColor = Color.white;
-        lineRenderer.endColor = Color.white;
-
-        myMaterials = new Material[this.transform.GetChild(1).childCount][];
-        flashMaterials = new Material[this.transform.GetChild(1).childCount][];
-        for (int i = 0; i < myMaterials.Length; i++)
-        {
-            myMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
-            flashMaterials[i] = new Material[this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials.Length];
-            for (int j = 0; j < myMaterials[i].Length; j++)
-            {
-                myMaterials[i][j] = this.transform.GetChild(1).GetChild(i).GetComponent<Renderer>().materials[j];
-                flashMaterials[i][j] = flashMaterial;
-            }
-        }
-
-        ignoreLayer = LayerMask.NameToLayer("Clickable");
-
-        this.transform.Find("bolt@HealthBarCanvas").gameObject.SetActive(true);
-        this.transform.Find("RangeIndicator").gameObject.SetActive(false);
-        this.transform.Find("SpawnIndicator").gameObject.SetActive(false);
-        attackCooldown = 0;
-        startAimTime = 0;
-        startShootTime = 0;
-        aimedAtEnemy = false;
-        startedAimingPhase = false;
-        canMove = true;
-        prevClosestEnemy = null;
-        targetPosition = this.transform.position;
-        ignoreEnemy = false;
-        hitboxRadius = this.gameObject.GetComponent<BoxCollider>().size.x / this.transform.localScale.x;
-    }
+    public float spawnRadius;
 
     public override void SimulateOwner()
     {
+        canMove = false;
+
         // This handles if the unit is selected or not. Pretty inefficient, can be a on/off function instead.
         if (selected)
         {
@@ -104,12 +23,13 @@ public class BoltBase : BoltUnit
         {
             this.transform.GetChild(0).gameObject.SetActive(false);
             this.transform.Find("RangeIndicator").gameObject.SetActive(false);
+            ignoreEnemy = false;
         }
 
         if (BoltHUDListener.Instance.selected != null)
         {
             this.transform.Find("SpawnIndicator").gameObject.SetActive(true);
-            this.transform.Find("SpawnIndicator").transform.localScale = new Vector3(BoltSpawnerScript.Instance.spawnRadius * 2 / this.transform.localScale.x, BoltSpawnerScript.Instance.spawnRadius * 2 / this.transform.localScale.y, 1);
+            this.transform.Find("SpawnIndicator").transform.localScale = new Vector3(spawnRadius * 2 / this.transform.localScale.x, spawnRadius * 2 / this.transform.localScale.y, 1);
         }
         else
         {
@@ -117,6 +37,17 @@ public class BoltBase : BoltUnit
         }
 
         // The following section handles attacking logic
+
+        // This checks for if we can interrupt movement to attack an enemy
+        if (ignoreEnemy)
+        {
+            // TODO: make the margin of error dynamic based on the group size as bigger clumps make it impossible to reach the target destination
+            if (Mathf.Abs(this.transform.position.x - targetPosition.x) <= 0.6 &&
+               Mathf.Abs(this.transform.position.z - targetPosition.z) <= 0.6)
+            {
+                ignoreEnemy = false;
+            }
+        }
 
         // Two variables to store the current closest distance and current closest enemy (not necessarily within range)
         float closestEnemyDistance = float.MaxValue;
@@ -199,9 +130,10 @@ public class BoltBase : BoltUnit
                         // Everything related to the actual attack is in here:
 
                         // Tell our shotrenderer to start a shot
-                        //shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
                         GameObject shotLineRendererClone = Instantiate(shotLineRenderer, this.transform);
                         shotLineRendererClone.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
+                        // float takeDamageDelay = shotLineRendererClone.gameObject.GetComponent<ShotRendererScript>().getShotTimeLength();
+                        // shotLineRenderer.gameObject.GetComponent<BoltShotLineRenderer>().startShot(closestEnemy);
 
                         // Tell the other player that we just fired a shot at them so they can render it on their screen.
                         ShotFired e = ShotFired.Create(entity, EntityTargets.EveryoneExceptOwner);
@@ -215,6 +147,8 @@ public class BoltBase : BoltUnit
 
                         // Actually attack the enemy and tell them when they will be taking the damage
                         attackEnemy(closestEnemy.transform.GetComponent<BoltUnit>(), takeDamageDelay);
+
+                        startShootTime = Time.time;
 
                         // Start reloading
                         cantAttack();
@@ -249,10 +183,8 @@ public class BoltBase : BoltUnit
         }
 
     }
-
     public override void MoveToPlace(Vector3 location, int type, float speed)
     {
         return;
     }
-
 }

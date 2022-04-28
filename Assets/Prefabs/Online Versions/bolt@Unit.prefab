@@ -263,7 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: fb583a5f-e532-49c0-8da8-aa039ed32688
-  _prefabId: 7
+  _prefabId: 9
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 1
@@ -304,14 +304,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shotLineRenderer: {fileID: 6144919617998317244}
   splashIndicator: {fileID: 897314606351982828}
-  maxHealth: 80
-  currentHealth: 80
-  attackSpeed: 1
+  maxHealth: 60
+  currentHealth: 60
+  attackSpeed: 1.2
   acquisitionSpeed: 0.4
   aimSpeed: 0.2
   movementSpeed: 2
-  range: 4
-  damage: 15
+  range: 3.5
+  damage: 12
   damageRadius: 0
   cost: 20
   researchRequirement: 0

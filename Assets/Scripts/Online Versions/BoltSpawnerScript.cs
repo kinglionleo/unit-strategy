@@ -31,12 +31,7 @@ public class BoltSpawnerScript : GlobalEventListener
     public Text researchText;
     public Text resourceCapText;
     public float spawnRadius;
-    public GameObject basic;
-    public GameObject sniper;
-    public GameObject tank;
-    public GameObject juggernaut;
-    public GameObject superSniper;
-    public GameObject gatherer;
+    public GameObject builder;
     public GameObject hq;
     public static BoltSpawnerScript Instance
     {
@@ -161,8 +156,18 @@ public class BoltSpawnerScript : GlobalEventListener
 
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
-                if(myBase != null &&
-                   Vector3.Distance(myBase.transform.position, hit.point) <= spawnRadius)
+                if (spawn.gameObject.GetComponent<BoltBuilding>() != null)
+                {
+
+                    GameObject myBuilder = BoltNetwork.Instantiate(builder, myBase.transform.position + 3*Vector3.Normalize(new Vector3(0,2,0) - myBase.transform.position), transform.rotation);
+                    myBuilder.GetComponent<BoltBuilder>().SetBuildingToSpawn(spawn);
+                    myBuilder.GetComponent<BoltBuilder>().SetSpawnLocation(hit.point);
+                    addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+
+                }
+                
+                else if (myBase != null &&
+                         canSpawn(hit.point))
                 {
                     if (resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
                         research >= spawn.gameObject.GetComponent<BoltUnit>().getResearchRequirement())
@@ -175,6 +180,7 @@ public class BoltSpawnerScript : GlobalEventListener
                                 addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
                             }
                         }
+
                         else
                         {
                             BoltNetwork.Instantiate(spawn, hit.point, transform.rotation);
@@ -204,6 +210,22 @@ public class BoltSpawnerScript : GlobalEventListener
 
     }
 
+    private bool canSpawn(Vector3 location)
+    {
+        bool canSpawn = Vector3.Distance(myBase.transform.position, location) <= spawnRadius;
+        foreach (var unit in BoltUnitManager.Instance.unitList)
+        {
+            if (unit.GetComponent<BoltBuilding>() != null)
+            {
+                if (Vector3.Distance(unit.transform.position, location) <= unit.GetComponent<BoltBuilding>().spawnRadius)
+                {
+                    canSpawn = true;
+                }
+            }
+        }
+        return canSpawn;
+    }
+
     public void addResource(int amount)
     {
         resources += amount;
@@ -222,31 +244,6 @@ public class BoltSpawnerScript : GlobalEventListener
         research += amount;
         researchText.text = research.ToString();
 
-    }
-
-    public void spawnBasic()
-    {
-        spawn = basic;
-    }
-
-    public void spawnSniper()
-    {
-        spawn = sniper;
-    }
-
-    public void spawnTank()
-    {
-        spawn = tank;
-    }
-
-    public void spawnJuggernaut()
-    {
-        spawn = juggernaut;
-    }
-
-    public void spawnSuperSniper()
-    {
-        spawn = superSniper;
     }
 
     public void spawnObject(GameObject unit)
