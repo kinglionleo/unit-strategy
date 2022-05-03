@@ -7,6 +7,7 @@ public class BoltUnitManager : MonoBehaviour
 {
 
     public List<GameObject> unitList = new List<GameObject>();
+    public List<GameObject> buildingList = new List<GameObject>();
     public List<GameObject> enemyList = new List<GameObject>();
     public List<GameObject> unitsSelected = new List<GameObject>();
 

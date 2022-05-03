@@ -158,12 +158,13 @@ public class BoltSpawnerScript : GlobalEventListener
             {
                 if (spawn.gameObject.GetComponent<BoltBuilding>() != null)
                 {
-
-                    GameObject myBuilder = BoltNetwork.Instantiate(builder, myBase.transform.position + 3*Vector3.Normalize(new Vector3(0,2,0) - myBase.transform.position), transform.rotation);
-                    myBuilder.GetComponent<BoltBuilder>().SetBuildingToSpawn(spawn);
-                    myBuilder.GetComponent<BoltBuilder>().SetSpawnLocation(hit.point);
-                    addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
-
+                    if (resources >= spawn.gameObject.GetComponent<BoltUnit>().getCost() &&
+                        research >= spawn.gameObject.GetComponent<BoltUnit>().getResearchRequirement()) {
+                        GameObject myBuilder = BoltNetwork.Instantiate(builder, myBase.transform.position + 3 * Vector3.Normalize(new Vector3(0, 2, 0) - myBase.transform.position), transform.rotation);
+                        myBuilder.GetComponent<BoltBuilder>().SetBuildingToSpawn(spawn);
+                        myBuilder.GetComponent<BoltBuilder>().SetSpawnLocation(hit.point);
+                        addResource(spawn.gameObject.GetComponent<BoltUnit>().getCost() * -1);
+                    }
                 }
                 
                 else if (myBase != null &&
@@ -213,7 +214,7 @@ public class BoltSpawnerScript : GlobalEventListener
     private bool canSpawn(Vector3 location)
     {
         bool canSpawn = Vector3.Distance(myBase.transform.position, location) <= spawnRadius;
-        foreach (var unit in BoltUnitManager.Instance.unitList)
+        foreach (var unit in BoltUnitManager.Instance.buildingList)
         {
             if (unit.GetComponent<BoltBuilding>() != null)
             {

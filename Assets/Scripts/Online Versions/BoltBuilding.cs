@@ -8,6 +8,23 @@ public class BoltBuilding : BoltUnit
 {
     public float spawnRadius;
 
+    public override void Attached()
+    {
+        base.Attached();
+        if (entity.IsOwner)
+        {
+            BoltUnitManager.Instance.buildingList.Add(this.gameObject);
+        }
+    }
+
+    public override void Detached()
+    {
+        base.Detached();
+        if (entity.IsOwner)
+        {
+            BoltUnitManager.Instance.buildingList.Remove(this.gameObject);
+        }
+    }
     public override void SimulateOwner()
     {
         canMove = false;
