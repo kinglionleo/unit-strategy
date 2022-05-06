@@ -305,6 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shotLineRenderer: {fileID: 891957454947057193}
   splashIndicator: {fileID: 2031936010282747098}
+  deathEffect: {fileID: 4825397568586297326, guid: 47078306a2bb1fa46a9024619db78529, type: 3}
   maxHealth: 50
   currentHealth: 50
   attackSpeed: 0

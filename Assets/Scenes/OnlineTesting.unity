@@ -1886,6 +1886,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitList: []
+  buildingList: []
   enemyList: []
   unitsSelected: []
 --- !u!4 &1144301675

@@ -14,6 +14,8 @@ public class BoltUnit : EntityEventListener<IUnit>
     public GameObject shotLineRenderer;
     // Shows the radius of splash damage if applicable
     public GameObject splashIndicator;
+    // Show a particle effect when dying
+    public ParticleSystem deathEffect;
 
     // The black acquisition circle that appears when a unit becomes stationary
     protected GameObject stationaryIndicator;
@@ -128,6 +130,7 @@ public class BoltUnit : EntityEventListener<IUnit>
         {
             BoltUnitManager.Instance.enemyList.Remove(this.gameObject);
         }
+        Instantiate(deathEffect, transform.position, Quaternion.identity);
 
     }
     void Awake()
