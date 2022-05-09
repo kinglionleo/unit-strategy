@@ -12,8 +12,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: '[]'
-  _rsLastCachedKeyList: '[]'
-  _environments: '[]'
+  _rsKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"fff3601d-dcba-4288-aef0-824f76425697\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicCost\",\n      \"type\": \"int\",\n     
+    \"value\": 20\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"b13e8603-c929-4ed2-b5de-0eef3f994009\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicResearchRequirement\",\n      \"type\":
+    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"c1aa9974-adcd-470a-9003-25575fb5427b\"\n    },\n    \"rs\": {\n      \"key\":
+    \"BasicHp\",\n      \"type\": \"int\",\n      \"value\": 50\n    }\n  },\n  {\n   
+    \"metadata\": {\n      \"entityId\": \"8f9d7631-4bdf-498a-b8a4-aaab8bc7a6c2\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicDamage\",\n      \"type\": \"int\",\n     
+    \"value\": 12\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"0a76b2b6-8c26-43e4-959e-a7401c14a916\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicDamageRadius\",\n      \"type\": \"int\",\n     
+    \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"b97bdb03-a592-470f-b402-7d04842f1d18\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicReloadTime\",\n      \"type\": \"int\",\n     
+    \"value\": 1\n    }\n  }\n]"
+  _rsLastCachedKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"fff3601d-dcba-4288-aef0-824f76425697\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicCost\",\n      \"type\": \"int\",\n     
+    \"value\": 20\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"b13e8603-c929-4ed2-b5de-0eef3f994009\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicResearchRequirement\",\n      \"type\":
+    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"c1aa9974-adcd-470a-9003-25575fb5427b\"\n    },\n    \"rs\": {\n      \"key\":
+    \"BasicHp\",\n      \"type\": \"int\",\n      \"value\": 50\n    }\n  },\n  {\n   
+    \"metadata\": {\n      \"entityId\": \"8f9d7631-4bdf-498a-b8a4-aaab8bc7a6c2\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicDamage\",\n      \"type\": \"int\",\n     
+    \"value\": 12\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"0a76b2b6-8c26-43e4-959e-a7401c14a916\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicDamageRadius\",\n      \"type\": \"int\",\n     
+    \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"b97bdb03-a592-470f-b402-7d04842f1d18\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicReloadTime\",\n      \"type\": \"int\",\n     
+    \"value\": 1\n    }\n  }\n]"
+  _environments: "[\n  {\n    \"projectId\": \"fd82ccd6-e4d9-4822-bded-9e6017af2df5\",\n   
+    \"name\": \"production\",\n    \"id\": \"86272771-6842-48f7-91ff-bbfb70ead273\",\n   
+    \"isDefault\": true,\n    \"createdAt\": \"2022-05-09T01:30:33Z\",\n    \"updatedAt\":
+    \"2022-05-09T01:30:33Z\"\n  },\n  {\n    \"projectId\": \"fd82ccd6-e4d9-4822-bded-9e6017af2df5\",\n   
+    \"name\": \"development\",\n    \"id\": \"a385e431-ed2e-4229-a974-ea8c14e0e214\",\n   
+    \"isDefault\": false,\n    \"createdAt\": \"2022-05-09T01:50:43Z\",\n    \"updatedAt\":
+    \"2022-05-09T01:50:43Z\"\n  }\n]"
   _rulesList: '[]'
   _lastCachedRulesList: '[]'
