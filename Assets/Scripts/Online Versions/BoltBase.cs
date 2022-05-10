@@ -13,8 +13,8 @@ public class BoltBase : BoltUnit
         // This ensures that we are only modifying the health variable if we are the owner when the Network instantiates.
         if (entity.IsOwner)
         {
-            state.Health = maxHealth;
-            state.TrueHealth = maxHealth;
+            state.Health = maxHp;
+            state.TrueHealth = maxHp;
         }
         state.AddCallback("Health", HealthCallback);
 
@@ -79,7 +79,7 @@ public class BoltBase : BoltUnit
         this.transform.Find("bolt@HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
         this.transform.Find("SpawnIndicator").gameObject.SetActive(false);
-        attackCooldown = 0;
+        nextAttackTime = 0;
         startAimTime = 0;
         startShootTime = 0;
         aimedAtEnemy = false;
@@ -188,7 +188,7 @@ public class BoltBase : BoltUnit
                 lineRenderer.SetPosition(1, closestEnemy.transform.position);
 
                 // This checks if the unit has met the aiming time requirement
-                if (startAimTime + aimSpeed <= Time.time)
+                if (startAimTime + aimingTime <= Time.time)
                 {
                     aimedAtEnemy = true;
                     aimingIndicator.SetActive(false);

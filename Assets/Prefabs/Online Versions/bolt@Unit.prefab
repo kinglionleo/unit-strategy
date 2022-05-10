@@ -305,11 +305,8 @@ MonoBehaviour:
   shotLineRenderer: {fileID: 6144919617998317244}
   splashIndicator: {fileID: 897314606351982828}
   deathEffect: {fileID: 4825397568586297326, guid: 47078306a2bb1fa46a9024619db78529, type: 3}
-  maxHealth: 60
-  currentHealth: 60
-  attackSpeed: 1.2
-  acquisitionSpeed: 0.4
-  aimSpeed: 0.2
+  stationaryDelay: 0
+  aimingTime: 0
   movementSpeed: 2
   range: 3.5
   damage: 12
@@ -318,7 +315,6 @@ MonoBehaviour:
   researchRequirement: 0
   lifetime: 30
   unitType: ground
-  damageType: single
   flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
 --- !u!1 &8938795362695547254
 GameObject:

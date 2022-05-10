@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 using Photon.Bolt;
@@ -22,22 +23,22 @@ public class BoltUnit : EntityEventListener<IUnit>
     protected GameObject aimingIndicator;
     protected Animator animator;
 
-    public float maxHealth;
-    public float currentHealth;
+    protected float maxHp;
+    protected float currentHp;
 
     // How fast this unit attacks measured in seconds
-    public float attackSpeed;
+    protected float reloadTime;
     // How long this unit takes to start aiming after coming to a stop. 0 means this unit can attack while moving
-    public float acquisitionSpeed;
+    public float stationaryDelay;
     // A base delay for the unit to start shooting after acquiring the target. All units should have this > 0, buildings can have 0.
-    public float aimSpeed;
+    public float aimingTime;
     // How fast this unit moves
     public float movementSpeed;
     // The distance before this unit can start attacking
     public float range;
     // How much damage an attack does
     public float damage;
-    // The radius of this attack
+    // The radius of this attack, 0 if no splash
     public float damageRadius;
     // How much it costs to spawn this unit
     public int cost;
@@ -48,8 +49,6 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     // If this unit is flying or ground
     public string unitType;
-    // If this unit deals splash or individual damage
-    public string damageType;
 
     // Material related
     public Material flashMaterial;
@@ -62,7 +61,7 @@ public class BoltUnit : EntityEventListener<IUnit>
     // The remaining two stats "unitCount" and "cost" will be stored in the UnitManager
 
     // Denotes the point in time when the unit can start attacking
-    protected float attackCooldown;
+    protected float nextAttackTime;
     // Denotes the point in time when the unit just started aiming
     protected float startAimTime;
     // Denotes the point in time when the unit just shot a bullet
@@ -92,12 +91,11 @@ public class BoltUnit : EntityEventListener<IUnit>
     // Start Equivalent
     public override void Attached()
     {
-
         // This ensures that we are only modifying the health variable if we are the owner when the Network instantiates.
         if(entity.IsOwner)
         {
-            state.Health = maxHealth;
-            state.TrueHealth = maxHealth;
+            state.Health = maxHp;
+            state.TrueHealth = maxHp;
         }
         spawnTime = BoltNetwork.ServerTime;
         state.AddCallback("Health", HealthCallback);
@@ -135,7 +133,9 @@ public class BoltUnit : EntityEventListener<IUnit>
     }
     void Awake()
     {
-        currentHealth = maxHealth;
+         // Gets the stats and sets them from StatsManager that this unit is supposed to have upon spawn.
+        PullStatsFromManager();
+        currentHp = maxHp;
     }
 
     void Start()
@@ -181,7 +181,7 @@ public class BoltUnit : EntityEventListener<IUnit>
 
         this.transform.Find("bolt@HealthBarCanvas").gameObject.SetActive(true);
         this.transform.Find("RangeIndicator").gameObject.SetActive(false);
-        attackCooldown = 0;
+        nextAttackTime = 0;
         startAimTime = 0;
         startShootTime = 0;
         aimedAtEnemy = false;
@@ -215,7 +215,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                 myAgent.SetDestination(this.transform.position);
             }
             // Checks if the current point in time is greater than the time it shot a bullet and the time it must stay still
-            if (Time.time >= startShootTime + acquisitionSpeed)
+            if (Time.time >= startShootTime + stationaryDelay)
             {
                 canMove = true;
                 stationaryIndicator.SetActive(false);
@@ -321,7 +321,7 @@ public class BoltUnit : EntityEventListener<IUnit>
                 lineRenderer.SetPosition(1, closestEnemy.transform.position);
 
                 // This checks if the unit has met the aiming time requirement
-                if (startAimTime + aimSpeed <= Time.time)
+                if (startAimTime + aimingTime <= Time.time)
                 {
                     aimedAtEnemy = true;
                     aimingIndicator.SetActive(false);
@@ -392,6 +392,29 @@ public class BoltUnit : EntityEventListener<IUnit>
     void OnDestroy()
     {
         
+    }
+
+    protected virtual void PullStatsFromManager() 
+    {
+        BoltStatsManagerScript.UnitType unitType = BoltStatsManagerScript.UnitType.Basic;
+        BoltStatsManagerScript.UnitStats unitStats = BoltStatsManagerScript.Instance.GetUnitStats(unitType);
+        SetStatsFromManager(unitStats);
+    }
+
+    protected void SetStatsFromManager(BoltStatsManagerScript.UnitStats unitStats)
+    {
+        this.cost = unitStats.cost;
+        this.researchRequirement = unitStats.researchRequirement;
+        this.maxHp = unitStats.hp;
+        this.damage = unitStats.damage;
+        this.damageRadius = unitStats.damageRadius;
+        this.reloadTime = unitStats.reloadTime;
+
+        // TODO: Put values for these in remote config, currently will all be 0s
+        // this.aimingTime = unitStats.aimingTime;
+        // this.stationaryDelay = unitStats.stationaryDelay;
+        // this.movementSpeed = unitStats.movementSpeed;
+        // this.range = unitStats.range;
     }
 
     // type = 0: ignore move
@@ -501,32 +524,27 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     protected void HealthCallback()
     {
-        currentHealth = state.Health;
-        Debug.Log(currentHealth);
-        if (currentHealth <= 0)
+        currentHp = state.Health;
+        Debug.Log(currentHp);
+        if (currentHp <= 0)
         {
             BoltNetwork.Destroy(this.gameObject);
         }
     }
 
-    public float getMaxHealth()
+    public float getMaxHp()
     {
-        return maxHealth;
+        return maxHp;
     }
 
-    public float getCurrentHealth()
+    public float getCurrentHp()
     {
-        return currentHealth;
+        return currentHp;
     }
 
     public string getUnitType()
     {
         return unitType;
-    }
-
-    public string getDamageType()
-    {
-        return damageType;
     }
 
     public bool getSelected()
@@ -539,9 +557,9 @@ public class BoltUnit : EntityEventListener<IUnit>
         this.selected = selected;
     }
 
-    public float getAcquisitionSpeed()
+    public float getStationaryDelay()
     {
-        return acquisitionSpeed;
+        return stationaryDelay;
     }
 
     public float getStartShootTime()
@@ -579,7 +597,7 @@ public class BoltUnit : EntityEventListener<IUnit>
             aimedAtEnemy = true;
             return false;
         }
-        return attackCooldown <= Time.time;
+        return nextAttackTime <= Time.time;
     }
 
     protected virtual void attackEnemy(BoltUnit enemy, float delay)
@@ -608,7 +626,7 @@ public class BoltUnit : EntityEventListener<IUnit>
 
     protected void cantAttack()
     {
-        attackCooldown = Time.time + attackSpeed;
+        nextAttackTime = Time.time + reloadTime;
     }
 
     protected void flashAnimation()

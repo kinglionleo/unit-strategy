@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7507099114126488427}
   - component: {fileID: 7061823076622565607}
   - component: {fileID: -7864406340775695646}
-  - component: {fileID: 7886843844151081128}
+  - component: {fileID: 5523198762962982161}
   m_Layer: 7
   m_Name: bolt@Juggernaut
   m_TagString: Player
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb9763a393e3874ab26eb0054fad9c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7886843844151081128
+--- !u!114 &5523198762962982161
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,26 +299,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 3891055499504003863}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44661da1d44b01d4498cdc822f24718e, type: 3}
+  m_Script: {fileID: 11500000, guid: 2d426a74df7cb471b8ddfdb6d7ad1837, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shotLineRenderer: {fileID: 1160755624313616744}
   splashIndicator: {fileID: 537283118637871907}
   deathEffect: {fileID: 4825397568586297326, guid: 47078306a2bb1fa46a9024619db78529, type: 3}
-  maxHealth: 120
-  currentHealth: 120
-  attackSpeed: 2.5
-  acquisitionSpeed: 0.8
-  aimSpeed: 0.5
-  movementSpeed: 1.6
-  range: 8
-  damage: 20
-  damageRadius: 1.5
-  cost: 50
+  stationaryDelay: 0
+  aimingTime: 0
+  movementSpeed: 0
+  range: 0
+  damage: 0
+  damageRadius: 0
+  cost: 0
   researchRequirement: 0
-  lifetime: 30
+  lifetime: 0
   unitType: ground
-  damageType: single
   flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
 --- !u!1 &8938795362695547254
 GameObject:

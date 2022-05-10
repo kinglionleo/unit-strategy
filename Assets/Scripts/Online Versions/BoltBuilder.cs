@@ -14,7 +14,7 @@ public class BoltBuilder : BoltUnit
 
     void Awake()
     {
-        currentHealth = maxHealth;
+        currentHp = maxHp;
     }
 
     public override void SimulateOwner()
