@@ -15,6 +15,6 @@ public class BoltStationary : MonoBehaviour
     }
     void Update()
     {
-        stationaryIndicator.fillAmount = Mathf.Min((Time.time - myUnit.getStartShootTime()) / myUnit.getAcquisitionSpeed(), 1);
+        stationaryIndicator.fillAmount = Mathf.Min((Time.time - myUnit.getStartShootTime()) / myUnit.getStationaryDelay(), 1);
     }
 }

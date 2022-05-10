@@ -29,8 +29,8 @@ public class BoltHealthBar : MonoBehaviour
 
     void HealthBarFiller()
     {
-        float current = myUnit.getCurrentHealth();
-        float max = myUnit.getMaxHealth();
+        float current = myUnit.getCurrentHp();
+        float max = myUnit.getMaxHp();
         healthBar.fillAmount = current/max;
         healthBarBackground.fillAmount = Mathf.Lerp(healthBarBackground.fillAmount, current / max, lerpSpeed);
         if (myUnit.entity.IsOwner)

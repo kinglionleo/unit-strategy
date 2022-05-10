@@ -136,7 +136,7 @@ public class BoltBuilding : BoltUnit
                 lineRenderer.SetPosition(1, closestEnemy.transform.position);
 
                 // This checks if the unit has met the aiming time requirement
-                if (startAimTime + aimSpeed <= Time.time)
+                if (startAimTime + aimingTime <= Time.time)
                 {
                     aimedAtEnemy = true;
                     aimingIndicator.SetActive(false);
