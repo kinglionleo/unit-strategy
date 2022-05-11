@@ -37,7 +37,8 @@ public class BoltStatsManagerScript : MonoBehaviour
         Range,
     }
 
-    public struct UnitStats
+    [System.Serializable]
+    public class UnitStats
     {
         public int cost;
         public int researchRequirement;
@@ -51,6 +52,10 @@ public class BoltStatsManagerScript : MonoBehaviour
         public float movementSpeed;
         public int range;
 
+        public static UnitStats CreateFromJSON(string jsonString)
+        {
+            return JsonUtility.FromJson<UnitStats>(jsonString);
+        }
     }
 
     private UnitStats[] unitStatsArray;
@@ -77,22 +82,8 @@ public class BoltStatsManagerScript : MonoBehaviour
     void GetStatsFromRemote(ConfigResponse response)
     {
         int unitTypeCount = unitStatsArray.Length;
-        //Debug.Log(ConfigManager.appConfig.HasKey("Basic" + "Cost"));
         for (int i = 0; i < unitTypeCount; i++) {
-            UnitStats unitStats = new UnitStats();
-            unitStats.cost = ConfigManager.appConfig.GetInt(((UnitType) i).ToString() + "Cost");
-            unitStats.researchRequirement = ConfigManager.appConfig.GetInt(((UnitType) i).ToString() + "ResearchRequirement");
-            unitStats.hp = ConfigManager.appConfig.GetInt(((UnitType) i).ToString() + "Hp");
-            unitStats.damage = ConfigManager.appConfig.GetInt(((UnitType) i).ToString() + "Damage");
-            unitStats.damageRadius = ConfigManager.appConfig.GetInt(((UnitType) i).ToString() + "DamageRadius");
-            unitStats.reloadTime = ConfigManager.appConfig.GetFloat(((UnitType) i).ToString() + "ReloadTime");
-            
-            unitStats.aimingTime = ConfigManager.appConfig.GetFloat(((UnitType) i).ToString() + "AimingTime");
-            unitStats.stationaryDelay = ConfigManager.appConfig.GetFloat(((UnitType) i).ToString() + "StationaryDelay");
-            unitStats.movementSpeed = ConfigManager.appConfig.GetFloat(((UnitType) i).ToString() + "MovementSpeed");
-            unitStats.range = ConfigManager.appConfig.GetInt(((UnitType) i).ToString() + "Range");
-
-            unitStatsArray[i] = unitStats;
+            unitStatsArray[i] = UnitStats.CreateFromJSON(ConfigManager.appConfig.GetJson(((UnitType) i).ToString() + "Stats"));
         }
         DebugStats();
     }
@@ -101,6 +92,9 @@ public class BoltStatsManagerScript : MonoBehaviour
     {
         int unitTypeCount = unitStatsArray.Length;
         for (int i = 0; i < unitTypeCount; i++) {
+            if (unitStatsArray[i] == null) {
+                Debug.Log("unitStatsArray @i is null");
+            }
             Debug.Log(unitStatsArray[i].cost + ", " + unitStatsArray[i].researchRequirement + ", " + unitStatsArray[i].hp + ", " +
             unitStatsArray[i].damage + ", " + unitStatsArray[i].damageRadius + ", " + unitStatsArray[i].reloadTime);
         }

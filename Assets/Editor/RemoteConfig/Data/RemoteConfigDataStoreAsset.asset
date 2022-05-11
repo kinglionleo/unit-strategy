@@ -12,168 +12,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"e2196fe9-da6d-4e07-9cf6-c041c64d6b2e\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicCost\",\n      \"type\": \"int\",\n     
-    \"value\": 20\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"029a579d-2d13-4182-b8cc-966521b43ebb\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"0c315b71-5dd4-42a6-a55d-85455981bfbe\"\n    },\n    \"rs\": {\n      \"key\":
-    \"BasicHp\",\n      \"type\": \"int\",\n      \"value\": 50\n    }\n  },\n  {\n   
-    \"metadata\": {\n      \"entityId\": \"a2efe90a-73c6-43f1-9e43-d27d8a3b87b4\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 12\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"6f9dde95-74ff-4085-91e3-6b4cd2eccfe2\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicDamageRadius\",\n      \"type\": \"float\",\n     
-    \"value\": 0.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"c6849da6-f1ea-48d2-b227-f568928a71a4\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicReloadTime\",\n      \"type\": \"float\",\n     
-    \"value\": 1.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"7b953a5c-2c43-4b17-8516-29c2e728f2a6\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperCost\",\n      \"type\": \"int\",\n     
-    \"value\": 25\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"da113bbf-fa98-40e1-86c3-88d59d73c27f\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"e1e7f331-187c-4059-a906-f357b52e3168\"\n    },\n    \"rs\": {\n      \"key\":
-    \"SniperHp\",\n      \"type\": \"int\",\n      \"value\": 70\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"2cbb9d50-a9ca-4be3-909e-07ab4e3623d6\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 12\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"45322acb-b2c5-4f4c-ae7b-2378cf74cf24\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperDamageRadius\",\n      \"type\": \"float\",\n     
-    \"value\": 0.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"c605d9d1-705a-4716-ae96-4ef180e4d1d6\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperReloadTime\",\n      \"type\": \"float\",\n     
-    \"value\": 1.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"94878ee8-b68f-4664-a3cc-e3e100b0651a\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankCost\",\n      \"type\": \"int\",\n     
-    \"value\": 30\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"a1a8b8bb-1b83-43e4-8007-3c49e53eca2b\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"8164f192-95db-4086-b79a-5f7503453540\"\n    },\n    \"rs\": {\n      \"key\":
-    \"TankHp\",\n      \"type\": \"int\",\n      \"value\": 200\n    }\n  },\n  {\n   
-    \"metadata\": {\n      \"entityId\": \"a6a97072-81ae-4365-9f72-1c87595e0446\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 12\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"727d9524-e63a-4d36-b788-f5174e026711\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankDamageRadius\",\n      \"type\": \"float\",\n     
-    \"value\": 0.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"8c749aea-2fe4-4265-a888-392610b573f0\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankReloadTime\",\n      \"type\": \"float\",\n     
-    \"value\": 1.4\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"658e5e30-876d-48d9-8fdf-822fec5185de\"\n   
-    },\n    \"rs\": {\n      \"key\": \"JuggernautCost\",\n      \"type\": \"int\",\n     
-    \"value\": 50\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"1e48927e-394d-4d37-9afd-2f091d41db90\"\n   
-    },\n    \"rs\": {\n      \"key\": \"JuggernautResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"4355bcfc-07d5-4e5a-90ac-9394f2ed3bfe\"\n    },\n    \"rs\": {\n      \"key\":
-    \"JuggernautHp\",\n      \"type\": \"int\",\n      \"value\": 120\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"c08ab87a-507d-4e65-8871-7a898fc0f1e8\"\n   
-    },\n    \"rs\": {\n      \"key\": \"JuggernautDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 20\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"f9eefc87-92af-4748-9f2b-2470b1f9e1b0\"\n   
-    },\n    \"rs\": {\n      \"key\": \"JuggernautDamageRadius\",\n      \"type\":
-    \"float\",\n      \"value\": 1.5\n    }\n  },\n  {\n    \"metadata\": {\n     
-    \"entityId\": \"d6cee93f-21f3-41c7-acf8-5902d87d9ab2\"\n    },\n    \"rs\": {\n     
-    \"key\": \"JuggernautReloadTime\",\n      \"type\": \"float\",\n      \"value\":
-    2.5\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"15b5f790-8320-4e62-ad97-2da90403992b\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperCost\",\n      \"type\": \"int\",\n     
-    \"value\": 40\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"3a76f234-a0b5-4e38-a81a-a377a132c95e\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperResearchRequirement\",\n     
-    \"type\": \"int\",\n      \"value\": 100\n    }\n  },\n  {\n    \"metadata\":
-    {\n      \"entityId\": \"54d31308-8503-409e-8e72-280ae4cd6117\"\n    },\n   
-    \"rs\": {\n      \"key\": \"SuperSniperHp\",\n      \"type\": \"int\",\n     
-    \"value\": 70\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"e991709f-a646-47d6-b2eb-edb81472948f\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 35\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"75d4ca21-24a9-4b97-938a-ecef4e97f612\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperDamageRadius\",\n      \"type\":
-    \"float\",\n      \"value\": 0.5\n    }\n  },\n  {\n    \"metadata\": {\n     
-    \"entityId\": \"9b87fd3a-b71c-4997-83bd-d98c5ee3d012\"\n    },\n    \"rs\": {\n     
-    \"key\": \"SuperSniperReloadTime\",\n      \"type\": \"float\",\n      \"value\":
-    2.5\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"e74b173d-bd48-446b-9eab-0ab99df2a779\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseCost\",\n      \"type\": \"int\",\n     
-    \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"c304cdb4-cba7-4554-8bb1-bc3bc106fb63\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"5c5bcaa0-7ab6-4da9-8e44-9c2b452b7260\"\n    },\n    \"rs\": {\n      \"key\":
-    \"BaseHp\",\n      \"type\": \"int\",\n      \"value\": 1500\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"6d0422cc-123a-4dcf-9d52-36803473f667\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 15\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"9899825c-1576-4d30-8d2a-517715ed9460\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseDamageRadius\",\n      \"type\": \"int\",\n     
-    \"value\": 1\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"de9dafb0-a1e4-496b-9e77-ca01e0c95f5f\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseReloadTime\",\n      \"type\": \"float\",\n     
-    \"value\": 1.5\n    }\n  }\n]"
-  _rsLastCachedKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"e2196fe9-da6d-4e07-9cf6-c041c64d6b2e\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicCost\",\n      \"type\": \"int\",\n     
-    \"value\": 20\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"029a579d-2d13-4182-b8cc-966521b43ebb\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"0c315b71-5dd4-42a6-a55d-85455981bfbe\"\n    },\n    \"rs\": {\n      \"key\":
-    \"BasicHp\",\n      \"type\": \"int\",\n      \"value\": 50\n    }\n  },\n  {\n   
-    \"metadata\": {\n      \"entityId\": \"a2efe90a-73c6-43f1-9e43-d27d8a3b87b4\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 12\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"6f9dde95-74ff-4085-91e3-6b4cd2eccfe2\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicDamageRadius\",\n      \"type\": \"float\",\n     
-    \"value\": 0.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"c6849da6-f1ea-48d2-b227-f568928a71a4\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BasicReloadTime\",\n      \"type\": \"float\",\n     
-    \"value\": 1.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"7b953a5c-2c43-4b17-8516-29c2e728f2a6\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperCost\",\n      \"type\": \"int\",\n     
-    \"value\": 25\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"da113bbf-fa98-40e1-86c3-88d59d73c27f\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"e1e7f331-187c-4059-a906-f357b52e3168\"\n    },\n    \"rs\": {\n      \"key\":
-    \"SniperHp\",\n      \"type\": \"int\",\n      \"value\": 70\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"2cbb9d50-a9ca-4be3-909e-07ab4e3623d6\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 12\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"45322acb-b2c5-4f4c-ae7b-2378cf74cf24\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperDamageRadius\",\n      \"type\": \"float\",\n     
-    \"value\": 0.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"c605d9d1-705a-4716-ae96-4ef180e4d1d6\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SniperReloadTime\",\n      \"type\": \"float\",\n     
-    \"value\": 1.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"94878ee8-b68f-4664-a3cc-e3e100b0651a\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankCost\",\n      \"type\": \"int\",\n     
-    \"value\": 30\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"a1a8b8bb-1b83-43e4-8007-3c49e53eca2b\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"8164f192-95db-4086-b79a-5f7503453540\"\n    },\n    \"rs\": {\n      \"key\":
-    \"TankHp\",\n      \"type\": \"int\",\n      \"value\": 200\n    }\n  },\n  {\n   
-    \"metadata\": {\n      \"entityId\": \"a6a97072-81ae-4365-9f72-1c87595e0446\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 12\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"727d9524-e63a-4d36-b788-f5174e026711\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankDamageRadius\",\n      \"type\": \"float\",\n     
-    \"value\": 0.0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"8c749aea-2fe4-4265-a888-392610b573f0\"\n   
-    },\n    \"rs\": {\n      \"key\": \"TankReloadTime\",\n      \"type\": \"float\",\n     
-    \"value\": 1.4\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"658e5e30-876d-48d9-8fdf-822fec5185de\"\n   
-    },\n    \"rs\": {\n      \"key\": \"JuggernautCost\",\n      \"type\": \"int\",\n     
-    \"value\": 50\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"1e48927e-394d-4d37-9afd-2f091d41db90\"\n   
-    },\n    \"rs\": {\n      \"key\": \"JuggernautResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"4355bcfc-07d5-4e5a-90ac-9394f2ed3bfe\"\n    },\n    \"rs\": {\n      \"key\":
-    \"JuggernautHp\",\n      \"type\": \"int\",\n      \"value\": 120\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"c08ab87a-507d-4e65-8871-7a898fc0f1e8\"\n   
-    },\n    \"rs\": {\n      \"key\": \"JuggernautDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 20\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"f9eefc87-92af-4748-9f2b-2470b1f9e1b0\"\n   
-    },\n    \"rs\": {\n      \"key\": \"JuggernautDamageRadius\",\n      \"type\":
-    \"float\",\n      \"value\": 1.5\n    }\n  },\n  {\n    \"metadata\": {\n     
-    \"entityId\": \"d6cee93f-21f3-41c7-acf8-5902d87d9ab2\"\n    },\n    \"rs\": {\n     
-    \"key\": \"JuggernautReloadTime\",\n      \"type\": \"float\",\n      \"value\":
-    2.5\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"15b5f790-8320-4e62-ad97-2da90403992b\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperCost\",\n      \"type\": \"int\",\n     
-    \"value\": 40\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"3a76f234-a0b5-4e38-a81a-a377a132c95e\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperResearchRequirement\",\n     
-    \"type\": \"int\",\n      \"value\": 100\n    }\n  },\n  {\n    \"metadata\":
-    {\n      \"entityId\": \"54d31308-8503-409e-8e72-280ae4cd6117\"\n    },\n   
-    \"rs\": {\n      \"key\": \"SuperSniperHp\",\n      \"type\": \"int\",\n     
-    \"value\": 70\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"e991709f-a646-47d6-b2eb-edb81472948f\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 35\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"75d4ca21-24a9-4b97-938a-ecef4e97f612\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperDamageRadius\",\n      \"type\":
-    \"float\",\n      \"value\": 0.5\n    }\n  },\n  {\n    \"metadata\": {\n     
-    \"entityId\": \"9b87fd3a-b71c-4997-83bd-d98c5ee3d012\"\n    },\n    \"rs\": {\n     
-    \"key\": \"SuperSniperReloadTime\",\n      \"type\": \"float\",\n      \"value\":
-    2.5\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"e74b173d-bd48-446b-9eab-0ab99df2a779\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseCost\",\n      \"type\": \"int\",\n     
-    \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"c304cdb4-cba7-4554-8bb1-bc3bc106fb63\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseResearchRequirement\",\n      \"type\":
-    \"int\",\n      \"value\": 0\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
-    \"5c5bcaa0-7ab6-4da9-8e44-9c2b452b7260\"\n    },\n    \"rs\": {\n      \"key\":
-    \"BaseHp\",\n      \"type\": \"int\",\n      \"value\": 1500\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"6d0422cc-123a-4dcf-9d52-36803473f667\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseDamage\",\n      \"type\": \"int\",\n     
-    \"value\": 15\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"9899825c-1576-4d30-8d2a-517715ed9460\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseDamageRadius\",\n      \"type\": \"int\",\n     
-    \"value\": 1\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"de9dafb0-a1e4-496b-9e77-ca01e0c95f5f\"\n   
-    },\n    \"rs\": {\n      \"key\": \"BaseReloadTime\",\n      \"type\": \"float\",\n     
-    \"value\": 1.5\n    }\n  }\n]"
+  _rsKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"67e035ee-6a13-41b5-af0b-f0b662370a70\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicStats\",\n      \"value\": {\n       
+    \"cost\": 20,\n        \"researchRequirement\": 0,\n        \"hp\": 50,\n       
+    \"damage\": 12,\n        \"damageRadius\": 0.0,\n        \"reloadTime\": 1.0\n     
+    },\n      \"type\": \"json\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"a4fe7a95-2c5e-4e08-a7bb-4423da1d0b70\"\n    },\n    \"rs\": {\n      \"key\":
+    \"SniperStats\",\n      \"value\": {\n        \"cost\": 25,\n        \"researchRequirement\":
+    0,\n        \"hp\": 70,\n        \"damage\": 12,\n        \"damageRadius\": 0.0,\n       
+    \"reloadTime\": 1.0\n      },\n      \"type\": \"json\"\n    }\n  },\n  {\n   
+    \"metadata\": {\n      \"entityId\": \"f205a636-f437-49e1-9a96-e32c3c9d571b\"\n   
+    },\n    \"rs\": {\n      \"key\": \"TankStats\",\n      \"value\": {\n       
+    \"cost\": 30,\n        \"researchRequirement\": 0,\n        \"hp\": 200,\n       
+    \"damage\": 12,\n        \"damageRadius\": 0.0,\n        \"reloadTime\": 1.4\n     
+    },\n      \"type\": \"json\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"6da90b5b-9436-496c-b609-4b66dcbaf14f\"\n    },\n    \"rs\": {\n      \"key\":
+    \"JuggernautStats\",\n      \"value\": {\n        \"cost\": 50,\n        \"researchRequirement\":
+    0,\n        \"hp\": 120,\n        \"damage\": 20,\n        \"damageRadius\":
+    1.5,\n        \"reloadTime\": 2.5\n      },\n      \"type\": \"json\"\n    }\n 
+    },\n  {\n    \"metadata\": {\n      \"entityId\": \"e20f75df-57bf-4dbe-b04c-f61d700d8367\"\n   
+    },\n    \"rs\": {\n      \"key\": \"SuperSniperStats\",\n      \"value\": {\n       
+    \"cost\": 40,\n        \"researchRequirement\": 100,\n        \"hp\": 70,\n       
+    \"damage\": 35,\n        \"damageRadius\": 0.5,\n        \"reloadTime\": 2.5\n     
+    },\n      \"type\": \"json\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"3c32cb47-4be0-4d6c-9115-9678a87e1788\"\n    },\n    \"rs\": {\n      \"key\":
+    \"BaseStats\",\n      \"value\": {\n        \"cost\": 0,\n        \"researchRequirement\":
+    0,\n        \"hp\": 1500,\n        \"damage\": 15,\n        \"damageRadius\":
+    1.0,\n        \"reloadTime\": 1.5\n      },\n      \"type\": \"json\"\n    }\n 
+    }\n]"
+  _rsLastCachedKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"67e035ee-6a13-41b5-af0b-f0b662370a70\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BasicStats\",\n      \"value\": {\n       
+    \"cost\": 20,\n        \"researchRequirement\": 0,\n        \"hp\": 50,\n       
+    \"damage\": 12,\n        \"damageRadius\": 0.0,\n        \"reloadTime\": 1.0\n     
+    },\n      \"type\": \"json\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"a4fe7a95-2c5e-4e08-a7bb-4423da1d0b70\"\n    },\n    \"rs\": {\n      \"key\":
+    \"SniperStats\",\n      \"value\": {\n        \"cost\": 25,\n        \"researchRequirement\":
+    0,\n        \"hp\": 70,\n        \"damage\": 12,\n        \"damageRadius\": 0.0,\n       
+    \"reloadTime\": 1.0\n      },\n      \"type\": \"json\"\n    }\n  },\n  {\n   
+    \"metadata\": {\n      \"entityId\": \"f205a636-f437-49e1-9a96-e32c3c9d571b\"\n   
+    },\n    \"rs\": {\n      \"key\": \"TankStats\",\n      \"value\": {\n       
+    \"cost\": 30,\n        \"researchRequirement\": 0,\n        \"hp\": 200,\n       
+    \"damage\": 12,\n        \"damageRadius\": 0.0,\n        \"reloadTime\": 1.4\n     
+    },\n      \"type\": \"json\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"6da90b5b-9436-496c-b609-4b66dcbaf14f\"\n    },\n    \"rs\": {\n      \"key\":
+    \"JuggernautStats\",\n      \"value\": {\n        \"cost\": 50,\n        \"researchRequirement\":
+    0,\n        \"hp\": 120,\n        \"damage\": 20,\n        \"damageRadius\":
+    1.5,\n        \"reloadTime\": 2.5\n      },\n      \"type\": \"json\"\n    }\n 
+    },\n  {\n    \"metadata\": {\n      \"entityId\": \"e20f75df-57bf-4dbe-b04c-f61d700d8367\"\n   
+    },\n    \"rs\": {\n      \"key\": \"SuperSniperStats\",\n      \"value\": {\n       
+    \"cost\": 40,\n        \"researchRequirement\": 100,\n        \"hp\": 70,\n       
+    \"damage\": 35,\n        \"damageRadius\": 0.5,\n        \"reloadTime\": 2.5\n     
+    },\n      \"type\": \"json\"\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"3c32cb47-4be0-4d6c-9115-9678a87e1788\"\n    },\n    \"rs\": {\n      \"key\":
+    \"BaseStats\",\n      \"value\": {\n        \"cost\": 0,\n        \"researchRequirement\":
+    0,\n        \"hp\": 1500,\n        \"damage\": 15,\n        \"damageRadius\":
+    1.0,\n        \"reloadTime\": 1.5\n      },\n      \"type\": \"json\"\n    }\n 
+    }\n]"
   _environments: "[\n  {\n    \"projectId\": \"fd82ccd6-e4d9-4822-bded-9e6017af2df5\",\n   
     \"name\": \"production\",\n    \"id\": \"86272771-6842-48f7-91ff-bbfb70ead273\",\n   
     \"isDefault\": true,\n    \"createdAt\": \"2022-05-09T01:30:33Z\",\n    \"updatedAt\":
