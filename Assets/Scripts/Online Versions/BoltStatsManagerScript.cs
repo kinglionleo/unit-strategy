@@ -83,7 +83,7 @@ public class BoltStatsManagerScript : MonoBehaviour
     {
         int unitTypeCount = unitStatsArray.Length;
         for (int i = 0; i < unitTypeCount; i++) {
-            unitStatsArray[i] = UnitStats.CreateFromJSON(ConfigManager.appConfig.GetJson(((UnitType) i).ToString()) + "Stats");
+            unitStatsArray[i] = UnitStats.CreateFromJSON(ConfigManager.appConfig.GetJson(((UnitType) i).ToString() + "Stats"));
         }
         DebugStats();
     }
