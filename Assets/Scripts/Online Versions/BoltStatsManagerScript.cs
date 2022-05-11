@@ -71,6 +71,10 @@ public class BoltStatsManagerScript : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+        else
+        {
+            _instance = this;
+        }
         
         unitStatsArray = new UnitStats[(Enum.GetNames(typeof(UnitType))).Length];
         ConfigManager.SetEnvironmentID(DevelopmentEnvironmentId);
