@@ -1,0 +1,8 @@
+{
+  "cost": 0,
+  "researchRequirement": 0,
+  "hp": 1500,
+  "damage": 15,
+  "damageRadius": 1.0,
+  "reloadTime": 1.5
+}
