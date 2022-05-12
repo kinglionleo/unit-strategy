@@ -255,4 +255,12 @@ public class BoltBase : BoltUnit
         return;
     }
 
+    protected override void PullStatsFromManager() 
+    {
+        BoltStatsManagerScript.UnitType unitType = BoltStatsManagerScript.UnitType.Base;
+        BoltStatsManagerScript.UnitStats unitStats = BoltStatsManagerScript.Instance.GetUnitStats(unitType);
+        
+        SetStatsFromManager(unitStats);
+    }
+
 }
