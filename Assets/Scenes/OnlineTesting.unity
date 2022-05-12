@@ -3183,12 +3183,20 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 123885886492813848, guid: da94d09333d1c8c4e826aecf51b123e0, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 123885886492813848, guid: da94d09333d1c8c4e826aecf51b123e0, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 1646007511440682888, guid: da94d09333d1c8c4e826aecf51b123e0, type: 3}
       propertyPath: m_Name
-      value: map 1
+      value: Map
+      objectReference: {fileID: 0}
+    - target: {fileID: 1646007511440682888, guid: da94d09333d1c8c4e826aecf51b123e0, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2133610769478825266, guid: da94d09333d1c8c4e826aecf51b123e0, type: 3}
       propertyPath: m_RootOrder
@@ -3233,6 +3241,10 @@ PrefabInstance:
     - target: {fileID: 2133610769478825266, guid: da94d09333d1c8c4e826aecf51b123e0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5947393411654192137, guid: da94d09333d1c8c4e826aecf51b123e0, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da94d09333d1c8c4e826aecf51b123e0, type: 3}
@@ -4115,7 +4127,7 @@ MonoBehaviour:
   resourceText: {fileID: 1368424143}
   researchText: {fileID: 1935036767}
   resourceCapText: {fileID: 1723440473}
-  spawnRadius: 7
+  spawnRadius: 21
   builder: {fileID: 3891055499504003863, guid: 5d5640a31bf2b3246b4a1989e2f22586, type: 3}
   hq: {fileID: 8201373249474976151, guid: e42d3d1bbe1800b47b649f4885f7ab84, type: 3}
 --- !u!4 &2010807884
