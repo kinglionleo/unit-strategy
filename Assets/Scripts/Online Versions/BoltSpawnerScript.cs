@@ -50,11 +50,11 @@ public class BoltSpawnerScript : GlobalEventListener
         }
         if(BoltNetwork.IsClient)
         {
-            spawnBase(new Vector3(0, 3f, 48), Quaternion.Euler(0f, 0f, 0f));
+            spawnBase(new Vector3(0, 2f, 48), Quaternion.Euler(0f, 0f, 0f));
         }
         else
         {
-            spawnBase(new Vector3(0, 2.5f, -48), Quaternion.Euler(0f, 180f, 0f));
+            spawnBase(new Vector3(0, 2f, -48), Quaternion.Euler(0f, 180f, 0f));
         }
         resources = 0;
         research = 0;
