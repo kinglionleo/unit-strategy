@@ -75,7 +75,7 @@ public class BoltStatsManagerScript : MonoBehaviour
         {
             _instance = this;
         }
-        
+        DontDestroyOnLoad(this.gameObject);
         unitStatsArray = new UnitStats[(Enum.GetNames(typeof(UnitType))).Length];
         ConfigManager.SetEnvironmentID(DevelopmentEnvironmentId);
         ConfigManager.FetchCompleted += GetStatsFromRemote;
