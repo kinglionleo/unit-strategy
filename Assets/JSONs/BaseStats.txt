@@ -4,5 +4,9 @@
   "hp": 1500,
   "damage": 15,
   "damageRadius": 1.0,
-  "reloadTime": 1.5
+  "reloadTime": 1.5,
+  "aimingTime": 1,
+  "stationaryDelay": 1,
+  "movementSpeed": 1,
+  "range": 5
 }
