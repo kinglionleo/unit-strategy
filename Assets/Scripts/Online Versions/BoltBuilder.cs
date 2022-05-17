@@ -57,7 +57,6 @@ public class BoltBuilder : BoltUnit
 
     public override BoltStatsManagerScript.UnitType GetUnitType()
     {
-        // TODO CHANGE!!
-        return BoltStatsManagerScript.UnitType.Basic;
+        return BoltStatsManagerScript.UnitType.Builder;
     }
 }

@@ -1,0 +1,13 @@
+{
+  "cost": 40,
+  "researchRequirement": 100,
+  "lifetime": 30,
+  "hp": 50,
+  "damage": 0,
+  "damageRadius": 0.0,
+  "reloadTime": 0,
+  "aimingTime": 0,
+  "stationaryDelay": 0,
+  "movementSpeed": 0,
+  "range": 0
+}

@@ -209,7 +209,7 @@ public class BoltBuilding : BoltUnit
 
     public override BoltStatsManagerScript.UnitType GetUnitType()
     {
-        return BoltStatsManagerScript.UnitType.Basic;
+        return BoltStatsManagerScript.UnitType.Node;
     }
 
     public override void MoveToPlace(Vector3 location, int type, float speed)

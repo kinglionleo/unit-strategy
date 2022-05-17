@@ -18,8 +18,12 @@ public class BoltStatsManagerScript : MonoBehaviour
         Sniper,
         Tank,
         Juggernaut,
+        Gatherer,
+        Builder,
+        Bomber,
         SuperSniper,
         Base,
+        Node
     }
 
     public enum Stats

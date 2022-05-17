@@ -12,84 +12,136 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 469c24fdb3bd6431b92cc1465bd9166b, type: 3}
   m_Name: RemoteConfigDataStoreAsset
   m_EditorClassIdentifier: 
-  _rsKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"f00be7f0-d09e-4a02-bb0f-6b2628624f19\"\n   
+  _rsKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"025f1759-719f-4241-84e0-025c85b3da0e\"\n   
     },\n    \"rs\": {\n      \"key\": \"BasicStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 20,\n        \"researchRequirement\":
-    0,\n        \"hp\": 50,\n        \"damage\": 12,\n        \"damageRadius\": 0.0,\n       
-    \"reloadTime\": 1.0,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"003acd2a-94bd-4fb0-bfdc-8cce31de3ad9\"\n   
+    0,\n        \"lifetime\": 30,\n        \"hp\": 50,\n        \"damage\": 10,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 1.3,\n        \"aimingTime\": 0.5,\n       
+    \"stationaryDelay\": 0.5,\n        \"movementSpeed\": 2,\n        \"range\":
+    5\n      }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"bbc002a2-54b6-4f0c-8738-28533765461a\"\n   
     },\n    \"rs\": {\n      \"key\": \"SniperStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 25,\n        \"researchRequirement\":
-    0,\n        \"hp\": 70,\n        \"damage\": 12,\n        \"damageRadius\": 0.0,\n       
-    \"reloadTime\": 1.0,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"dfeeb66c-b0f3-415f-9dee-fce6be02e703\"\n   
+    0,\n        \"lifetime\": 30,\n        \"hp\": 70,\n        \"damage\": 12,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 2,\n        \"aimingTime\": 2,\n       
+    \"stationaryDelay\": 0.25,\n        \"movementSpeed\": 3,\n        \"range\":
+    7\n      }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"02f64254-faf9-4b9a-a455-b26b1b74cd88\"\n   
     },\n    \"rs\": {\n      \"key\": \"TankStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 30,\n        \"researchRequirement\":
-    0,\n        \"hp\": 200,\n        \"damage\": 12,\n        \"damageRadius\":
-    0.0,\n        \"reloadTime\": 1.4,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"8c676034-8245-440a-9d52-1765af2157f8\"\n   
+    0,\n        \"lifetime\": 30,\n        \"hp\": 200,\n        \"damage\": 10,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 1.4,\n        \"aimingTime\": 1,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 1.5,\n        \"range\":
+    4\n      }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"c29d7b8d-1497-4dd7-a613-dd34af843a05\"\n   
     },\n    \"rs\": {\n      \"key\": \"JuggernautStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 50,\n        \"researchRequirement\":
-    0,\n        \"hp\": 120,\n        \"damage\": 20,\n        \"damageRadius\":
-    1.5,\n        \"reloadTime\": 2.5,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"6fd12c6f-a069-4a60-85d0-8ebb01dea639\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperStats\",\n      \"type\": \"json\",\n     
-    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 40,\n        \"researchRequirement\":
-    100,\n        \"hp\": 70,\n        \"damage\": 35,\n        \"damageRadius\":
-    0.5,\n        \"reloadTime\": 2.5,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"be2437e9-a36d-4c01-8034-7b3fc248ade6\"\n   
+    0,\n        \"lifetime\": 30,\n        \"hp\": 120,\n        \"damage\": 20,\n       
+    \"damageRadius\": 1.5,\n        \"reloadTime\": 2.5,\n        \"aimingTime\":
+    2,\n        \"stationaryDelay\": 1,\n        \"movementSpeed\": 1.5,\n       
+    \"range\": 4\n      }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"334b2c61-e67c-4806-9678-ff0d0e06f990\"\n    },\n    \"rs\": {\n      \"key\":
+    \"SuperSniperStats\",\n      \"type\": \"json\",\n      \"schemaId\": null,\n     
+    \"value\": {\n        \"cost\": 40,\n        \"researchRequirement\": 100,\n       
+    \"lifetime\": 30,\n        \"hp\": 50,\n        \"damage\": 35,\n        \"damageRadius\":
+    0.5,\n        \"reloadTime\": 2.5,\n        \"aimingTime\": 2,\n        \"stationaryDelay\":
+    0,\n        \"movementSpeed\": 1.5,\n        \"range\": 9\n      }\n    }\n 
+    },\n  {\n    \"metadata\": {\n      \"entityId\": \"fde37e5c-cf24-44dd-86df-4113789cde92\"\n   
     },\n    \"rs\": {\n      \"key\": \"BaseStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 0,\n        \"researchRequirement\":
-    0,\n        \"hp\": 1500,\n        \"damage\": 15,\n        \"damageRadius\":
-    1.0,\n        \"reloadTime\": 1.5,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  }\n]"
-  _rsLastCachedKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"f00be7f0-d09e-4a02-bb0f-6b2628624f19\"\n   
+    0,\n        \"lifetime\": 0,\n        \"hp\": 1500,\n        \"damage\": 15,\n       
+    \"damageRadius\": 1,\n        \"reloadTime\": 1.5,\n        \"aimingTime\": 1,\n       
+    \"stationaryDelay\": 1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n     
+    }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"cda72f8b-1d03-4ff6-9327-44b5e1eba1e4\"\n   
+    },\n    \"rs\": {\n      \"key\": \"GathererStats\",\n      \"type\": \"json\",\n     
+    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 30,\n        \"researchRequirement\":
+    0,\n        \"lifetime\": 0,\n        \"hp\": 20,\n        \"damage\": 0,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 0,\n        \"aimingTime\": 0,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 5,\n        \"range\": 1\n     
+    }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"5f38a9f4-0ce9-4baa-ace5-80e9215c4cb8\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BuilderStats\",\n      \"type\": \"json\",\n     
+    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 0,\n        \"researchRequirement\":
+    0,\n        \"lifetime\": 0,\n        \"hp\": 20,\n        \"damage\": 0,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 0,\n        \"aimingTime\": 0,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 3,\n        \"range\": 1\n     
+    }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"ada50740-a4ad-462d-860e-4f136371452a\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BomberStats\",\n      \"type\": \"json\",\n     
+    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 10,\n        \"researchRequirement\":
+    0,\n        \"lifetime\": 30,\n        \"hp\": 20,\n        \"damage\": 25,\n       
+    \"damageRadius\": 3.0,\n        \"reloadTime\": 0,\n        \"aimingTime\": 0,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 5,\n        \"range\": 0\n     
+    }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"4ade33bc-cfe5-47f0-a488-56ac9e7b1c8b\"\n   
+    },\n    \"rs\": {\n      \"key\": \"NodeStats\",\n      \"type\": \"json\",\n     
+    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 40,\n        \"researchRequirement\":
+    100,\n        \"lifetime\": 30,\n        \"hp\": 50,\n        \"damage\": 0,\n       
+    \"damageRadius\": 0.0,\n        \"reloadTime\": 0,\n        \"aimingTime\": 0,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 0,\n        \"range\": 0\n     
+    }\n    }\n  }\n]"
+  _rsLastCachedKeyList: "[\n  {\n    \"metadata\": {\n      \"entityId\": \"025f1759-719f-4241-84e0-025c85b3da0e\"\n   
     },\n    \"rs\": {\n      \"key\": \"BasicStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 20,\n        \"researchRequirement\":
-    0,\n        \"hp\": 50,\n        \"damage\": 12,\n        \"damageRadius\": 0.0,\n       
-    \"reloadTime\": 1.0,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"003acd2a-94bd-4fb0-bfdc-8cce31de3ad9\"\n   
+    0,\n        \"lifetime\": 30,\n        \"hp\": 50,\n        \"damage\": 10,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 1.3,\n        \"aimingTime\": 0.5,\n       
+    \"stationaryDelay\": 0.5,\n        \"movementSpeed\": 2,\n        \"range\":
+    5\n      }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"bbc002a2-54b6-4f0c-8738-28533765461a\"\n   
     },\n    \"rs\": {\n      \"key\": \"SniperStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 25,\n        \"researchRequirement\":
-    0,\n        \"hp\": 70,\n        \"damage\": 12,\n        \"damageRadius\": 0.0,\n       
-    \"reloadTime\": 1.0,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"dfeeb66c-b0f3-415f-9dee-fce6be02e703\"\n   
+    0,\n        \"lifetime\": 30,\n        \"hp\": 70,\n        \"damage\": 12,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 2,\n        \"aimingTime\": 2,\n       
+    \"stationaryDelay\": 0.25,\n        \"movementSpeed\": 3,\n        \"range\":
+    7\n      }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"02f64254-faf9-4b9a-a455-b26b1b74cd88\"\n   
     },\n    \"rs\": {\n      \"key\": \"TankStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 30,\n        \"researchRequirement\":
-    0,\n        \"hp\": 200,\n        \"damage\": 12,\n        \"damageRadius\":
-    0.0,\n        \"reloadTime\": 1.4,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"8c676034-8245-440a-9d52-1765af2157f8\"\n   
+    0,\n        \"lifetime\": 30,\n        \"hp\": 200,\n        \"damage\": 10,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 1.4,\n        \"aimingTime\": 1,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 1.5,\n        \"range\":
+    4\n      }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"c29d7b8d-1497-4dd7-a613-dd34af843a05\"\n   
     },\n    \"rs\": {\n      \"key\": \"JuggernautStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 50,\n        \"researchRequirement\":
-    0,\n        \"hp\": 120,\n        \"damage\": 20,\n        \"damageRadius\":
-    1.5,\n        \"reloadTime\": 2.5,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"6fd12c6f-a069-4a60-85d0-8ebb01dea639\"\n   
-    },\n    \"rs\": {\n      \"key\": \"SuperSniperStats\",\n      \"type\": \"json\",\n     
-    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 40,\n        \"researchRequirement\":
-    100,\n        \"hp\": 70,\n        \"damage\": 35,\n        \"damageRadius\":
-    0.5,\n        \"reloadTime\": 2.5,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  },\n 
-    {\n    \"metadata\": {\n      \"entityId\": \"be2437e9-a36d-4c01-8034-7b3fc248ade6\"\n   
+    0,\n        \"lifetime\": 30,\n        \"hp\": 120,\n        \"damage\": 20,\n       
+    \"damageRadius\": 1.5,\n        \"reloadTime\": 2.5,\n        \"aimingTime\":
+    2,\n        \"stationaryDelay\": 1,\n        \"movementSpeed\": 1.5,\n       
+    \"range\": 4\n      }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\":
+    \"334b2c61-e67c-4806-9678-ff0d0e06f990\"\n    },\n    \"rs\": {\n      \"key\":
+    \"SuperSniperStats\",\n      \"type\": \"json\",\n      \"schemaId\": null,\n     
+    \"value\": {\n        \"cost\": 40,\n        \"researchRequirement\": 100,\n       
+    \"lifetime\": 30,\n        \"hp\": 50,\n        \"damage\": 35,\n        \"damageRadius\":
+    0.5,\n        \"reloadTime\": 2.5,\n        \"aimingTime\": 2,\n        \"stationaryDelay\":
+    0,\n        \"movementSpeed\": 1.5,\n        \"range\": 9\n      }\n    }\n 
+    },\n  {\n    \"metadata\": {\n      \"entityId\": \"fde37e5c-cf24-44dd-86df-4113789cde92\"\n   
     },\n    \"rs\": {\n      \"key\": \"BaseStats\",\n      \"type\": \"json\",\n     
     \"schemaId\": null,\n      \"value\": {\n        \"cost\": 0,\n        \"researchRequirement\":
-    0,\n        \"hp\": 1500,\n        \"damage\": 15,\n        \"damageRadius\":
-    1.0,\n        \"reloadTime\": 1.5,\n        \"aimingTime\": 1,\n        \"stationaryDelay\":
-    1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n      }\n    }\n  }\n]"
+    0,\n        \"lifetime\": 0,\n        \"hp\": 1500,\n        \"damage\": 15,\n       
+    \"damageRadius\": 1,\n        \"reloadTime\": 1.5,\n        \"aimingTime\": 1,\n       
+    \"stationaryDelay\": 1,\n        \"movementSpeed\": 1,\n        \"range\": 5\n     
+    }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"cda72f8b-1d03-4ff6-9327-44b5e1eba1e4\"\n   
+    },\n    \"rs\": {\n      \"key\": \"GathererStats\",\n      \"type\": \"json\",\n     
+    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 30,\n        \"researchRequirement\":
+    0,\n        \"lifetime\": 0,\n        \"hp\": 20,\n        \"damage\": 0,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 0,\n        \"aimingTime\": 0,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 5,\n        \"range\": 1\n     
+    }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"5f38a9f4-0ce9-4baa-ace5-80e9215c4cb8\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BuilderStats\",\n      \"type\": \"json\",\n     
+    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 0,\n        \"researchRequirement\":
+    0,\n        \"lifetime\": 0,\n        \"hp\": 20,\n        \"damage\": 0,\n       
+    \"damageRadius\": 0,\n        \"reloadTime\": 0,\n        \"aimingTime\": 0,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 3,\n        \"range\": 1\n     
+    }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"ada50740-a4ad-462d-860e-4f136371452a\"\n   
+    },\n    \"rs\": {\n      \"key\": \"BomberStats\",\n      \"type\": \"json\",\n     
+    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 10,\n        \"researchRequirement\":
+    0,\n        \"lifetime\": 30,\n        \"hp\": 20,\n        \"damage\": 25,\n       
+    \"damageRadius\": 3.0,\n        \"reloadTime\": 0,\n        \"aimingTime\": 0,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 5,\n        \"range\": 0\n     
+    }\n    }\n  },\n  {\n    \"metadata\": {\n      \"entityId\": \"4ade33bc-cfe5-47f0-a488-56ac9e7b1c8b\"\n   
+    },\n    \"rs\": {\n      \"key\": \"NodeStats\",\n      \"type\": \"json\",\n     
+    \"schemaId\": null,\n      \"value\": {\n        \"cost\": 40,\n        \"researchRequirement\":
+    100,\n        \"lifetime\": 30,\n        \"hp\": 50,\n        \"damage\": 0,\n       
+    \"damageRadius\": 0.0,\n        \"reloadTime\": 0,\n        \"aimingTime\": 0,\n       
+    \"stationaryDelay\": 0,\n        \"movementSpeed\": 0,\n        \"range\": 0\n     
+    }\n    }\n  }\n]"
   _environments: "[\n  {\n    \"projectId\": \"fd82ccd6-e4d9-4822-bded-9e6017af2df5\",\n   
-    \"name\": \"production\",\n    \"id\": \"86272771-6842-48f7-91ff-bbfb70ead273\",\n   
-    \"isDefault\": true,\n    \"createdAt\": \"2022-05-09T01:30:33Z\",\n    \"updatedAt\":
-    \"2022-05-09T01:30:33Z\"\n  },\n  {\n    \"projectId\": \"fd82ccd6-e4d9-4822-bded-9e6017af2df5\",\n   
     \"name\": \"development\",\n    \"id\": \"a385e431-ed2e-4229-a974-ea8c14e0e214\",\n   
     \"isDefault\": false,\n    \"createdAt\": \"2022-05-09T01:50:43Z\",\n    \"updatedAt\":
-    \"2022-05-09T01:50:43Z\"\n  }\n]"
+    \"2022-05-09T01:50:43Z\"\n  },\n  {\n    \"projectId\": \"fd82ccd6-e4d9-4822-bded-9e6017af2df5\",\n   
+    \"name\": \"production\",\n    \"id\": \"86272771-6842-48f7-91ff-bbfb70ead273\",\n   
+    \"isDefault\": true,\n    \"createdAt\": \"2022-05-09T01:30:33Z\",\n    \"updatedAt\":
+    \"2022-05-09T01:30:33Z\"\n  }\n]"
   _rulesList: '[]'
   _lastCachedRulesList: '[]'
