@@ -224,16 +224,6 @@ MonoBehaviour:
   shotLineRenderer: {fileID: 1069659724156776002}
   splashIndicator: {fileID: 7440832134461509348}
   deathEffect: {fileID: 4825397568586297326, guid: 47078306a2bb1fa46a9024619db78529, type: 3}
-  stationaryDelay: 0
-  aimingTime: 0
-  movementSpeed: 0
-  range: 15
-  damage: 15
-  damageRadius: 1
-  cost: 0
-  researchRequirement: 0
-  lifetime: 0
-  unitType: ground
   flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
 --- !u!114 &-2401226785905083680
 MonoBehaviour:
@@ -373,8 +363,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.4795065, y: 1, z: 5.499865}
-  m_Center: {x: -0.45743656, y: 0.47, z: -0.4629929}
+  m_Size: {x: 17.7, y: 1, z: 20}
+  m_Center: {x: 0, y: 0.47, z: 0}
 --- !u!95 &9154480036024056307
 Animator:
   serializedVersion: 3
