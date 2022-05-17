@@ -157,13 +157,14 @@ public class BoltSpawnerScript : GlobalEventListener
             if (Physics.Raycast(ray, out hit, Mathf.Infinity, ground))
             {
                 int unitCost = BoltStatsManagerScript.Instance.GetCostFromUnitType(spawn.gameObject.GetComponent<BoltUnit>().GetUnitType());
-                //Debug.Log("unitCost from StatsManagerCost is: " + unitCost);
+                Debug.Log("unitCost from StatsManagerCost is: " + unitCost);
                 int unitResearchRequirement = BoltStatsManagerScript.Instance.GetResearchRequirementFromUnitType(spawn.gameObject.GetComponent<BoltUnit>().GetUnitType());
+                Debug.Log(unitResearchRequirement);
                 if (spawn.gameObject.GetComponent<BoltBuilding>() != null)
                 {
                     if (resources >= unitCost &&
                         research >= unitResearchRequirement) {
-                        GameObject myBuilder = BoltNetwork.Instantiate(builder, myBase.transform.position + 3 * Vector3.Normalize(new Vector3(0, 2, 0) - myBase.transform.position), transform.rotation);
+                        GameObject myBuilder = BoltNetwork.Instantiate(builder, myBase.transform.position + 10 * Vector3.Normalize(new Vector3(0, 2, 0) - myBase.transform.position), transform.rotation);
                         myBuilder.GetComponent<BoltBuilder>().SetBuildingToSpawn(spawn);
                         myBuilder.GetComponent<BoltBuilder>().SetSpawnLocation(hit.point);
                         addResource(unitCost * -1);

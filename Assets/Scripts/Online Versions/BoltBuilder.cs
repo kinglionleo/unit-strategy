@@ -12,11 +12,6 @@ public class BoltBuilder : BoltUnit
     protected GameObject buildingToSpawn;
     protected Vector3 locationToSpawn;
 
-    void Awake()
-    {
-        currentHp = maxHp;
-    }
-
     public override void SimulateOwner()
     {
 
@@ -58,5 +53,12 @@ public class BoltBuilder : BoltUnit
     public override BoltStatsManagerScript.UnitType GetUnitType()
     {
         return BoltStatsManagerScript.UnitType.Builder;
+    }
+
+    protected override void PullStatsFromManager() 
+    {
+        BoltStatsManagerScript.UnitType unitType = BoltStatsManagerScript.UnitType.Builder;
+        BoltStatsManagerScript.UnitStats unitStats = BoltStatsManagerScript.Instance.GetUnitStats(unitType);
+        SetStatsFromManager(unitStats);
     }
 }
