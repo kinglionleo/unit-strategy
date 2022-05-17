@@ -62,7 +62,7 @@ public class BoltSpawnerScript : GlobalEventListener
         gathererCount = 0;
 
         addResourceCap(100);
-        addResource(50);
+        addResource(100);
 
         timer = 0;
         startTime = 0;
@@ -164,7 +164,18 @@ public class BoltSpawnerScript : GlobalEventListener
                 {
                     if (resources >= unitCost &&
                         research >= unitResearchRequirement) {
-                        GameObject myBuilder = BoltNetwork.Instantiate(builder, myBase.transform.position + 10 * Vector3.Normalize(new Vector3(0, 2, 0) - myBase.transform.position), transform.rotation);
+
+                        // Find the closest point to spawn from
+
+                        float distance = Vector3.Distance(myBase.transform.position, hit.point);
+                        Vector3 spawnPoint = myBase.transform.position + 10 * Vector3.Normalize(new Vector3(0, 2, 0) - myBase.transform.position);
+                        foreach (var building in BoltUnitManager.Instance.buildingList) {
+                            if (Vector3.Distance(hit.point, building.transform.position) < distance) {
+                                distance = Vector3.Distance(hit.point, building.transform.position);
+                                spawnPoint = building.transform.position;
+                            }
+                        }
+                        GameObject myBuilder = BoltNetwork.Instantiate(builder, spawnPoint, transform.rotation);
                         myBuilder.GetComponent<BoltBuilder>().SetBuildingToSpawn(spawn);
                         myBuilder.GetComponent<BoltBuilder>().SetSpawnLocation(hit.point);
                         addResource(unitCost * -1);

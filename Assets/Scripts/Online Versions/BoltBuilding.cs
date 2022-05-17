@@ -202,7 +202,7 @@ public class BoltBuilding : BoltUnit
     }
     protected override void PullStatsFromManager() 
     {
-        BoltStatsManagerScript.UnitType unitType = BoltStatsManagerScript.UnitType.Base;
+        BoltStatsManagerScript.UnitType unitType = BoltStatsManagerScript.UnitType.Node;
         BoltStatsManagerScript.UnitStats unitStats = BoltStatsManagerScript.Instance.GetUnitStats(unitType);
         SetStatsFromManager(unitStats);
     }
