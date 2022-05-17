@@ -85,7 +85,7 @@ public class BoltGatherer : BoltUnit
 
     public override void SimulateOwner()
     {
-        if (BoltNetwork.ServerTime >= spawnTime + lifetime)
+        if (lifetime != 0 && BoltNetwork.ServerTime >= spawnTime + lifetime)
         {
             BoltNetwork.Destroy(this.gameObject);
         }
@@ -108,5 +108,12 @@ public class BoltGatherer : BoltUnit
     public override BoltStatsManagerScript.UnitType GetUnitType()
     {
         return BoltStatsManagerScript.UnitType.Gatherer;
+    }
+
+    protected override void PullStatsFromManager() 
+    {
+        BoltStatsManagerScript.UnitType unitType = BoltStatsManagerScript.UnitType.Gatherer;
+        BoltStatsManagerScript.UnitStats unitStats = BoltStatsManagerScript.Instance.GetUnitStats(unitType);
+        SetStatsFromManager(unitStats);
     }
 }
