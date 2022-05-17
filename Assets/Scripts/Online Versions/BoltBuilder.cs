@@ -54,4 +54,10 @@ public class BoltBuilder : BoltUnit
         myAgent.SetDestination(locationToSpawn);
         myAgent.speed = movementSpeed;
     }
+
+    public override int getUnitId()
+    {
+        // TODO CHANGE!!
+        return (int) BoltStatsManagerScript.UnitType.Basic;
+    }
 }

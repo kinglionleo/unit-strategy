@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BoltSniper : BoltUnit
+public class BoltBasic : BoltUnit
 {
-    // Start is called before the first frame update
     protected override void PullStatsFromManager() 
     {
-        BoltStatsManagerScript.UnitType unitType = BoltStatsManagerScript.UnitType.Sniper;
+        BoltStatsManagerScript.UnitType unitType = BoltStatsManagerScript.UnitType.Basic;
         BoltStatsManagerScript.UnitStats unitStats = BoltStatsManagerScript.Instance.GetUnitStats(unitType);
         
         SetStatsFromManager(unitStats);
@@ -15,6 +14,6 @@ public class BoltSniper : BoltUnit
 
     public override int getUnitId()
     {
-        return (int) BoltStatsManagerScript.UnitType.Sniper;
+        return (int) BoltStatsManagerScript.UnitType.Basic;
     }
 }

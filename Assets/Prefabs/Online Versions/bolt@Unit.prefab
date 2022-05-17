@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 7507099114126488427}
   - component: {fileID: 7061823076622565607}
   - component: {fileID: -7864406340775695646}
-  - component: {fileID: 7886843844151081128}
+  - component: {fileID: 9115347429627143849}
   m_Layer: 7
   m_Name: bolt@Unit
   m_TagString: Player
@@ -290,7 +290,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb9763a393e3874ab26eb0054fad9c0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7886843844151081128
+--- !u!114 &9115347429627143849
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -299,22 +299,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 3891055499504003863}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 44661da1d44b01d4498cdc822f24718e, type: 3}
+  m_Script: {fileID: 11500000, guid: fcb9ee304b1ae422ba1b5867bccec714, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   shotLineRenderer: {fileID: 6144919617998317244}
   splashIndicator: {fileID: 897314606351982828}
   deathEffect: {fileID: 4825397568586297326, guid: 47078306a2bb1fa46a9024619db78529, type: 3}
-  stationaryDelay: 0
-  aimingTime: 0
-  movementSpeed: 2
-  range: 3.5
-  damage: 12
-  damageRadius: 0
-  cost: 20
-  researchRequirement: 0
-  lifetime: 30
-  unitType: ground
   flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
 --- !u!1 &8938795362695547254
 GameObject:

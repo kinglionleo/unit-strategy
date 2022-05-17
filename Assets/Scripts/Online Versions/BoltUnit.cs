@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.AI;
 using Photon.Bolt;
 
-public class BoltUnit : EntityEventListener<IUnit>
+public abstract class BoltUnit : EntityEventListener<IUnit>
 {
     // Used for pathfinding
     protected NavMeshAgent myAgent;
@@ -530,6 +530,8 @@ public class BoltUnit : EntityEventListener<IUnit>
             BoltNetwork.Destroy(this.gameObject);
         }
     }
+
+    public abstract int getUnitId();
 
     public float getMaxHp()
     {

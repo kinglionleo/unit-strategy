@@ -206,6 +206,12 @@ public class BoltBuilding : BoltUnit
         BoltStatsManagerScript.UnitStats unitStats = BoltStatsManagerScript.Instance.GetUnitStats(unitType);
         SetStatsFromManager(unitStats);
     }
+
+    public override int getUnitId()
+    {
+        return (int) BoltStatsManagerScript.UnitType.Basic;
+    }
+    
     public override void MoveToPlace(Vector3 location, int type, float speed)
     {
         return;

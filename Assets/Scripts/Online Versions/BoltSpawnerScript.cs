@@ -249,6 +249,7 @@ public class BoltSpawnerScript : GlobalEventListener
 
     public void spawnObject(GameObject unit)
     {   
+        Debug.Log("spawnObject called");
         spawn = unit;
     }
 
