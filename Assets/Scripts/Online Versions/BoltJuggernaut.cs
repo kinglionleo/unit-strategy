@@ -13,8 +13,8 @@ public class BoltJuggernaut : BoltUnit
         SetStatsFromManager(unitStats);
     }
 
-    public override int getUnitId()
+    public override BoltStatsManagerScript.UnitType GetUnitType()
     {
-        return (int) BoltStatsManagerScript.UnitType.Juggernaut;
+        return BoltStatsManagerScript.UnitType.Juggernaut;
     }
 }

@@ -55,9 +55,9 @@ public class BoltBuilder : BoltUnit
         myAgent.speed = movementSpeed;
     }
 
-    public override int getUnitId()
+    public override BoltStatsManagerScript.UnitType GetUnitType()
     {
         // TODO CHANGE!!
-        return (int) BoltStatsManagerScript.UnitType.Basic;
+        return BoltStatsManagerScript.UnitType.Basic;
     }
 }

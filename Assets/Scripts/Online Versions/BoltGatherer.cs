@@ -105,8 +105,9 @@ public class BoltGatherer : BoltUnit
 
     }
 
-    public override int getUnitId()
+    public override BoltStatsManagerScript.UnitType GetUnitType()
     {
-        return (int) BoltStatsManagerScript.UnitType.Basic;
+        // TODO UPDATE!!!
+        return BoltStatsManagerScript.UnitType.Basic;
     }
 }

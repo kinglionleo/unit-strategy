@@ -531,7 +531,7 @@ public abstract class BoltUnit : EntityEventListener<IUnit>
         }
     }
 
-    public abstract int getUnitId();
+    public abstract BoltStatsManagerScript.UnitType GetUnitType();
 
     public float getMaxHp()
     {

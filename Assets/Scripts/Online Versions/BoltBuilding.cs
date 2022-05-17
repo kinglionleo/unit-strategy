@@ -207,11 +207,11 @@ public class BoltBuilding : BoltUnit
         SetStatsFromManager(unitStats);
     }
 
-    public override int getUnitId()
+    public override BoltStatsManagerScript.UnitType GetUnitType()
     {
-        return (int) BoltStatsManagerScript.UnitType.Basic;
+        return BoltStatsManagerScript.UnitType.Basic;
     }
-    
+
     public override void MoveToPlace(Vector3 location, int type, float speed)
     {
         return;

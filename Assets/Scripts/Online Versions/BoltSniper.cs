@@ -13,8 +13,8 @@ public class BoltSniper : BoltUnit
         SetStatsFromManager(unitStats);
     }
 
-    public override int getUnitId()
+    public override BoltStatsManagerScript.UnitType GetUnitType()
     {
-        return (int) BoltStatsManagerScript.UnitType.Sniper;
+        return BoltStatsManagerScript.UnitType.Sniper;
     }
 }

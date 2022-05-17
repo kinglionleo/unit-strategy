@@ -91,7 +91,7 @@ public class BoltStatsManagerScript : MonoBehaviour
         for (int i = 0; i < unitTypeCount; i++) {
             unitStatsArray[i] = UnitStats.CreateFromJSON(ConfigManager.appConfig.GetJson(((UnitType) i).ToString() + "Stats"));
         }
-        DebugStats();
+        //DebugStats();
     }
 
     private void DebugStats()
@@ -99,17 +99,20 @@ public class BoltStatsManagerScript : MonoBehaviour
         int unitTypeCount = unitStatsArray.Length;
         for (int i = 0; i < unitTypeCount; i++) {
             if (unitStatsArray[i] == null) {
-                Debug.Log("unitStatsArray @i is null");
+                //Debug.Log("unitStatsArray @i is null");
             }
             Debug.Log(unitStatsArray[i].cost + ", " + unitStatsArray[i].researchRequirement + ", " + unitStatsArray[i].hp + ", " +
             unitStatsArray[i].damage + ", " + unitStatsArray[i].damageRadius + ", " + unitStatsArray[i].reloadTime);
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+    public int GetCostFromUnitType(UnitType unitType) {
+        //Debug.Log("StatsManagerCost is: " + unitStatsArray[(int) unitType].cost);
+        return unitStatsArray[(int) unitType].cost;
+    }
+
+    public int GetResearchRequirementFromUnitType(UnitType unitType) {
+        return unitStatsArray[(int) unitType].researchRequirement;
     }
 
     public UnitStats GetUnitStats(UnitType unitType)

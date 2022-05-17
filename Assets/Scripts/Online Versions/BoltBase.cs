@@ -263,9 +263,9 @@ public class BoltBase : BoltUnit
         SetStatsFromManager(unitStats);
     }
 
-    public override int getUnitId()
+    public override BoltStatsManagerScript.UnitType GetUnitType()
     {
-        return (int) BoltStatsManagerScript.UnitType.Base;
+        return BoltStatsManagerScript.UnitType.Base;
     }
 
 }
