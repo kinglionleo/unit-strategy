@@ -47,8 +47,8 @@ public class BoltHealthBar : MonoBehaviour
     void LifeBarFiller()
     {
         // If the lifetime field of a unit is 0, it does not die on a timer, so we return
-        if (myUnit.lifetime == 0) return;
-        lifetimeBar.fillAmount = (myUnit.lifetime - (BoltNetwork.ServerTime - myUnit.getSpawnTime())) / myUnit.lifetime;
+        if (myUnit.getLifetime() == 0) return;
+        lifetimeBar.fillAmount = (myUnit.getLifetime() - (BoltNetwork.ServerTime - myUnit.getSpawnTime())) / myUnit.getLifetime();
 
 
     }

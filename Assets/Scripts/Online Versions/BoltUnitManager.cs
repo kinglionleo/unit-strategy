@@ -112,9 +112,9 @@ public class BoltUnitManager : MonoBehaviour
                 continue;
             }
 
-            if (unit.gameObject.GetComponent<BoltUnit>().movementSpeed < lowestMovementSpeed)
+            if (unit.gameObject.GetComponent<BoltUnit>().getMovementSpeed() < lowestMovementSpeed)
             {
-                lowestMovementSpeed = unit.gameObject.GetComponent<BoltUnit>().movementSpeed;
+                lowestMovementSpeed = unit.gameObject.GetComponent<BoltUnit>().getMovementSpeed();
             }
             xPos += unit.transform.position.x;
             zPos += unit.transform.position.z;
@@ -196,9 +196,9 @@ public class BoltUnitManager : MonoBehaviour
                 continue;
             }
 
-            if (unit.gameObject.GetComponent<BoltUnit>().movementSpeed < lowestMovementSpeed)
+            if (unit.gameObject.GetComponent<BoltUnit>().getMovementSpeed() < lowestMovementSpeed)
             {
-                lowestMovementSpeed = unit.gameObject.GetComponent<BoltUnit>().movementSpeed;
+                lowestMovementSpeed = unit.gameObject.GetComponent<BoltUnit>().getMovementSpeed();
             }
             xPos += unit.transform.position.x;
             zPos += unit.transform.position.z;

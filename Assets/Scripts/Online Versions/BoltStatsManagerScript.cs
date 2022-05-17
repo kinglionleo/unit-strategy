@@ -26,6 +26,7 @@ public class BoltStatsManagerScript : MonoBehaviour
     {
         Cost,
         ResearchRequirement,
+        Lifetime,
         Hp,
         Damage,
         DamageRadius,
@@ -42,6 +43,7 @@ public class BoltStatsManagerScript : MonoBehaviour
     {
         public int cost;
         public int researchRequirement;
+        public int lifetime;
         public int hp;
         public int damage;
         public int damageRadius;

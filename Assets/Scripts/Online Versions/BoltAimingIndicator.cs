@@ -20,6 +20,6 @@ public class BoltAimingIndicator : MonoBehaviour
     private float calculateAimPercentage() {
         float timeAimed = Time.time - myUnit.getStartAimTime();
         //Debug.Log(timeAimed / myUnit.aimSpeed);
-        return timeAimed / myUnit.aimingTime;
+        return timeAimed / myUnit.getAimingTime();
     }
 } 

@@ -29,26 +29,26 @@ public class BoltUnit : EntityEventListener<IUnit>
     // How fast this unit attacks measured in seconds
     protected float reloadTime;
     // How long this unit takes to start aiming after coming to a stop. 0 means this unit can attack while moving
-    public float stationaryDelay;
+    protected float stationaryDelay;
     // A base delay for the unit to start shooting after acquiring the target. All units should have this > 0, buildings can have 0.
-    public float aimingTime;
+    protected float aimingTime;
     // How fast this unit moves
-    public float movementSpeed;
+    protected float movementSpeed;
     // The distance before this unit can start attacking
-    public float range;
+    protected float range;
     // How much damage an attack does
-    public float damage;
+    protected float damage;
     // The radius of this attack, 0 if no splash
-    public float damageRadius;
+    protected float damageRadius;
     // How much it costs to spawn this unit
-    public int cost;
+    protected int cost;
     // The research requirement for this unit
-    public int researchRequirement;
+    protected int researchRequirement;
     // How long this unit lasts
-    public int lifetime;
+    protected int lifetime;
 
     // If this unit is flying or ground
-    public string unitType;
+    protected string unitType;
 
     // Material related
     public Material flashMaterial;
@@ -405,16 +405,15 @@ public class BoltUnit : EntityEventListener<IUnit>
     {
         this.cost = unitStats.cost;
         this.researchRequirement = unitStats.researchRequirement;
+        this.lifetime = unitStats.lifetime;
         this.maxHp = unitStats.hp;
         this.damage = unitStats.damage;
         this.damageRadius = unitStats.damageRadius;
         this.reloadTime = unitStats.reloadTime;
-
-        // TODO: Put values for these in remote config, currently will all be 0s
-        // this.aimingTime = unitStats.aimingTime;
-        // this.stationaryDelay = unitStats.stationaryDelay;
-        // this.movementSpeed = unitStats.movementSpeed;
-        // this.range = unitStats.range;
+        this.aimingTime = unitStats.aimingTime;
+        this.stationaryDelay = unitStats.stationaryDelay;
+        this.movementSpeed = unitStats.movementSpeed;
+        this.range = unitStats.range;
     }
 
     // type = 0: ignore move
@@ -581,6 +580,17 @@ public class BoltUnit : EntityEventListener<IUnit>
     {
         return cost;
     }
+
+    public float getAimingTime() 
+    {
+        return aimingTime;
+    }
+
+    public float getLifetime()
+    {
+        return lifetime;
+    }
+
     public int getResearchRequirement()
     {
         return researchRequirement;
@@ -590,6 +600,12 @@ public class BoltUnit : EntityEventListener<IUnit>
     {
         return spawnTime;
     }
+
+    public float getMovementSpeed()
+    {
+        return movementSpeed;
+    }
+
     protected bool isCanAttack()
     {
         if (!aimedAtEnemy)
