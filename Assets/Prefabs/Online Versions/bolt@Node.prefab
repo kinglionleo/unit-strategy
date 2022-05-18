@@ -223,7 +223,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: 04225c3f-f4ed-48b6-a18d-f41bca61c8ec
-  _prefabId: 5
+  _prefabId: 6
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 1
@@ -370,16 +370,6 @@ MonoBehaviour:
   shotLineRenderer: {fileID: 1069659724156776002}
   splashIndicator: {fileID: 7440832134461509348}
   deathEffect: {fileID: 4825397568586297326, guid: 47078306a2bb1fa46a9024619db78529, type: 3}
-  stationaryDelay: 0
-  aimingTime: 0
-  movementSpeed: 0
-  range: 0
-  damage: 0
-  damageRadius: 0
-  cost: 30
-  researchRequirement: 0
-  lifetime: 0
-  unitType: building
   flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
   spawnRadius: 2
 --- !u!136 &9168692979296684873

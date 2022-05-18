@@ -481,8 +481,8 @@ public abstract class BoltUnit : EntityEventListener<IUnit>
 
         if (damageRadius != 0)
         {
-            float scaledDamageRadius = damageRadius * 2 / (damageDealer.GetComponent<BoltEntity>()).transform.localScale.x;
-            GameObject splashIndicatorClone = Instantiate(splashIndicator, (damageDealer.GetComponent<BoltEntity>()).transform);
+            float scaledDamageRadius = damageRadius * 2;
+            GameObject splashIndicatorClone = Instantiate(splashIndicator);
             splashIndicatorClone.gameObject.GetComponent<BoltSplashIndicatorScript>().startSplash(scaledDamageRadius, this);
 
             foreach (var unit in BoltUnitManager.Instance.unitList)
@@ -630,13 +630,13 @@ public abstract class BoltUnit : EntityEventListener<IUnit>
             ReceiveDamage e = ReceiveDamage.Create(enemy.gameObject.GetComponent<BoltEntity>(), EntityTargets.OnlyOwner);
             e.DamageTaken = damage;
             e.DamageRadius = damageRadius;
-            e.DamageDealer = enemy.GetComponent<BoltEntity>();
+            e.DamageDealer = this.GetComponent<BoltEntity>();
             e.DelayUntilDamageIsTaken = delay;
             e.Send();
             
             if (damageRadius > 0) {
-                float scaledDamageRadius = damageRadius * 2 / this.transform.localScale.x;
-                GameObject splashIndicatorClone = Instantiate(splashIndicator, this.transform);
+                float scaledDamageRadius = damageRadius * 2;
+                GameObject splashIndicatorClone = Instantiate(splashIndicator);
                 splashIndicatorClone.gameObject.GetComponent<BoltSplashIndicatorScript>().startSplash(scaledDamageRadius, enemy);
             }
         }

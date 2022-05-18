@@ -24,7 +24,7 @@ public class BoltSplashIndicatorScript : MonoBehaviour
         Debug.Log("called start splash");
         this.transform.localScale = new Vector3(damageRadius, damageRadius, 1);
         //this.transform.localScale = new Vector3(20, 20, 1);
-        this.transform.position = new Vector3(enemy.transform.position.x, this.transform.position.y, enemy.transform.position.z);
+        this.transform.position = new Vector3(enemy.transform.position.x, 2.01f, enemy.transform.position.z);
         this.gameObject.SetActive(true);
         Invoke(nameof(finishSplash), 0.5f);
     }

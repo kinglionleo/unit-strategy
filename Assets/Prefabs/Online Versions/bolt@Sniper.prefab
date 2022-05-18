@@ -263,7 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneGuid: 
   _serializerGuid: fb583a5f-e532-49c0-8da8-aa039ed32688
-  _prefabId: 6
+  _prefabId: 7
   _updateRate: 1
   _autoFreezeProxyFrames: 0
   _clientPredicted: 1
@@ -305,16 +305,6 @@ MonoBehaviour:
   shotLineRenderer: {fileID: 945250129048815421}
   splashIndicator: {fileID: 7596928202945379444}
   deathEffect: {fileID: 4825397568586297326, guid: 47078306a2bb1fa46a9024619db78529, type: 3}
-  stationaryDelay: 0
-  aimingTime: 0
-  movementSpeed: 0
-  range: 0
-  damage: 0
-  damageRadius: 0
-  cost: 0
-  researchRequirement: 0
-  lifetime: 0
-  unitType: ground
   flashMaterial: {fileID: 2100000, guid: cd2e74b665c2d7b4ca75b1621eb4c321, type: 2}
 --- !u!1 &8938795362695547254
 GameObject:
