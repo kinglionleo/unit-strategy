@@ -36,7 +36,7 @@ public class BoltBomber : BoltUnit
 
             foreach(var enemy in BoltUnitManager.Instance.enemyList) {
 
-                if(Vector3.Distance(this.transform.position, enemy.transform.position) <= damageRadius) {
+                if(Vector3.Distance(this.transform.position, enemy.transform.position) - enemy.gameObject.GetComponent<BoltUnit>().getHitboxSize() <= damageRadius) {
                     // This tells the local enemy to flash
                     enemy.gameObject.GetComponent<BoltUnit>().TakeDamage(damage);
 
