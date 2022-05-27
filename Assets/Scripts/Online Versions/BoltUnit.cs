@@ -190,7 +190,7 @@ public abstract class BoltUnit : EntityEventListener<IUnit>
         prevClosestEnemy = null;
         targetPosition = this.transform.position;
         ignoreEnemy = false;
-        hitboxRadius = this.gameObject.GetComponent<CapsuleCollider>().radius / this.transform.localScale.x;
+        hitboxRadius = this.gameObject.GetComponent<CapsuleCollider>().radius * this.transform.localScale.x;
     }
 
     void Update()

@@ -88,7 +88,7 @@ public class BoltBase : BoltUnit
         prevClosestEnemy = null;
         targetPosition = this.transform.position;
         ignoreEnemy = false;
-        hitboxRadius = this.gameObject.GetComponent<BoxCollider>().size.x / this.transform.localScale.x;
+        hitboxRadius = this.gameObject.GetComponent<BoxCollider>().size.x * this.transform.localScale.x;
     }
 
     public override void SimulateOwner()
