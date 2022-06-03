@@ -4371,7 +4371,7 @@ MonoBehaviour:
   ground:
     serializedVersion: 2
     m_Bits: 64
-  increaseDelay: 2
+  increaseDelay: 3
   blueprint: {fileID: 2100000, guid: 9997babd0c0e05f4ca689c2ece6a27b1, type: 2}
   resourceText: {fileID: 1368424143}
   researchText: {fileID: 1935036767}

@@ -106,8 +106,8 @@ public class BoltSpawnerScript : GlobalEventListener
 
         if( BoltNetwork.ServerTime - startTime >= 180)
         {
-            Debug.Log("3x increase");
-            rateMultiplier = 3;
+            Debug.Log("2x increase");
+            rateMultiplier = 2;
         }
         
         
