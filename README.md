@@ -1,4 +1,7 @@
-# unity-game-project
+# unit strategy
+![image](https://github.com/kinglionleo/unit-strategy/assets/32402953/44033ce2-a57e-4181-b131-4382c01b62dc)
+
+
 Trello board: https://trello.com/invite/b/rDMfhFup/eff5dbf39846374a42a52c172ede4786/game
 
 Game idea: https://docs.google.com/document/d/1urXOA0pVabqQWP7fsaehoin5q0zcwUe_oHF8-sO3U_4/edit?usp=sharing
